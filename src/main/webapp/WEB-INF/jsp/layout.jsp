@@ -7,6 +7,13 @@
         <title>Football Match Up</title>
     </head>
     <body>
+        <div id="header">
+            <h2>
+                <a href="<spring:url value='index.html' />">
+                    Football Match Up
+                </a>
+            </h2>
+        </div>
         <div id="content">
             <jsp:include page="${pageContent}.jsp" />
         </div>

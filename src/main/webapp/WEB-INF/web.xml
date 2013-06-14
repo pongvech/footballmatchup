@@ -7,13 +7,15 @@
 
     <display-name>footballmatchup</display-name>
 
-    <!--<context-param>-->
-        <!--<param-name>contextConfigLocation</param-name>-->
-        <!--<param-value></param-value>-->
-    <!--</context-param>-->
-    <!--<listener>-->
-        <!--<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>-->
-    <!--</listener>-->
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>
+            classpath:mongo.xml
+        </param-value>
+    </context-param>
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
 
     <servlet>
         <description>Spring dispatcher for footballmatchup</description>
@@ -28,6 +30,10 @@
     <servlet-mapping>
         <servlet-name>footballmatchup</servlet-name>
         <url-pattern>/</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>footballmatchup</servlet-name>
+        <url-pattern>*.ico</url-pattern>
     </servlet-mapping>
 
     <filter>
