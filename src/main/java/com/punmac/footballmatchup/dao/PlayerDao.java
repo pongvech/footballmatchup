@@ -24,6 +24,10 @@ public class PlayerDao {
         return mongoTemplate.findOne(query(where("email").is(email)), Player.class);
     }
 
+    public Player findByUsername(String username) {
+        return mongoTemplate.findOne(query(where("username").is(username)), Player.class);
+    }
+
     public Player loginWithEmail(String email, String password) {
         return mongoTemplate.findOne(query(where("email").is(email).and("password").is(password)), Player.class);
     }
@@ -36,7 +40,7 @@ public class PlayerDao {
         mongoTemplate.save(player);
     }
 
-    public void delete(String id) {
+    public void deleteById(String id) {
         mongoTemplate.remove(query(where("_id").is(id)), Player.class);
     }
 }

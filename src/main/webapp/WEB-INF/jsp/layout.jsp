@@ -13,6 +13,9 @@
                     Football Match Up
                 </a>
             </h2>
+            <div>
+                <a href="<spring:url value='register.html' />" >Register</a>
+            </div>
         </div>
         <div id="content">
             <jsp:include page="${pageContent}.jsp" />
