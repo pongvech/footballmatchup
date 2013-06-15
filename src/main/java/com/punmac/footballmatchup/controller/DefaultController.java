@@ -1,7 +1,10 @@
 package com.punmac.footballmatchup.controller;
 
+import com.punmac.footballmatchup.bean.form.LoginForm;
 import com.punmac.footballmatchup.dao.PlayerDao;
 import com.punmac.footballmatchup.model.Player;
+import com.punmac.footballmatchup.util.CookieSessionUtil;
+import com.punmac.footballmatchup.validator.LoginValidator;
 import com.punmac.footballmatchup.validator.RegisterValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @Controller
 public class DefaultController {
@@ -25,6 +29,9 @@ public class DefaultController {
 
     @Autowired
     private RegisterValidator registerValidator;
+
+    @Autowired
+    private LoginValidator loginValidator;
 
     @RequestMapping(value = {"/", "index.html"})
     public String index(Model model) {
@@ -41,9 +48,33 @@ public class DefaultController {
             if(!bindingResult.hasErrors()) {
                 playerDao.save(player);
                 log.debug("Registered new player (id = {})", player.getId());
+                return "redirect:login.html";
             }
         }
         model.addAttribute("pageContent", "default/register");
+        return "layout";
+    }
+
+    @RequestMapping(value = "login.html")
+    public String login(Model model, HttpServletRequest request, HttpServletResponse response,
+                        @ModelAttribute LoginForm loginForm, BindingResult bindingResult) {
+        if(RequestMethod.POST.toString().equals(request.getMethod())) {
+            log.debug("LoginForm : {}", loginForm.toString());
+            loginValidator.validate(loginForm, bindingResult);
+            if(!bindingResult.hasErrors()) {
+                Player player = loginForm.getPlayer();
+                log.debug("Player {} login success", player.toString());
+                if(loginForm.isRememberMe()) { // Create cookie.
+                    CookieSessionUtil.createLoggedInCookie(response, player);
+                    log.debug("Cookie value : {}", CookieSessionUtil.getCookie(request, "player"));
+                } else { // Create session.
+                    CookieSessionUtil.createLoggedInSession(request, player);
+                    log.debug("Session value : {}", request.getSession().getAttribute("player"));
+                }
+                return "redirect:index.html";
+            }
+        }
+        model.addAttribute("pageContent", "default/login");
         return "layout";
     }
 }

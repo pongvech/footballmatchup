@@ -13,9 +13,20 @@
                     Football Match Up
                 </a>
             </h2>
-            <div>
-                <a href="<spring:url value='register.html' />" >Register</a>
-            </div>
+            <c:choose>
+                <c:when test="${loggedInPlayer != null}">
+                    <div>
+                        Welcome, ${loggedInPlayer.username} |
+                        <a href="<spring:url value='logout.html' />" >Logout</a>
+                    </div>
+                </c:when>
+                <c:otherwise>
+                    <div>
+                        <a href="<spring:url value='register.html' />" >Register</a> |
+                        <a href="<spring:url value='login.html' />" >Login</a>
+                    </div>
+                </c:otherwise>
+            </c:choose>
         </div>
         <div id="content">
             <jsp:include page="${pageContent}.jsp" />

@@ -3,6 +3,7 @@ package com.punmac.footballmatchup.dao;
 import com.punmac.footballmatchup.model.Player;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.BasicQuery;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,8 +29,18 @@ public class PlayerDao {
         return mongoTemplate.findOne(query(where("username").is(username)), Player.class);
     }
 
-    public Player loginWithEmail(String email, String password) {
-        return mongoTemplate.findOne(query(where("email").is(email).and("password").is(password)), Player.class);
+    public Player findByEmailOrUsername(String emailOrUsername) {
+        BasicQuery query = new BasicQuery("{$or:[{email:'" + emailOrUsername + "'}, " +
+                "{username:'" + emailOrUsername + "'}]}");
+        Player player = mongoTemplate.findOne(query, Player.class);
+        return player;
+    }
+
+    public Player loginWithEmailOrUsername(String emailOrUsername, String password) {
+        BasicQuery query = new BasicQuery("{$or:[{email:'" + emailOrUsername + "'}, " +
+                "{username:'" + emailOrUsername + "'}], password:'" + password + "'}");
+        Player player = mongoTemplate.findOne(query, Player.class);
+        return player;
     }
 
     public List<Player> findAll() {
