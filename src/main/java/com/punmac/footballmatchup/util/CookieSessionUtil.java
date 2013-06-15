@@ -30,6 +30,14 @@ public final class CookieSessionUtil {
     }
 
     /**
+     * Delete cookie and session of logged in player.
+     */
+    public static void deleteLoggedInPlayer(HttpServletRequest request, HttpServletResponse response) {
+        deleteCookie(request, response, COOKIE_SESSION_NAME);
+        request.getSession().invalidate();
+    }
+
+    /**
      * Create logged in session.
      * @param request
      * @param player
@@ -51,6 +59,7 @@ public final class CookieSessionUtil {
         Gson gson = new Gson();
         return createCookie(response, COOKIE_SESSION_NAME, gson.toJson(player));
     }
+
 
     /**
      * Create cookie.

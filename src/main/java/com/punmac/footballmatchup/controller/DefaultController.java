@@ -77,4 +77,10 @@ public class DefaultController {
         model.addAttribute("pageContent", "default/login");
         return "layout";
     }
+
+    @RequestMapping(value = "logout.html")
+    public String logout(HttpServletRequest request, HttpServletResponse response) {
+        CookieSessionUtil.deleteLoggedInPlayer(request, response);
+        return "redirect:index.html";
+    }
 }
