@@ -1,3 +1,3 @@
-<h2>
-    Hello, This is Football Match Up
-</h2>
+<div class="span12">
+    Hello, This is Football Match Up !!!
+</div>

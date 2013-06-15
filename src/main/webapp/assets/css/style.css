@@ -1,0 +1,14 @@
+#header {
+    height: 100px;
+}
+
+.control-label:hover {
+    cursor: auto;
+}
+
+a, a:hover {
+    text-decoration: none;
+}
+h1 {
+    margin: 0;
+}

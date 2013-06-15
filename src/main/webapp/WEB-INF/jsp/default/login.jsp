@@ -1,23 +1,32 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<div>
-    <form:form commandName="loginForm">
+<div class="span12">
+    <form:form commandName="loginForm" cssClass="form-horizontal">
         <div>
             <form:errors path="*" />
         </div>
-        <div>
-            Email or Username : <form:input path="emailOrUsername" />
+        <div class="control-group">
+            <label class="control-label">Email or Username</label>
+            <div class="controls">
+                <form:input path="emailOrUsername" placeholder="Email or Username" cssClass="span3" />
+            </div>
         </div>
-        <div>
-            Password : <form:password path="password" />
+        <div class="control-group">
+            <label class="control-label">Password</label>
+            <div class="controls">
+                <form:input path="password" placeholder="Password" cssClass="span3" />
+            </div>
         </div>
-        <div>
-            <form:checkbox path="rememberMe" id="chkRememberMe" />
-            <label for="chkRememberMe">Remember Me</label>
+        <div class="control-group">
+            <div class="controls span3">
+                <label class="checkbox inline"> <form:checkbox path="rememberMe" id="chkRememberMe" /> Remember Me</label>
+            </div>
         </div>
-        <div>
-            <input type="submit" value="Register" />
+        <div class="control-group">
+            <div class="controls span3">
+                <input type="submit" value="Login" class="btn btn-success btn-block" />
+            </div>
         </div>
     </form:form>
 </div>
