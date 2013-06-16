@@ -3,25 +3,25 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <div class="span12">
     <form:form commandName="player" cssClass="form-horizontal">
-        <div class="error">
-            <form:errors path="*" />
-        </div>
         <div class="control-group">
             <label class="control-label">Email</label>
             <div class="controls">
                 <form:input path="email" placeholder="Email" cssClass="span3" />
+                <form:errors path="email" cssClass="text-error" />
             </div>
         </div>
         <div class="control-group">
             <label class="control-label">Username</label>
             <div class="controls">
                 <form:input path="username" placeholder="Username" cssClass="span3" />
+                <form:errors path="username" cssClass="text-error" />
             </div>
         </div>
         <div class="control-group">
             <label class="control-label">Password</label>
             <div class="controls">
                 <form:input path="password" placeholder="Password" cssClass="span3" />
+                <form:errors path="password" cssClass="text-error" />
             </div>
         </div>
         <div class="control-group">

@@ -1,11 +1,38 @@
 #header {
-    height: 100px;
+    border-bottom: #62C462 solid medium;
+    height: 60px;
+    padding-top: 20px;
+}
+#user-control {
+    padding-top: 10px;
+    text-align: right;
+}
+#content {
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+#footer {
+    border-top: #62C462 solid medium;
+    font-size: 12px;
+    padding-top: 20px;
+    text-align: center;
 }
 
+/* Override Bootstrap */
 .control-label:hover {
     cursor: auto;
 }
 
+/* Override Tag */
+body, input {
+    font-family: "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
+}
+a {
+    color: #62C462;
+}
+a:hover {
+    color: #51A351;
+}
 a, a:hover {
     text-decoration: none;
 }
