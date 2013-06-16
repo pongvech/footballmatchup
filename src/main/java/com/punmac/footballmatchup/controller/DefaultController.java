@@ -2,6 +2,7 @@ package com.punmac.footballmatchup.controller;
 
 import com.punmac.footballmatchup.bean.form.LoginForm;
 import com.punmac.footballmatchup.dao.PlayerDao;
+import com.punmac.footballmatchup.dao.PlayerMatchDao;
 import com.punmac.footballmatchup.model.Player;
 import com.punmac.footballmatchup.util.CookieSessionUtil;
 import com.punmac.footballmatchup.validator.LoginValidator;
@@ -33,8 +34,11 @@ public class DefaultController {
     @Autowired
     private LoginValidator loginValidator;
 
+    @Autowired
+    private PlayerMatchDao playerMatchDao;
+
     @RequestMapping(value = {"/", "index.html"})
-    public String index(Model model) {
+    public String index(Model model, HttpServletRequest request) {
         model.addAttribute("pageContent", "default/index");
         return "layout";
     }

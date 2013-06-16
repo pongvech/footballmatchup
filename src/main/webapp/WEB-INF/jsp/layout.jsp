@@ -14,7 +14,7 @@
                 <div class="row">
                     <div class="span6">
                         <h1>
-                            <a href="<spring:url value='index.html' />">
+                            <a href="<spring:url value='/index.html' />">
                                 Football Match Up
                             </a>
                         </h1>
@@ -24,13 +24,13 @@
                             <c:when test="${loggedInPlayer != null}">
                                 <div>
                                     Welcome, ${loggedInPlayer.username} |
-                                    <a href="<spring:url value='logout.html' />" >Logout</a>
+                                    <a href="<spring:url value='/logout.html' />" >Logout</a>
                                 </div>
                             </c:when>
                             <c:otherwise>
                                 <div>
-                                    <a href="<spring:url value='register.html' />" >Register</a> &bull;
-                                    <a href="<spring:url value='login.html' />" >Login</a>
+                                    <a href="<spring:url value='/login.html' />" >Login</a> &bull;
+                                    <a href="<spring:url value='/register.html' />" >Register</a>
                                 </div>
                             </c:otherwise>
                         </c:choose>

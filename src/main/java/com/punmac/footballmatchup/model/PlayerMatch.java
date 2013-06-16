@@ -1,10 +1,14 @@
 package com.punmac.footballmatchup.model;
 
+import org.springframework.data.mongodb.core.mapping.DBRef;
+
 public class PlayerMatch {
 
     private String id;
     private int team;
+    @DBRef
     private Player player;
+    @DBRef
     private Match match;
 
     public String getId() {
@@ -37,5 +41,15 @@ public class PlayerMatch {
 
     public void setMatch(Match match) {
         this.match = match;
+    }
+
+    @Override
+    public String toString() {
+        return "PlayerMatch{" +
+                "id='" + id + '\'' +
+                ", team=" + team +
+                ", player=" + player +
+                ", match=" + match +
+                '}';
     }
 }

@@ -40,4 +40,14 @@ public class Match {
     public void setDateTime(DateTime dateTime) {
         this.dateTime = dateTime;
     }
+
+    @Override
+    public String toString() {
+        return "Match{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", place='" + place + '\'' +
+                ", dateTime=" + dateTime +
+                '}';
+    }
 }
