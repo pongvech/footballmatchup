@@ -20,7 +20,7 @@
         <div class="control-group">
             <label class="control-label">Password</label>
             <div class="controls">
-                <form:input path="password" placeholder="Password" cssClass="span3" />
+                <form:password path="password" placeholder="Password" cssClass="span3" />
                 <form:errors path="password" cssClass="text-error" />
             </div>
         </div>
