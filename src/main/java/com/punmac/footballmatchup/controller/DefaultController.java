@@ -37,13 +37,13 @@ public class DefaultController {
     @Autowired
     private PlayerMatchDao playerMatchDao;
 
-    @RequestMapping(value = {"/", "index.html"})
+    @RequestMapping(value = {"/", "index"})
     public String index(Model model, HttpServletRequest request) {
         model.addAttribute("pageContent", "default/index");
         return "layout";
     }
 
-    @RequestMapping(value = "register.html")
+    @RequestMapping(value = "register")
     public String register(Model model, HttpServletRequest request, @ModelAttribute Player player,
                            BindingResult bindingResult) {
         if(RequestMethod.POST.toString().equals(request.getMethod())) {
@@ -59,7 +59,7 @@ public class DefaultController {
         return "layout";
     }
 
-    @RequestMapping(value = "login.html")
+    @RequestMapping(value = "login")
     public String login(Model model, HttpServletRequest request, HttpServletResponse response,
                         @ModelAttribute LoginForm loginForm, BindingResult bindingResult) {
         if(RequestMethod.POST.toString().equals(request.getMethod())) {
@@ -82,7 +82,7 @@ public class DefaultController {
         return "layout";
     }
 
-    @RequestMapping(value = "logout.html")
+    @RequestMapping(value = "logout")
     public String logout(HttpServletRequest request, HttpServletResponse response) {
         CookieSessionUtil.deleteLoggedInPlayer(request, response);
         return "redirect:index.html";
