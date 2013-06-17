@@ -55,6 +55,7 @@ public class DefaultController {
                 return "redirect:login.html";
             }
         }
+        model.addAttribute("pageTitle", "Register");
         model.addAttribute("pageContent", "default/register");
         return "layout";
     }
@@ -78,6 +79,7 @@ public class DefaultController {
                 return "redirect:index.html";
             }
         }
+        model.addAttribute("pageTitle", "Login");
         model.addAttribute("pageContent", "default/login");
         return "layout";
     }

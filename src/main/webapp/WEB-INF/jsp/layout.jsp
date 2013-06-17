@@ -51,6 +51,11 @@
         <div class="row">
             <div id="content" class="span12">
                 <div class="row">
+                    <c:if test="${pageTitle != null}">
+                        <div class="span12">
+                            <h2>${pageTitle}</h2>
+                        </div>
+                    </c:if>
                     <jsp:include page="${pageContent}.jsp" />
                 </div>
             </div>
