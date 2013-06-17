@@ -44,7 +44,7 @@
                     <li>
                         <a href="<spring:url value='/index.html' />">Home</a>
                     </li>
-                    <li><a href="<spring:url value='/match.html' />">Match</a></li>
+                    <li><a href="<spring:url value='/match/index.html' />">Match</a></li>
                 </ul>
             </div>
         </div>
