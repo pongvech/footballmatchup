@@ -23,7 +23,7 @@
                         <c:choose>
                             <c:when test="${loggedInPlayer != null}">
                                 <div>
-                                    Welcome, ${loggedInPlayer.username} |
+                                    ${loggedInPlayer.username} |
                                     <a href="<spring:url value='/logout.html' />" >Logout</a>
                                 </div>
                             </c:when>
@@ -36,6 +36,16 @@
                         </c:choose>
                     </div>
                 </div>
+            </div>
+        </div>
+        <div class="row">
+            <div id="nav" class="span12">
+                <ul class="nav nav-tabs">
+                    <li>
+                        <a href="<spring:url value='/index.html' />">Home</a>
+                    </li>
+                    <li><a href="<spring:url value='/match.html' />">Match</a></li>
+                </ul>
             </div>
         </div>
         <div class="row">

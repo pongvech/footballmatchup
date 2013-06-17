@@ -1,6 +1,5 @@
 #header {
-    border-bottom: #62C462 solid medium;
-    height: 60px;
+    height: 55px;
     padding-top: 20px;
 }
 #user-control {
@@ -9,7 +8,6 @@
 }
 #content {
     margin-bottom: 20px;
-    margin-top: 20px;
 }
 #footer {
     border-top: #62C462 solid medium;
@@ -21,6 +19,13 @@
 /* Override Bootstrap */
 .control-label:hover {
     cursor: auto;
+}
+#nav .nav-tabs {
+    border-bottom: #62C462 solid medium;
+}
+.nav-tabs li a:hover {
+    background-color: #51A351;
+    color: #ffffff;
 }
 
 /* Override Tag */
