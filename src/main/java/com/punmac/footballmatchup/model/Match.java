@@ -6,6 +6,7 @@ public class Match {
 
     private String id;
     private String name;
+    private String detail;
     private String place;
     private DateTime dateTime;
 
@@ -23,6 +24,14 @@ public class Match {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDetail() {
+        return detail;
+    }
+
+    public void setDetail(String detail) {
+        this.detail = detail;
     }
 
     public String getPlace() {
