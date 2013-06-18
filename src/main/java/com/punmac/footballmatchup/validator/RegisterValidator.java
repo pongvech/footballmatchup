@@ -20,8 +20,8 @@ public class RegisterValidator implements Validator {
     }
 
     /**
-     * email is required, valid form and unique.
-     * username is required and unique,
+     * email is required, must be valid format and unique.
+     * username is required and must be unique,
      * password is required.
      */
     @Override
