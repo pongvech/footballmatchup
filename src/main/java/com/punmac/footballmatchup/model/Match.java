@@ -55,6 +55,7 @@ public class Match {
         return "Match{" +
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
+                ", detail='" + detail + '\'' +
                 ", place='" + place + '\'' +
                 ", dateTime=" + dateTime +
                 '}';
