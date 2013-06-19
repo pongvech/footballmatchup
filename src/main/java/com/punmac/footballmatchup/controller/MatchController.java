@@ -14,10 +14,12 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @Controller
 @RequestMapping(value = "match")
@@ -36,7 +38,17 @@ public class MatchController {
 
     @RequestMapping(value = {"/", "index"})
     public String index(Model model) {
+        List<Match> matchList = matchDao.findAll();
+        model.addAttribute("matchList", matchList);
         model.addAttribute("pageContent", "match/index");
+        return "layout";
+    }
+
+    @RequestMapping(value = "info/{matchId}")
+    public String info(Model model, @PathVariable(value = "matchId") String matchId) {
+        Match match = matchDao.findById(matchId);
+        model.addAttribute("match", match);
+        model.addAttribute("pageContent", "match/info");
         return "layout";
     }
 
