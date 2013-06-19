@@ -1,5 +1,6 @@
 package com.punmac.footballmatchup.controller;
 
+import com.punmac.footballmatchup.dao.MatchDao;
 import com.punmac.footballmatchup.model.Match;
 import com.punmac.footballmatchup.typeeditor.DateTimeTypeEditor;
 import com.punmac.footballmatchup.validator.SaveMatchValidator;
@@ -25,6 +26,9 @@ public class MatchController {
     private static final Logger log = LoggerFactory.getLogger(MatchController.class);
 
     @Autowired
+    private MatchDao matchDao;
+
+    @Autowired
     private DateTimeTypeEditor dateTimeTypeEditor;
 
     @Autowired
@@ -43,7 +47,7 @@ public class MatchController {
             log.debug("Match : {}", match.toString());
             saveMatchValidator.validate(match, bindingResult);
             if(!bindingResult.hasErrors()) {
-
+                matchDao.save(match);
             }
         }
         model.addAttribute("pageTitle", "Create Match");
