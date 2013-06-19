@@ -27,8 +27,8 @@
         <div class="control-group">
             <label class="control-label">Date Time</label>
             <div class="controls">
-                <form:input path="dateTime" placeholder="Date Time" cssClass="span3" value="31/05/2013 19:00" />
-                <form:errors path="dateTime" cssClass="text-error" />
+                <form:input path="createdTime" placeholder="Date Time" cssClass="span3" value="31/05/2013 19:00" />
+                <form:errors path="createdTime" cssClass="text-error" />
             </div>
         </div>
         <div class="control-group">

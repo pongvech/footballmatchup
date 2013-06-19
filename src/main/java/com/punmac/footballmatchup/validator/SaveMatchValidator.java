@@ -30,7 +30,7 @@ public class SaveMatchValidator implements Validator {
             errors.rejectValue("place", null, "Place is required");
         }
 
-        if(match.getDateTime() == null) {
+        if(match.getCreatedTime() == null) {
             errors.rejectValue("dateTime", null, "Date Time is required");
         }
     }

@@ -8,7 +8,7 @@ public class Match {
     private String name;
     private String detail;
     private String place;
-    private DateTime dateTime;
+    private DateTime createdTime;
 
     public String getId() {
         return id;
@@ -42,12 +42,12 @@ public class Match {
         this.place = place;
     }
 
-    public DateTime getDateTime() {
-        return dateTime;
+    public DateTime getCreatedTime() {
+        return createdTime;
     }
 
-    public void setDateTime(DateTime dateTime) {
-        this.dateTime = dateTime;
+    public void setCreatedTime(DateTime createdTime) {
+        this.createdTime = createdTime;
     }
 
     @Override
@@ -57,7 +57,7 @@ public class Match {
                 ", name='" + name + '\'' +
                 ", detail='" + detail + '\'' +
                 ", place='" + place + '\'' +
-                ", dateTime=" + dateTime +
+                ", createdTime=" + createdTime +
                 '}';
     }
 }

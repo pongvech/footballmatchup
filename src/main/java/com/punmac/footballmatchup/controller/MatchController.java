@@ -1,8 +1,12 @@
 package com.punmac.footballmatchup.controller;
 
 import com.punmac.footballmatchup.dao.MatchDao;
+import com.punmac.footballmatchup.dao.PlayerMatchDao;
 import com.punmac.footballmatchup.model.Match;
+import com.punmac.footballmatchup.model.Player;
+import com.punmac.footballmatchup.model.PlayerMatch;
 import com.punmac.footballmatchup.typeeditor.DateTimeTypeEditor;
+import com.punmac.footballmatchup.util.CookieSessionUtil;
 import com.punmac.footballmatchup.validator.SaveMatchValidator;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
@@ -31,6 +35,9 @@ public class MatchController {
     private MatchDao matchDao;
 
     @Autowired
+    private PlayerMatchDao playerMatchDao;
+
+    @Autowired
     private DateTimeTypeEditor dateTimeTypeEditor;
 
     @Autowired
@@ -48,8 +55,23 @@ public class MatchController {
     public String info(Model model, @PathVariable(value = "matchId") String matchId) {
         Match match = matchDao.findById(matchId);
         model.addAttribute("match", match);
+        model.addAttribute("pageTitle", match.getName());
         model.addAttribute("pageContent", "match/info");
         return "layout";
+    }
+
+    @RequestMapping(value = "join/{matchId}")
+    public String join(Model model, HttpServletRequest request, @PathVariable(value = "matchId") String matchId) {
+        // Init PlayerMatch in here because don't want user to see playerId and matchId in hidden field.
+        Player player = CookieSessionUtil.getLoggedInPlayer(request);
+        Match match = new Match();
+        match.setId(matchId); // Set Id only because Id is reference to playerMatch.player.
+        PlayerMatch playerMatch = new PlayerMatch();
+        playerMatch.setPlayer(player);
+        playerMatch.setMatch(match);
+        log.debug("PlayerMatch : {}", playerMatch);
+        playerMatchDao.save(playerMatch);
+        return "redirect:/match/info/" + matchId;
     }
 
     @RequestMapping(value = "create")
