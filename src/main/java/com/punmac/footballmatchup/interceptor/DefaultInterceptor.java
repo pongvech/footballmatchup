@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
+import org.springframework.web.servlet.view.UrlBasedViewResolver;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -30,10 +31,14 @@ public class DefaultInterceptor extends HandlerInterceptorAdapter {
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
                            ModelAndView modelAndView) {
-        modelAndView.getModelMap().addAttribute("formatDateTime", footballMatchUpProperties.getFormatDateTime());
+        // Does not add model if view is redirect. Spring will not add formatDateTime in query string when submit form.
+        if(!modelAndView.getViewName().startsWith(UrlBasedViewResolver.REDIRECT_URL_PREFIX)) {
+            modelAndView.addObject("formatDateTime", footballMatchUpProperties.getFormatDateTime());
+        }
+        // Check whether player already logged in or not.
         Player player = CookieSessionUtil.getLoggedInPlayer(request);
-        if(player != null) { // Player have logged in.
-            modelAndView.getModelMap().addAttribute("loggedInPlayer", player);
+        if(player != null) { // Player already logged in.
+            modelAndView.addObject("loggedInPlayer", player);
         }
     }
 }
