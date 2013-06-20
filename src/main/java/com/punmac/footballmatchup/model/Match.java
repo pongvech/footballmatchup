@@ -1,6 +1,7 @@
 package com.punmac.footballmatchup.model;
 
 import org.joda.time.DateTime;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 
 public class Match {
 
@@ -8,7 +9,10 @@ public class Match {
     private String name;
     private String detail;
     private String place;
+    private DateTime playTime;
     private DateTime createdTime;
+    @DBRef
+    private Player creator;
 
     public String getId() {
         return id;
@@ -42,12 +46,28 @@ public class Match {
         this.place = place;
     }
 
+    public DateTime getPlayTime() {
+        return playTime;
+    }
+
+    public void setPlayTime(DateTime playTime) {
+        this.playTime = playTime;
+    }
+
     public DateTime getCreatedTime() {
         return createdTime;
     }
 
     public void setCreatedTime(DateTime createdTime) {
         this.createdTime = createdTime;
+    }
+
+    public Player getCreator() {
+        return creator;
+    }
+
+    public void setCreator(Player creator) {
+        this.creator = creator;
     }
 
     @Override
@@ -57,7 +77,9 @@ public class Match {
                 ", name='" + name + '\'' +
                 ", detail='" + detail + '\'' +
                 ", place='" + place + '\'' +
+                ", playTime=" + playTime +
                 ", createdTime=" + createdTime +
+                ", creator=" + creator +
                 '}';
     }
 }

@@ -30,8 +30,8 @@ public class SaveMatchValidator implements Validator {
             errors.rejectValue("place", null, "Place is required");
         }
 
-        if(match.getCreatedTime() == null) {
-            errors.rejectValue("dateTime", null, "Date Time is required");
+        if(match.getPlayTime() == null) {
+            errors.rejectValue("playTime", null, "Play time is required");
         }
     }
 }
