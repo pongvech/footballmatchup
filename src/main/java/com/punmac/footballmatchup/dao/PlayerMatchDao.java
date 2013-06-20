@@ -25,6 +25,10 @@ public class PlayerMatchDao {
         return mongoTemplate.findOne(query(where("player.$id").is(new ObjectId(playerId)).and("match.$id").is(new ObjectId(matchId))), PlayerMatch.class);
     }
 
+    public List<PlayerMatch> findAllPlayerInMatch(String matchId) {
+        return mongoTemplate.find(query(where("match.$id").is(new ObjectId(matchId))), PlayerMatch.class);
+    }
+
     public List<PlayerMatch> findAll() {
         return mongoTemplate.findAll(PlayerMatch.class);
     }
