@@ -52,7 +52,15 @@ public class MatchController {
     }
 
     @RequestMapping(value = "info/{matchId}")
-    public String info(Model model, @PathVariable(value = "matchId") String matchId) {
+    public String info(Model model, HttpServletRequest request, @PathVariable(value = "matchId") String matchId) {
+        Player player = CookieSessionUtil.getLoggedInPlayer(request);
+        // Check whether player already join this match or not.
+        PlayerMatch playerMatch = playerMatchDao.findByPlayerIdAndMatchId(player.getId(), matchId);
+        log.debug("PlayerMatch : {}", playerMatch);
+        if(playerMatch != null) { // Player already join this match.
+            log.debug("Player (username = {}) already join this match (id = {})", player.getUsername(), matchId);
+            model.addAttribute("playerMatch", playerMatch);
+        }
         Match match = matchDao.findById(matchId);
         model.addAttribute("match", match);
         model.addAttribute("pageTitle", match.getName());

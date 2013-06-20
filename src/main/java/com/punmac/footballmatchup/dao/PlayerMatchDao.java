@@ -1,6 +1,7 @@
 package com.punmac.footballmatchup.dao;
 
 import com.punmac.footballmatchup.model.PlayerMatch;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,10 @@ public class PlayerMatchDao {
 
     public PlayerMatch findById(String id) {
         return mongoTemplate.findOne(query(where("_id").is(id)), PlayerMatch.class);
+    }
+
+    public PlayerMatch findByPlayerIdAndMatchId(String playerId, String matchId) {
+        return mongoTemplate.findOne(query(where("player.$id").is(new ObjectId(playerId)).and("match.$id").is(new ObjectId(matchId))), PlayerMatch.class);
     }
 
     public List<PlayerMatch> findAll() {
