@@ -1,6 +1,7 @@
 package com.punmac.footballmatchup.dao;
 
 import com.punmac.footballmatchup.model.Match;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,10 @@ public class MatchDao {
     }
 
     public void save(Match match) {
+        // Set createdTime if add new match.
+        if(match.getId() == null) {
+            match.setCreatedTime(DateTime.now());
+        }
         mongoTemplate.save(match);
     }
 

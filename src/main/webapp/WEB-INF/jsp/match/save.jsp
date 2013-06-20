@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <div class="span12">
@@ -25,14 +26,17 @@
             </div>
         </div>
         <div class="control-group">
-            <label class="control-label">Date Time</label>
+            <label class="control-label">Play time</label>
             <div class="controls">
-                <form:input path="createdTime" placeholder="Date Time" cssClass="span3" value="31/05/2013 19:00" />
-                <form:errors path="createdTime" cssClass="text-error" />
+                <form:input path="playTime" placeholder="Play time" cssClass="span3" value="31/05/2013 19:00" />
+                <form:errors path="playTime" cssClass="text-error" />
             </div>
         </div>
         <div class="control-group">
             <div class="controls span3">
+                <c:if test="${match.id != null}">
+                    <form:hidden path="id" />
+                </c:if>
                 <input type="submit" value="Create" class="btn btn-success btn-block" />
             </div>
         </div>

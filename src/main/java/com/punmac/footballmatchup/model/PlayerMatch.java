@@ -2,6 +2,9 @@ package com.punmac.footballmatchup.model;
 
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
+/**
+ * Relation table, telling us about who join the match.
+ */
 public class PlayerMatch {
 
     private String id;
