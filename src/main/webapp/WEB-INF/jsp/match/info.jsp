@@ -13,13 +13,13 @@
     </c:if>
     <c:if test="${match.detail != null}">
         <div>
-            ${match.detail}
+            Detail : ${match.detail}
         </div>
     </c:if>
     <div>
-        ${match.place}
+        Where : ${match.place}
     </div>
     <div>
-        <joda:format value="${match.playTime}" pattern="${formatDateTime}" />
+        When : <joda:format value="${match.playTime}" pattern="${formatDateTime}" />
     </div>
 </div>

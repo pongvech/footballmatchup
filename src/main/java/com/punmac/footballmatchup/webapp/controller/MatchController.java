@@ -86,6 +86,8 @@ public class MatchController {
     public String create(Model model, HttpServletRequest request, @ModelAttribute Match match,
                          BindingResult bindingResult) {
         if(RequestMethod.POST.toString().equals(request.getMethod())) {
+            // Set creator as loggedIn player
+            match.setCreator(CookieSessionUtil.getLoggedInPlayer(request));
             log.debug("Match : {}", match.toString());
             saveMatchValidator.validate(match, bindingResult);
             if(!bindingResult.hasErrors()) {

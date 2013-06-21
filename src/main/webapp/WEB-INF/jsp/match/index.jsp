@@ -9,11 +9,14 @@
         </a>
     </div>
     <c:forEach items="${matchList}" var="match">
-        <div>
+        <div class="match-box">
             <a href="<spring:url value='/match/info/${match.id}' />">
                 ${match.name}
             </a>
             <joda:format value="${match.playTime}" pattern="${formatDateTime}" />
+            <c:if test="${match.creator.id == loggedInPlayer.id}">
+                <a href="<spring:url value='/match/edit' />">Edit</a>
+            </c:if>
         </div>
     </c:forEach>
 </div>
