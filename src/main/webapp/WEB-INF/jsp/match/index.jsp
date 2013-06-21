@@ -15,7 +15,7 @@
             </a>
             <joda:format value="${match.playTime}" pattern="${formatDateTime}" />
             <c:if test="${match.creator.id == loggedInPlayer.id}">
-                <a href="<spring:url value='/match/edit' />">Edit</a>
+                <a href="<spring:url value='/match/edit/${match.id}' />">Edit</a>
             </c:if>
         </div>
     </c:forEach>

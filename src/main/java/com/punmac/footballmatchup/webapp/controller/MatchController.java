@@ -101,6 +101,24 @@ public class MatchController {
         return "layout";
     }
 
+    @RequestMapping(value = "edit/{matchId}")
+    public String edit(Model model, HttpServletRequest request,@PathVariable(value = "matchId") String matchId,
+                       @ModelAttribute Match match, BindingResult bindingResult) {
+        if(RequestMethod.POST.toString().equals(request.getMethod())) {
+            log.debug("Match : {}", match.toString());
+            saveMatchValidator.validate(match, bindingResult);
+            if(!bindingResult.hasErrors()) {
+                matchDao.save(match);
+            }
+        } else {
+            match = matchDao.findById(matchId);
+            model.addAttribute("match", match);
+        }
+        model.addAttribute("pageTitle", "Edit Match");
+        model.addAttribute("pageContent", "match/save");
+        return "layout";
+    }
+
     @InitBinder
     public void binder(WebDataBinder binder) {
         binder.registerCustomEditor(DateTime.class, dateTimeTypeEditor);
