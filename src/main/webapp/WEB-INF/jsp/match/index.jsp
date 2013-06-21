@@ -13,7 +13,7 @@
             <a href="<spring:url value='/match/info/${match.id}' />">
                 ${match.name}
             </a>
-            <joda:format value="${match.createdTime}" pattern="${formatDateTime}" />
+            <joda:format value="${match.playTime}" pattern="${formatDateTime}" />
         </div>
     </c:forEach>
 </div>

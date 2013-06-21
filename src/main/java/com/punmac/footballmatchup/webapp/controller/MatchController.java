@@ -91,6 +91,8 @@ public class MatchController {
             if(!bindingResult.hasErrors()) {
                 matchDao.save(match);
             }
+        } else {
+            match.setPlayTime(DateTime.now());
         }
         model.addAttribute("pageTitle", "Create Match");
         model.addAttribute("pageContent", "match/save");

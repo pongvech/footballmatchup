@@ -28,7 +28,7 @@
         <div class="control-group">
             <label class="control-label">Play time</label>
             <div class="controls">
-                <form:input path="playTime" placeholder="Play time" cssClass="span3" value="31/05/2013 19:00" />
+                <form:input path="playTime" placeholder="Play time" cssClass="span3" />
                 <form:errors path="playTime" cssClass="text-error" />
             </div>
         </div>

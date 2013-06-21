@@ -20,6 +20,6 @@
         ${match.place}
     </div>
     <div>
-        <joda:format value="${match.createdTime}" pattern="${formatDateTime}" />
+        <joda:format value="${match.playTime}" pattern="${formatDateTime}" />
     </div>
 </div>
