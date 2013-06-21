@@ -6,11 +6,14 @@
 <div class="span12">
     <c:if test="${playerMatch == null}">
         <div>
-            <form action="<spring:url value='/match/join/${match.id}' />" method="post">
-                <input type="submit" value="Join" class="btn" />
-            </form>
+            <a href="<spring:url value='/match/join/${match.id}' />" class="btn">
+                Join
+            </a>
         </div>
     </c:if>
+    <div>
+        Creator : ${match.creator.username}
+    </div>
     <c:if test="${match.detail != null}">
         <div>
             Detail : ${match.detail}

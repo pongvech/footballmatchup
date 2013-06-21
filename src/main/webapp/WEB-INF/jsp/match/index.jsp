@@ -4,7 +4,7 @@
 <%@taglib prefix="joda" uri="http://www.joda.org/joda/time/tags" %>
 <div class="span12">
     <div>
-        <a href="<spring:url value='/match/create' />">
+        <a href="<spring:url value='/match/create' />" class="btn">
             Create new Match
         </a>
     </div>
