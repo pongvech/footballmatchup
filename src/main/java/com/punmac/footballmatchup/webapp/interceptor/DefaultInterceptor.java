@@ -1,8 +1,8 @@
-package com.punmac.footballmatchup.interceptor;
+package com.punmac.footballmatchup.webapp.interceptor;
 
 import com.punmac.footballmatchup.config.FootballMatchUpProperties;
-import com.punmac.footballmatchup.model.Player;
-import com.punmac.footballmatchup.util.CookieSessionUtil;
+import com.punmac.footballmatchup.core.model.Player;
+import com.punmac.footballmatchup.webapp.util.CookieSessionUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

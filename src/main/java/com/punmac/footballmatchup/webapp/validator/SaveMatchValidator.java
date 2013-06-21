@@ -1,6 +1,6 @@
-package com.punmac.footballmatchup.validator;
+package com.punmac.footballmatchup.webapp.validator;
 
-import com.punmac.footballmatchup.model.Match;
+import com.punmac.footballmatchup.core.model.Match;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;

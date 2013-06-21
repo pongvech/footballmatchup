@@ -1,7 +1,7 @@
-package com.punmac.footballmatchup.validator;
+package com.punmac.footballmatchup.webapp.validator;
 
-import com.punmac.footballmatchup.dao.PlayerDao;
-import com.punmac.footballmatchup.model.Player;
+import com.punmac.footballmatchup.core.dao.PlayerDao;
+import com.punmac.footballmatchup.core.model.Player;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

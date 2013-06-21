@@ -1,8 +1,8 @@
-package com.punmac.footballmatchup.validator;
+package com.punmac.footballmatchup.webapp.validator;
 
-import com.punmac.footballmatchup.bean.form.LoginForm;
-import com.punmac.footballmatchup.dao.PlayerDao;
-import com.punmac.footballmatchup.model.Player;
+import com.punmac.footballmatchup.webapp.bean.form.LoginForm;
+import com.punmac.footballmatchup.core.dao.PlayerDao;
+import com.punmac.footballmatchup.core.model.Player;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;

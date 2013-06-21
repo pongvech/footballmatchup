@@ -1,4 +1,4 @@
-package com.punmac.footballmatchup.model;
+package com.punmac.footballmatchup.core.model;
 
 public class Player {
 

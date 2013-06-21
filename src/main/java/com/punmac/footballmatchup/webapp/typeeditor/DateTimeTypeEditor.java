@@ -1,4 +1,4 @@
-package com.punmac.footballmatchup.typeeditor;
+package com.punmac.footballmatchup.webapp.typeeditor;
 
 import com.punmac.footballmatchup.config.FootballMatchUpProperties;
 import org.joda.time.DateTime;

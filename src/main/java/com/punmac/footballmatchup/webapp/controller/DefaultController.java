@@ -1,12 +1,12 @@
-package com.punmac.footballmatchup.controller;
+package com.punmac.footballmatchup.webapp.controller;
 
-import com.punmac.footballmatchup.bean.form.LoginForm;
-import com.punmac.footballmatchup.dao.PlayerDao;
-import com.punmac.footballmatchup.dao.PlayerMatchDao;
-import com.punmac.footballmatchup.model.Player;
-import com.punmac.footballmatchup.util.CookieSessionUtil;
-import com.punmac.footballmatchup.validator.LoginValidator;
-import com.punmac.footballmatchup.validator.RegisterValidator;
+import com.punmac.footballmatchup.webapp.bean.form.LoginForm;
+import com.punmac.footballmatchup.core.dao.PlayerDao;
+import com.punmac.footballmatchup.core.dao.PlayerMatchDao;
+import com.punmac.footballmatchup.core.model.Player;
+import com.punmac.footballmatchup.webapp.util.CookieSessionUtil;
+import com.punmac.footballmatchup.webapp.validator.LoginValidator;
+import com.punmac.footballmatchup.webapp.validator.RegisterValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,7 +1,7 @@
-package com.punmac.footballmatchup.util;
+package com.punmac.footballmatchup.webapp.util;
 
 import com.google.gson.Gson;
-import com.punmac.footballmatchup.model.Player;
+import com.punmac.footballmatchup.core.model.Player;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;

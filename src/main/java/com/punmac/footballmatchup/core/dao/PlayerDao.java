@@ -1,6 +1,6 @@
-package com.punmac.footballmatchup.dao;
+package com.punmac.footballmatchup.core.dao;
 
-import com.punmac.footballmatchup.model.Player;
+import com.punmac.footballmatchup.core.model.Player;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.BasicQuery;

@@ -1,4 +1,4 @@
-package com.punmac.footballmatchup.model;
+package com.punmac.footballmatchup.core.model;
 
 import org.springframework.data.mongodb.core.mapping.DBRef;
 

@@ -1,6 +1,6 @@
-package com.punmac.footballmatchup.bean.form;
+package com.punmac.footballmatchup.webapp.bean.form;
 
-import com.punmac.footballmatchup.model.Player;
+import com.punmac.footballmatchup.core.model.Player;
 
 public class LoginForm {
 

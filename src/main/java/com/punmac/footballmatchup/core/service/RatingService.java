@@ -1,9 +1,9 @@
-package com.punmac.footballmatchup.service;
+package com.punmac.footballmatchup.core.service;
 
-import com.punmac.footballmatchup.dao.PlayerMatchDao;
-import com.punmac.footballmatchup.dao.PlayerRatePlayerMatchDao;
-import com.punmac.footballmatchup.model.Player;
-import com.punmac.footballmatchup.model.PlayerRatePlayerMatch;
+import com.punmac.footballmatchup.core.dao.PlayerMatchDao;
+import com.punmac.footballmatchup.core.dao.PlayerRatePlayerMatchDao;
+import com.punmac.footballmatchup.core.model.Player;
+import com.punmac.footballmatchup.core.model.PlayerRatePlayerMatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

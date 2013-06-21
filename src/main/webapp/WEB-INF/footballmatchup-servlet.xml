@@ -9,11 +9,11 @@
         http://www.springframework.org/schema/mvc
         http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd">
 
-    <context:component-scan base-package="com.punmac.footballmatchup.controller" />
-    <context:component-scan base-package="com.punmac.footballmatchup.dao" />
-    <context:component-scan base-package="com.punmac.footballmatchup.validator" />
+    <context:component-scan base-package="com.punmac.footballmatchup.webapp.controller" />
+    <context:component-scan base-package="com.punmac.footballmatchup.core.dao" />
+    <context:component-scan base-package="com.punmac.footballmatchup.webapp.validator" />
     <context:component-scan base-package="com.punmac.footballmatchup.config" />
-    <context:component-scan base-package="com.punmac.footballmatchup.typeeditor" />
+    <context:component-scan base-package="com.punmac.footballmatchup.webapp.typeeditor" />
 
     <!-- View -->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -27,7 +27,7 @@
 
     <!-- Interceptors -->
     <mvc:interceptors>
-        <bean class="com.punmac.footballmatchup.interceptor.DefaultInterceptor" />
+        <bean class="com.punmac.footballmatchup.webapp.interceptor.DefaultInterceptor" />
     </mvc:interceptors>
 
     <!-- Properties files -->
