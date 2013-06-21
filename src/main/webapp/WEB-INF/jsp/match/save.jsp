@@ -36,6 +36,8 @@
             <div class="controls span3">
                 <c:if test="${match.id != null}">
                     <form:hidden path="id" />
+                    <form:hidden path="createdTime" />
+                    <form:hidden path="creator.id" />
                 </c:if>
                 <input type="submit" value="Create" class="btn btn-success btn-block" />
             </div>
