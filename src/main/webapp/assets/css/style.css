@@ -18,6 +18,9 @@
 .match-box {
     padding: 5px 0px 5px 0px;
 }
+.match-box .title {
+    font-size: 18px;
+}
 
 /* Override Bootstrap */
 .control-label:hover {

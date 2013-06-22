@@ -3,20 +3,24 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="joda" uri="http://www.joda.org/joda/time/tags" %>
 <div class="span12">
-    <div>
+    <div class="pull-right">
         <a href="<spring:url value='/match/create' />" class="btn">
             Create new Match
         </a>
     </div>
-    <c:forEach items="${matchList}" var="match">
-        <div class="match-box">
-            <a href="<spring:url value='/match/info/${match.id}' />">
-                ${match.name}
-            </a>
-            <joda:format value="${match.playTime}" pattern="${formatDateTime}" />
-            <c:if test="${match.creator.id == loggedInPlayer.id}">
-                <a href="<spring:url value='/match/edit/${match.id}' />">Edit</a>
-            </c:if>
-        </div>
-    </c:forEach>
+    <div class="pull-left">
+        <c:forEach items="${matchList}" var="match">
+            <div class="match-box">
+                <div>
+                    <a class="title" href="<spring:url value='/match/info/${match.id}' />">
+                        ${match.name}
+                    </a>
+                </div>
+                <div>
+                    <joda:format value="${match.playTime}" pattern="${formatDateTime}" />
+                </div>
+            </div>
+        </c:forEach>
+    </div>
+
 </div>
