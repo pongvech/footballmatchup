@@ -7,6 +7,7 @@ import com.punmac.footballmatchup.webapp.bean.form.MatchSearchForm;
 import junit.framework.Assert;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -21,6 +22,7 @@ import java.util.List;
 
 import static org.mockito.Mockito.when;
 
+@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(value = {"classpath:footballmatchup-context-test.xml", "classpath:footballmatchup-db-test.xml"})
 public class MatchSearchTest {

@@ -1,10 +1,13 @@
 package com.punmac.footballmatchup.webapp.controller;
 
+import com.punmac.footballmatchup.config.FootballMatchUpProperties;
 import com.punmac.footballmatchup.core.dao.MatchDao;
 import com.punmac.footballmatchup.core.dao.PlayerMatchDao;
 import com.punmac.footballmatchup.core.model.Match;
 import com.punmac.footballmatchup.core.model.Player;
 import com.punmac.footballmatchup.core.model.PlayerMatch;
+import com.punmac.footballmatchup.webapp.bean.form.MatchSearchForm;
+import com.punmac.footballmatchup.webapp.search.MatchSearch;
 import com.punmac.footballmatchup.webapp.typeeditor.DateTimeTypeEditor;
 import com.punmac.footballmatchup.webapp.util.CookieSessionUtil;
 import com.punmac.footballmatchup.webapp.validator.SaveMatchValidator;
@@ -21,8 +24,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @Controller
@@ -35,6 +41,9 @@ public class MatchController {
     private MatchDao matchDao;
 
     @Autowired
+    private MatchSearch matchSearch;
+
+    @Autowired
     private PlayerMatchDao playerMatchDao;
 
     @Autowired
@@ -43,9 +52,12 @@ public class MatchController {
     @Autowired
     private SaveMatchValidator saveMatchValidator;
 
+    @Autowired
+    private FootballMatchUpProperties footballMatchUpProperties;
+
     @RequestMapping(value = {"/", "index"})
     public String index(Model model) {
-        List<Match> matchList = matchDao.findAll();
+        List<Match> matchList = matchSearch.searchMatch(new MatchSearchForm());
         model.addAttribute("matchList", matchList);
         model.addAttribute("pageContent", "match/index");
         return "layout";
@@ -119,6 +131,14 @@ public class MatchController {
         model.addAttribute("pageTitle", "Edit Match");
         model.addAttribute("pageContent", "match/save");
         return "layout";
+    }
+
+    @RequestMapping(value = "rest/more")
+    public @ResponseBody List<Match> restMore(HttpServletResponse response, @RequestParam int start) {
+        MatchSearchForm matchSearchForm = new MatchSearchForm();
+        matchSearchForm.setStart(start);
+        List<Match> matchList = matchSearch.searchMatch(matchSearchForm);
+        return matchList;
     }
 
     @InitBinder

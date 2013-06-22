@@ -31,6 +31,10 @@ public class DefaultInterceptor extends HandlerInterceptorAdapter {
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
                            ModelAndView modelAndView) {
+        // modelAndView is null in rest base url.
+        if(modelAndView == null) {
+            return;
+        }
         // Does not add model if view is redirect. Spring will not add formatDateTime in query string when submit form.
         if(!modelAndView.getViewName().startsWith(UrlBasedViewResolver.REDIRECT_URL_PREFIX)) {
             modelAndView.addObject("formatDateTime", footballMatchUpProperties.getFormatDateTime());

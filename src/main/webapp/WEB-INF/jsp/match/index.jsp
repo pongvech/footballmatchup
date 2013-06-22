@@ -22,5 +22,10 @@
             </div>
         </c:forEach>
     </div>
-
+    <div class="clearfix"></div>
+    <div>
+        <a href="javascript:void(0);" class="btn btn-block">
+            Load More
+        </a>
+    </div>
 </div>
