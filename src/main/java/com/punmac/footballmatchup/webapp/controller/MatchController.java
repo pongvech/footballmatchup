@@ -62,7 +62,9 @@ public class MatchController {
             model.addAttribute("playerMatch", playerMatch);
         }
         Match match = matchDao.findById(matchId);
+        List<PlayerMatch> playerMatchList = playerMatchDao.findAllPlayerInMatch(matchId);
         model.addAttribute("match", match);
+        model.addAttribute("playerMatchList", playerMatchList);
         model.addAttribute("pageTitle", match.getName());
         model.addAttribute("pageContent", "match/info");
         return "layout";

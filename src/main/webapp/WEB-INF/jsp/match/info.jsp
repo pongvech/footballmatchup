@@ -25,4 +25,12 @@
     <div>
         When : <joda:format value="${match.playTime}" pattern="${formatDateTime}" />
     </div>
+    <h3>Who join</h3>
+    <div>
+        <c:forEach items="${playerMatchList}" var="playerMatch">
+            <div>
+                ${playerMatch.player.username}
+            </div>
+        </c:forEach>
+    </div>
 </div>
