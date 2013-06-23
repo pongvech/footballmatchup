@@ -33,10 +33,10 @@
         </div>
         <h3>Who join</h3>
         <div>
-            <c:forEach items="${playerMatchList}" var="playerMatch">
+            <c:forEach items="${joinedPlayerDisplayList}" var="joinedPlayer">
                 <div>
-                    ${playerMatch.player.username}
-                    <span class="star" id="${playerMatch.id}"></span>
+                    ${joinedPlayer.player.username}
+                    <span class="star" id="${joinedPlayer.player.id}_${joinedPlayer.match.id}_${joinedPlayer.playerRating.id}" data-score="${joinedPlayer.playerRating.score}"></span>
                 </div>
             </c:forEach>
         </div>
@@ -48,12 +48,25 @@
         $('.star').raty({
             path: '<spring:url value='/assets/js/raty/img/' />',
             click: function(score, evt) {
+                var splitStarId = $(this).attr('id').split("_");
+                var playerId = splitStarId[0];
+                var matchId = splitStarId[1];
+                var playerRatingId = splitStarId[2];
                 $.post("<spring:url value='/match/rest/giverating' />", {
                     "score": score,
-                    "playerMatchId": $(this).attr('id')
-                }, function() {
-                    // TODO after give rating.
+                    "playerId": playerId,
+                    "matchId": matchId,
+                    "playerRatingId": playerRatingId
+                }, function(data) {
+                    // First time loggedInPlayer give rating, joinedPlayer.playerRating.id is "".
+                    // When loggedInPlayer change rating it will save a new document to db.
+                    if(playerRatingId == "") {
+                        $("#" + playerId + "_" + matchId + "_").attr("id", $("#" +playerId + "_" + matchId + "_").attr("id") + data.id);
+                    }
                 });
+            },
+            score: function() {
+                return $(this).attr('data-score');
             }
         });
     });

@@ -8,6 +8,7 @@ import com.punmac.footballmatchup.core.model.Match;
 import com.punmac.footballmatchup.core.model.Player;
 import com.punmac.footballmatchup.core.model.PlayerMatch;
 import com.punmac.footballmatchup.core.model.PlayerRating;
+import com.punmac.footballmatchup.webapp.bean.display.JoinedPlayerDisplay;
 import com.punmac.footballmatchup.webapp.bean.form.MatchSearchForm;
 import com.punmac.footballmatchup.webapp.search.MatchSearch;
 import com.punmac.footballmatchup.webapp.typeeditor.DateTimeTypeEditor;
@@ -30,6 +31,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -70,20 +72,30 @@ public class MatchController {
 
     @RequestMapping(value = "info/{matchId}")
     public String info(Model model, HttpServletRequest request, @PathVariable(value = "matchId") String matchId) {
-        Player player = CookieSessionUtil.getLoggedInPlayer(request);
+        Player loggedInPlayer = CookieSessionUtil.getLoggedInPlayer(request);
         // Check whether player already join this match or not.
-        PlayerMatch playerMatch = playerMatchDao.findByPlayerIdAndMatchId(player.getId(), matchId);
+        PlayerMatch playerMatch = playerMatchDao.findByPlayerIdAndMatchId(loggedInPlayer.getId(), matchId);
         log.debug("PlayerMatch : {}", playerMatch);
         if(playerMatch != null) { // Player already join this match.
-            log.debug("Player (username = {}) already join this match (id = {})", player.getUsername(), matchId);
+            log.debug("Player (username = {}) already join this match (id = {})", loggedInPlayer.getUsername(), matchId);
             model.addAttribute("playerMatch", playerMatch);
         }
         Match match = matchDao.findById(matchId);
+        // Find player who joined this match.
         List<PlayerMatch> playerMatchList = playerMatchDao.findAllPlayerInMatch(matchId);
-        List<PlayerRating> playerRatingList = playerRatingDao.findByMatchId(matchId);
+        // Generate display bean.
+        List<JoinedPlayerDisplay> joinedPlayerDisplayList = new ArrayList<>();
+        for(PlayerMatch pm : playerMatchList) {
+            PlayerRating playerRating = playerRatingDao.findPlayerIdAndMatchIdAndRaterId(pm.getPlayer().getId(),
+                    pm.getMatch().getId(), loggedInPlayer.getId());
+            JoinedPlayerDisplay joinedPlayerDisplay = new JoinedPlayerDisplay();
+            joinedPlayerDisplay.setPlayer(pm.getPlayer());
+            joinedPlayerDisplay.setMatch(pm.getMatch());
+            joinedPlayerDisplay.setPlayerRating(playerRating);
+            joinedPlayerDisplayList.add(joinedPlayerDisplay);
+        }
         model.addAttribute("match", match);
-        model.addAttribute("playerMatchList", playerMatchList);
-        model.addAttribute("playerRatingList", playerRatingList);
+        model.addAttribute("joinedPlayerDisplayList", joinedPlayerDisplayList);
         model.addAttribute("pageTitle", match.getName());
         model.addAttribute("pageContent", "match/info");
         return "layout";
@@ -159,12 +171,19 @@ public class MatchController {
      */
     @RequestMapping(value = "rest/giverating", method = RequestMethod.POST)
     public @ResponseBody PlayerRating restGiveRating(HttpServletRequest request, @RequestParam int score,
-                                 @RequestParam String playerMatchId) {
-        PlayerMatch playerMatch = new PlayerMatch();
-        playerMatch.setId(playerMatchId);
+                                 @RequestParam String playerRatingId, @RequestParam String playerId,
+                                 @RequestParam String matchId) {
+        Player player = new Player();
+        player.setId(playerId);
+        Match match = new Match();
+        match.setId(matchId);
         PlayerRating playerRating = new PlayerRating();
+        if(!"".equals(playerRatingId)) { // When edit rating, playerRatingId will not be "".
+            playerRating.setId(playerRatingId);
+        }
         playerRating.setScore(score);
-        playerRating.setPlayerMatch(playerMatch);
+        playerRating.setPlayer(player);
+        playerRating.setMatch(match);
         playerRating.setRater(CookieSessionUtil.getLoggedInPlayer(request));
         log.debug("PlayerRating : {}", playerRating);
         playerRatingDao.save(playerRating);

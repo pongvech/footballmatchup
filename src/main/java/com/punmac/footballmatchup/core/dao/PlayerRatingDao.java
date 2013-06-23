@@ -25,22 +25,31 @@ public class PlayerRatingDao {
      * Find all rating of a player in every match.
      */
     public List<PlayerRating> findByPlayerId(String playerId) {
-        return mongoTemplate.find(query(where("playerMatch.$player.$id").is(new ObjectId(playerId))), PlayerRating.class);
+        return mongoTemplate.find(query(where("player.$id").is(new ObjectId(playerId))), PlayerRating.class);
     }
 
     /**
      * Find all rating of a player in one match.
      */
-    public List<PlayerRating> findPlayerIdAndMatchid(String playerId, String matchId) {
-        return mongoTemplate.find(query(where("playerMatch.$player.$id").is(new ObjectId(playerId))
-                .and("playerMatch.$match.$id").is(new ObjectId(matchId))), PlayerRating.class);
+    public List<PlayerRating> findPlayerIdAndMatchId(String playerId, String matchId) {
+        return mongoTemplate.find(query(where("player.$id").is(new ObjectId(playerId))
+                .and("match.$id").is(new ObjectId(matchId))), PlayerRating.class);
+    }
+
+    /**
+     * Find all rating of a player that is given by rater in one match.
+     */
+    public PlayerRating findPlayerIdAndMatchIdAndRaterId(String playerId, String matchId, String raterId) {
+        return mongoTemplate.findOne(query(where("player.$id").is(new ObjectId(playerId))
+                .and("match.$id").is(new ObjectId(matchId))
+                .and("rater.$id").is(new ObjectId(raterId))), PlayerRating.class);
     }
 
     /**
      * Find all rating of every player in a match.
      */
     public List<PlayerRating> findByMatchId(String matchId) {
-        return mongoTemplate.find(query(where("playerMatch.$match.$id").is(new ObjectId(matchId))), PlayerRating.class);
+        return mongoTemplate.find(query(where("match.$id").is(new ObjectId(matchId))), PlayerRating.class);
     }
 
     public List<PlayerRating> findAll() {

@@ -2,6 +2,12 @@ package com.punmac.footballmatchup.core.model;
 
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
+/**
+ * We can not have PlayerMatch in here because
+ * mongoTemplate.find(query(where("playerMatch.$match.$id").is(new ObjectId(matchId))), PlayerRating.class);
+ * does not work.
+ * "@DBRef" can not link to other collection more than 1 level.
+ */
 public class PlayerRating {
 
     private String id;
@@ -9,7 +15,9 @@ public class PlayerRating {
     @DBRef
     private Player rater; // Player who give rating.
     @DBRef
-    private PlayerMatch playerMatch;
+    private Player player; // Player who is estimated by rater.
+    @DBRef
+    private Match match;
 
     public String getId() {
         return id;
@@ -35,12 +43,20 @@ public class PlayerRating {
         this.rater = rater;
     }
 
-    public PlayerMatch getPlayerMatch() {
-        return playerMatch;
+    public Player getPlayer() {
+        return player;
     }
 
-    public void setPlayerMatch(PlayerMatch playerMatch) {
-        this.playerMatch = playerMatch;
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
+    public Match getMatch() {
+        return match;
+    }
+
+    public void setMatch(Match match) {
+        this.match = match;
     }
 
     @Override
@@ -49,7 +65,8 @@ public class PlayerRating {
                 "id='" + id + '\'' +
                 ", score=" + score +
                 ", rater=" + rater +
-                ", playerMatch=" + playerMatch +
+                ", player=" + player +
+                ", match=" + match +
                 '}';
     }
 }
