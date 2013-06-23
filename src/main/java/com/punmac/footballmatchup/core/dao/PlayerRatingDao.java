@@ -21,18 +21,25 @@ public class PlayerRatingDao {
     }
 
     /**
-     * Find all rating of player.
+     * Find all rating of a player in every match.
      */
-    public List<PlayerRating> findAllPlayerRating(String playerId) {
+    public List<PlayerRating> findByPlayerId(String playerId) {
         return mongoTemplate.find(query(where("playerMatch.$player.$id").is(playerId)), PlayerRating.class);
     }
 
     /**
-     * Find all rating of player in one match.
+     * Find all rating of a player in one match.
      */
-    public List<PlayerRating> findAllPlayerRatingInMatch(String playerId, String matchId) {
+    public List<PlayerRating> findPlayerIdAndMatchid(String playerId, String matchId) {
         return mongoTemplate.find(query(where("playerMatch.$player.$id").is(playerId)
                 .and("playerMatch.$match.$id").is(matchId)), PlayerRating.class);
+    }
+
+    /**
+     * Find all rating of every player in a match.
+     */
+    public List<PlayerRating> findByMatchId(String matchId) {
+        return mongoTemplate.find(query(where("playerMatch.$match.$id").is(matchId)), PlayerRating.class);
     }
 
     public List<PlayerRating> findAll() {

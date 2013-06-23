@@ -3,9 +3,11 @@ package com.punmac.footballmatchup.webapp.controller;
 import com.punmac.footballmatchup.config.FootballMatchUpProperties;
 import com.punmac.footballmatchup.core.dao.MatchDao;
 import com.punmac.footballmatchup.core.dao.PlayerMatchDao;
+import com.punmac.footballmatchup.core.dao.PlayerRatingDao;
 import com.punmac.footballmatchup.core.model.Match;
 import com.punmac.footballmatchup.core.model.Player;
 import com.punmac.footballmatchup.core.model.PlayerMatch;
+import com.punmac.footballmatchup.core.model.PlayerRating;
 import com.punmac.footballmatchup.webapp.bean.form.MatchSearchForm;
 import com.punmac.footballmatchup.webapp.search.MatchSearch;
 import com.punmac.footballmatchup.webapp.typeeditor.DateTimeTypeEditor;
@@ -25,6 +27,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -43,6 +46,9 @@ public class MatchController {
 
     @Autowired
     private PlayerMatchDao playerMatchDao;
+
+    @Autowired
+    private PlayerRatingDao playerRatingDao;
 
     @Autowired
     private DateTimeTypeEditor dateTimeTypeEditor;
@@ -74,8 +80,10 @@ public class MatchController {
         }
         Match match = matchDao.findById(matchId);
         List<PlayerMatch> playerMatchList = playerMatchDao.findAllPlayerInMatch(matchId);
+        List<PlayerRating> playerRatingList = playerRatingDao.findByMatchId(matchId);
         model.addAttribute("match", match);
         model.addAttribute("playerMatchList", playerMatchList);
+        model.addAttribute("playerRatingList", playerRatingList);
         model.addAttribute("pageTitle", match.getName());
         model.addAttribute("pageContent", "match/info");
         return "layout";
@@ -115,7 +123,7 @@ public class MatchController {
     }
 
     @RequestMapping(value = "edit/{matchId}")
-    public String edit(Model model, HttpServletRequest request,@PathVariable(value = "matchId") String matchId,
+    public String edit(Model model, HttpServletRequest request, @PathVariable(value = "matchId") String matchId,
                        @ModelAttribute Match match, BindingResult bindingResult) {
         if(RequestMethod.POST.toString().equals(request.getMethod())) {
             log.debug("Match : {}", match.toString());
@@ -133,16 +141,34 @@ public class MatchController {
     }
 
     /**
-     * This will be use in match/index page.
-     * When click on "Load More", Request will be send to this url to get more match and display in page.
+     * This method will be use in match/index page.
+     * When click on "Load More", Request will be send to this method to get more match and display in page.
      */
-    @RequestMapping(value = "rest/include/loadmore")
+    @RequestMapping(value = "rest/include/loadmore", method = RequestMethod.POST)
     public String restIncludeLoadMore(Model model, @RequestParam int start) {
         MatchSearchForm matchSearchForm = new MatchSearchForm();
         matchSearchForm.setStart(start);
         List<Match> matchList = matchSearch.searchMatch(matchSearchForm);
         model.addAttribute("matchList", matchList);
         return "match/include/index_loadmore";
+    }
+
+    /**
+     * This method will be use in match/info page.
+     * When give rating, Request will be send to this method to give rating score to player.
+     */
+    @RequestMapping(value = "rest/giverating", method = RequestMethod.POST)
+    public @ResponseBody PlayerRating restGiveRating(HttpServletRequest request, @RequestParam int score,
+                                 @RequestParam String playerMatchId) {
+        PlayerMatch playerMatch = new PlayerMatch();
+        playerMatch.setId(playerMatchId);
+        PlayerRating playerRating = new PlayerRating();
+        playerRating.setScore(score);
+        playerRating.setPlayerMatch(playerMatch);
+        playerRating.setRater(CookieSessionUtil.getLoggedInPlayer(request));
+        log.debug("PlayerRating : {}", playerRating);
+        playerRatingDao.save(playerRating);
+        return playerRating;
     }
 
     @InitBinder

@@ -22,7 +22,7 @@
     var loadMoreStart = ${loadMoreLimit};
     var loadMoreLimit = ${loadMoreLimit};
     function loadMore() {
-        $.get("<spring:url value='/match/rest/include/loadmore' />", {
+        $.post("<spring:url value='/match/rest/include/loadmore' />", {
             "start":loadMoreStart
         }, function(data) {
             loadMoreStart += loadMoreLimit;

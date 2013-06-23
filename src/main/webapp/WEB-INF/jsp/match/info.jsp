@@ -35,9 +35,26 @@
         <div>
             <c:forEach items="${playerMatchList}" var="playerMatch">
                 <div>
-                        ${playerMatch.player.username}
+                    ${playerMatch.player.username}
+                    <span class="star" id="${playerMatch.id}"></span>
                 </div>
             </c:forEach>
         </div>
     </div>
 </div>
+<script type="text/javascript" src="<spring:url value='/assets/js/raty/jquery.raty.min.js' />"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('.star').raty({
+            path: '<spring:url value='/assets/js/raty/img/' />',
+            click: function(score, evt) {
+                $.post("<spring:url value='/match/rest/giverating' />", {
+                    "score": score,
+                    "playerMatchId": $(this).attr('id')
+                }, function() {
+                    // TODO after give rating.
+                });
+            }
+        });
+    });
+</script>
