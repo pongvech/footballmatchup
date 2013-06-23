@@ -1,6 +1,7 @@
 package com.punmac.footballmatchup.core.dao;
 
 import com.punmac.footballmatchup.core.model.PlayerRating;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
@@ -24,22 +25,22 @@ public class PlayerRatingDao {
      * Find all rating of a player in every match.
      */
     public List<PlayerRating> findByPlayerId(String playerId) {
-        return mongoTemplate.find(query(where("playerMatch.$player.$id").is(playerId)), PlayerRating.class);
+        return mongoTemplate.find(query(where("playerMatch.$player.$id").is(new ObjectId(playerId))), PlayerRating.class);
     }
 
     /**
      * Find all rating of a player in one match.
      */
     public List<PlayerRating> findPlayerIdAndMatchid(String playerId, String matchId) {
-        return mongoTemplate.find(query(where("playerMatch.$player.$id").is(playerId)
-                .and("playerMatch.$match.$id").is(matchId)), PlayerRating.class);
+        return mongoTemplate.find(query(where("playerMatch.$player.$id").is(new ObjectId(playerId))
+                .and("playerMatch.$match.$id").is(new ObjectId(matchId))), PlayerRating.class);
     }
 
     /**
      * Find all rating of every player in a match.
      */
     public List<PlayerRating> findByMatchId(String matchId) {
-        return mongoTemplate.find(query(where("playerMatch.$match.$id").is(matchId)), PlayerRating.class);
+        return mongoTemplate.find(query(where("playerMatch.$match.$id").is(new ObjectId(matchId))), PlayerRating.class);
     }
 
     public List<PlayerRating> findAll() {
