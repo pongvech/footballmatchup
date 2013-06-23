@@ -25,10 +25,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @Controller
@@ -59,6 +57,7 @@ public class MatchController {
     public String index(Model model) {
         List<Match> matchList = matchSearch.searchMatch(new MatchSearchForm());
         model.addAttribute("matchList", matchList);
+        model.addAttribute("loadMoreLimit", footballMatchUpProperties.getPaginationLoadMoreLimit());
         model.addAttribute("pageContent", "match/index");
         return "layout";
     }
@@ -133,12 +132,17 @@ public class MatchController {
         return "layout";
     }
 
-    @RequestMapping(value = "rest/more")
-    public @ResponseBody List<Match> restMore(HttpServletResponse response, @RequestParam int start) {
+    /**
+     * This will be use in match/index page.
+     * When click on "Load More", Request will be send to this url to get more match and display in page.
+     */
+    @RequestMapping(value = "rest/include/loadmore")
+    public String restIncludeLoadMore(Model model, @RequestParam int start) {
         MatchSearchForm matchSearchForm = new MatchSearchForm();
         matchSearchForm.setStart(start);
         List<Match> matchList = matchSearch.searchMatch(matchSearchForm);
-        return matchList;
+        model.addAttribute("matchList", matchList);
+        return "match/include/index_loadmore";
     }
 
     @InitBinder

@@ -8,24 +8,25 @@
             Create new Match
         </a>
     </div>
-    <div class="pull-left">
-        <c:forEach items="${matchList}" var="match">
-            <div class="match-box">
-                <div>
-                    <a class="title" href="<spring:url value='/match/info/${match.id}' />">
-                        ${match.name}
-                    </a>
-                </div>
-                <div>
-                    <joda:format value="${match.playTime}" pattern="${formatDateTime}" />
-                </div>
-            </div>
-        </c:forEach>
+    <div class="pull-left" id="match-list">
+        <%@ include file="include/index_loadmore.jsp"%>
     </div>
     <div class="clearfix"></div>
     <div>
-        <a href="javascript:void(0);" class="btn btn-block">
+        <a href="javascript:void(0);" class="btn btn-block" onclick="loadMore();">
             Load More
         </a>
     </div>
 </div>
+<script type="text/javascript">
+    var loadMoreStart = ${loadMoreLimit};
+    var loadMoreLimit = ${loadMoreLimit};
+    function loadMore() {
+        $.get("<spring:url value='/match/rest/include/loadmore' />", {
+            "start":loadMoreStart
+        }, function(data) {
+            loadMoreStart += loadMoreLimit;
+            $("#match-list").append(data);
+        });
+    }
+</script>
