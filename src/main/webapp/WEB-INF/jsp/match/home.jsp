@@ -2,15 +2,16 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="joda" uri="http://www.joda.org/joda/time/tags" %>
+
 <div class="span12">
-    <div class="pull-right">
         <a href="<spring:url value='/match/create' />" class="btn">
             Create new Match
         </a>
-    </div>
-    <div class="pull-left" id="match-list">
+    <div id="match-list">
         <%@ include file="include/index_loadmore.jsp"%>
     </div>
+
+    <!-- Will implement this later...
     <div class="clearfix"></div>
     <c:if test="${countMatch > loadMoreLimit}">
         <div class="loadmore">
@@ -18,8 +19,10 @@
                 Load More
             </a>
         </div>
-    </c:if>
+    </c:if> -->
+
 </div>
+
 <script type="text/javascript">
     var countMatch = ${countMatch};
     var loadMoreStart = ${loadMoreLimit};
