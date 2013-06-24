@@ -129,6 +129,7 @@ public class MatchController {
             saveMatchValidator.validate(match, bindingResult);
             if(!bindingResult.hasErrors()) {
                 matchDao.save(match);
+                return "redirect:/match/index";
             }
         } else {
             match.setPlayTime(DateTime.now());
