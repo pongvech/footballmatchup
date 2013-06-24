@@ -8,67 +8,45 @@
         <link rel="stylesheet" type="text/css" href="<spring:url value='/assets/css/bootstrap/css/bootstrap.min.css' />" />
         <link rel="stylesheet" type="text/css" href="<spring:url value='/assets/css/style.css' />" />
         <script type="text/javascript" src="<spring:url value='/assets/js/jquery/jquery-2.0.2.min.js' />"></script>
+        <style>
+              body {
+                padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+              }
+            </style>
     </head>
-    <body class="container">
+    <body>
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+          <div class="navbar-inner">
+            <div class="container">
+                <a class="brand" href="<spring:url value='/index' />">FootballMatchUp!</a>
+                <form class="navbar-form pull-right">
+                  <input class="span2" type="text" placeholder="Email">
+                  <input class="span2" type="password" placeholder="Password">
+                  <button type="submit" class="btn btn-primary">Sign in</button>
+                  <button type="button" class="btn btn-info">Register</button>
+                  <!--<a href="<spring:url value='/register' />" >Register</a>-->
+                </form>
+            </div>
+          </div>
+     </div>
+
+    <div class="container">
         <div class="row">
-            <div id="header" class="span12">
-                <div class="row">
-                    <div class="span6">
-                        <h1>
-                            <a href="<spring:url value='/index' />">
-                                Football Match Up
-                            </a>
-                        </h1>
-                    </div>
-                    <div class="span6" id="user-control">
-                        <c:choose>
-                            <c:when test="${loggedInPlayer != null}">
-                                <div>
-                                    ${loggedInPlayer.username} |
-                                    <a href="<spring:url value='/logout' />" >Logout</a>
-                                </div>
-                            </c:when>
-                            <c:otherwise>
-                                <div>
-                                    <a href="<spring:url value='/login' />" >Login</a> &bull;
-                                    <a href="<spring:url value='/register' />" >Register</a>
-                                </div>
-                            </c:otherwise>
-                        </c:choose>
-                    </div>
-                </div>
+            <c:if test="${pageTitle != null}">
+                <h2>${pageTitle}</h2>
+            </c:if>
+            <jsp:include page="${pageContent}.jsp" />
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div id="footer" class="span12 muted">
+              <h6>Football Match Up 2013</h6>
             </div>
         </div>
-        <div class="row">
-            <div id="nav" class="span12">
-                <ul class="nav nav-tabs">
-                    <li>
-                        <a href="<spring:url value='/index' />">Home</a>
-                    </li>
-                    <li><a href="<spring:url value='/match/index' />">Match</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="row">
-            <div id="content" class="span12">
-                <div class="row">
-                    <c:if test="${pageTitle != null}">
-                        <div class="span12">
-                            <h2>${pageTitle}</h2>
-                        </div>
-                    </c:if>
-                    <jsp:include page="${pageContent}.jsp" />
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div id="footer" class="span12">
-                <div class="row">
-                    <div class="span12">
-                        Football Match Up
-                    </div>
-                </div>
-            </div>
-        </div>
-    </body>
+    </div>
+
+</body>
 </html>

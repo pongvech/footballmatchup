@@ -61,14 +61,14 @@ public class MatchController {
     @Autowired
     private FootballMatchUpProperties footballMatchUpProperties;
 
-    @RequestMapping(value = {"/", "index"})
+    @RequestMapping(value = {"/", "home"})
     public String index(Model model) {
         MatchSearchForm matchSearchForm = new MatchSearchForm();
         List<Match> matchList = matchSearch.searchMatch(matchSearchForm);
         model.addAttribute("matchList", matchList);
         model.addAttribute("countMatch", matchSearch.countMatch(matchSearchForm));
         model.addAttribute("loadMoreLimit", footballMatchUpProperties.getPaginationLoadMoreLimit());
-        model.addAttribute("pageContent", "match/index");
+        model.addAttribute("pageContent", "match/home");
         return "layout";
     }
 

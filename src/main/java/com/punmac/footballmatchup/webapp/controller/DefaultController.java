@@ -39,8 +39,7 @@ public class DefaultController {
 
     @RequestMapping(value = {"/", "index"})
     public String index(Model model, HttpServletRequest request) {
-        model.addAttribute("pageContent", "default/index");
-        return "layout";
+        return "redirect:/match/home";
     }
 
     @RequestMapping(value = "register")

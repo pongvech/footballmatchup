@@ -13,6 +13,8 @@ public class Match {
     private DateTime createdTime;
     @DBRef
     private Player creator;
+    private int teamAScore;
+    private int teamBScore;
 
     public String getId() {
         return id;
@@ -70,16 +72,35 @@ public class Match {
         this.creator = creator;
     }
 
+    public int getTeamAScore() {
+        return teamAScore;
+    }
+
+    public void setTeamAScore(int teamAScore) {
+        this.teamAScore = teamAScore;
+    }
+
+    public int getTeamBScore() {
+        return teamBScore;
+    }
+
+    public void setTeamBScore(int teamBScore) {
+        this.teamBScore = teamBScore;
+    }
+
     @Override
     public String toString() {
-        return "Match{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", detail='" + detail + '\'' +
-                ", place='" + place + '\'' +
-                ", playTime=" + playTime +
-                ", createdTime=" + createdTime +
-                ", creator=" + creator +
-                '}';
+        final StringBuilder sb = new StringBuilder("Match{");
+        sb.append("id='").append(id).append('\'');
+        sb.append(", name='").append(name).append('\'');
+        sb.append(", detail='").append(detail).append('\'');
+        sb.append(", place='").append(place).append('\'');
+        sb.append(", playTime=").append(playTime);
+        sb.append(", createdTime=").append(createdTime);
+        sb.append(", creator=").append(creator);
+        sb.append(", teamAScore=").append(teamAScore);
+        sb.append(", teamBScore=").append(teamBScore);
+        sb.append('}');
+        return sb.toString();
     }
 }
