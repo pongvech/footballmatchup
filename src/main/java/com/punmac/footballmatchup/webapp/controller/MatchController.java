@@ -133,6 +133,7 @@ public class MatchController {
         } else {
             match.setPlayTime(DateTime.now());
         }
+        model.addAttribute("btnSubmitValue", "Create");
         model.addAttribute("pageTitle", "Create Match");
         model.addAttribute("pageContent", "match/save");
         return "layout";
@@ -151,6 +152,7 @@ public class MatchController {
             match = matchDao.findById(matchId);
             model.addAttribute("match", match);
         }
+        model.addAttribute("btnSubmitValue", "Save");
         model.addAttribute("pageTitle", "Edit Match");
         model.addAttribute("pageContent", "match/save");
         return "layout";
