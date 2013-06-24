@@ -39,7 +39,7 @@
                     <form:hidden path="createdTime" />
                     <form:hidden path="creator.id" />
                 </c:if>
-                <input type="submit" value="Create" class="btn btn-success btn-block" />
+                <input type="submit" value="${btnSubmitValue}" class="btn btn-success btn-block" />
             </div>
         </div>
     </form:form>

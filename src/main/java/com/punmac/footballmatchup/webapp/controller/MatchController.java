@@ -74,13 +74,15 @@ public class MatchController {
 
     @RequestMapping(value = "info/{matchId}")
     public String info(Model model, HttpServletRequest request, @PathVariable(value = "matchId") String matchId) {
+        // Check wh ether loggedInPlayer already join this match or not.
         Player loggedInPlayer = CookieSessionUtil.getLoggedInPlayer(request);
-        // Check whether player already join this match or not.
-        PlayerMatch playerMatch = playerMatchDao.findByPlayerIdAndMatchId(loggedInPlayer.getId(), matchId);
-        log.debug("PlayerMatch : {}", playerMatch);
-        if(playerMatch != null) { // Player already join this match.
-            log.debug("Player (username = {}) already join this match (id = {})", loggedInPlayer.getUsername(), matchId);
-            model.addAttribute("playerMatch", playerMatch);
+        if (loggedInPlayer != null) {
+            PlayerMatch playerMatch = playerMatchDao.findByPlayerIdAndMatchId(loggedInPlayer.getId(), matchId);
+            log.debug("PlayerMatch : {}", playerMatch);
+            if(playerMatch != null) { // Player already join this match.
+                log.debug("Player (username = {}) already join this match (id = {})", loggedInPlayer.getUsername(), matchId);
+                model.addAttribute("playerMatch", playerMatch);
+            }
         }
         Match match = matchDao.findById(matchId);
         // Find player who joined this match.
@@ -127,10 +129,12 @@ public class MatchController {
             saveMatchValidator.validate(match, bindingResult);
             if(!bindingResult.hasErrors()) {
                 matchDao.save(match);
+                return "redirect:/match/index";
             }
         } else {
             match.setPlayTime(DateTime.now());
         }
+        model.addAttribute("btnSubmitValue", "Create");
         model.addAttribute("pageTitle", "Create Match");
         model.addAttribute("pageContent", "match/save");
         return "layout";
@@ -149,6 +153,7 @@ public class MatchController {
             match = matchDao.findById(matchId);
             model.addAttribute("match", match);
         }
+        model.addAttribute("btnSubmitValue", "Save");
         model.addAttribute("pageTitle", "Edit Match");
         model.addAttribute("pageContent", "match/save");
         return "layout";
