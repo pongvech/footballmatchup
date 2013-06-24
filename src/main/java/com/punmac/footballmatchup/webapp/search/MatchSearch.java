@@ -37,4 +37,15 @@ public class MatchSearch {
         query.limit(footballMatchUpProperties.getPaginationLoadMoreLimit());
         return mongoTemplate.find(query, Match.class);
     }
+
+    /**
+     * Count all Match.
+     */
+    public long countMatch(MatchSearchForm matchSearchForm) {
+        Query query = new Query();
+        if(!"".equals(matchSearchForm.getName()) && matchSearchForm.getName() != null) {
+            query.addCriteria(where("name").is(matchSearchForm.getName()));
+        }
+        return mongoTemplate.count(query, Match.class);
+    }
 }

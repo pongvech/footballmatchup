@@ -12,13 +12,16 @@
         <%@ include file="include/index_loadmore.jsp"%>
     </div>
     <div class="clearfix"></div>
-    <div>
-        <a href="javascript:void(0);" class="btn btn-block" onclick="loadMore();">
-            Load More
-        </a>
-    </div>
+    <c:if test="${countMatch > loadMoreLimit}">
+        <div class="loadmore">
+            <a href="javascript:void(0);" class="btn btn-block" onclick="loadMore();">
+                Load More
+            </a>
+        </div>
+    </c:if>
 </div>
 <script type="text/javascript">
+    var countMatch = ${countMatch};
     var loadMoreStart = ${loadMoreLimit};
     var loadMoreLimit = ${loadMoreLimit};
     function loadMore() {
@@ -27,6 +30,9 @@
         }, function(data) {
             loadMoreStart += loadMoreLimit;
             $("#match-list").append(data);
+            if(loadMoreStart > countMatch) {
+                $(".loadmore").hide();
+            }
         });
     }
 </script>

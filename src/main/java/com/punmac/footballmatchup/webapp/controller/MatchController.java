@@ -63,8 +63,10 @@ public class MatchController {
 
     @RequestMapping(value = {"/", "index"})
     public String index(Model model) {
-        List<Match> matchList = matchSearch.searchMatch(new MatchSearchForm());
+        MatchSearchForm matchSearchForm = new MatchSearchForm();
+        List<Match> matchList = matchSearch.searchMatch(matchSearchForm);
         model.addAttribute("matchList", matchList);
+        model.addAttribute("countMatch", matchSearch.countMatch(matchSearchForm));
         model.addAttribute("loadMoreLimit", footballMatchUpProperties.getPaginationLoadMoreLimit());
         model.addAttribute("pageContent", "match/index");
         return "layout";
