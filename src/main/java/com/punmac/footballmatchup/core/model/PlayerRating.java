@@ -11,7 +11,7 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 public class PlayerRating {
 
     private String id;
-    private int score;
+    private int rating;
     @DBRef
     private Player rater; // Player who give rating.
     @DBRef
@@ -27,12 +27,12 @@ public class PlayerRating {
         this.id = id;
     }
 
-    public int getScore() {
-        return score;
+    public int getRating() {
+        return rating;
     }
 
-    public void setScore(int score) {
-        this.score = score;
+    public void setRating(int rating) {
+        this.rating = rating;
     }
 
     public Player getRater() {
@@ -63,7 +63,7 @@ public class PlayerRating {
     public String toString() {
         return "PlayerRating{" +
                 "id='" + id + '\'' +
-                ", score=" + score +
+                ", rating=" + rating +
                 ", rater=" + rater +
                 ", player=" + player +
                 ", match=" + match +

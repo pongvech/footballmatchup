@@ -90,7 +90,7 @@ public class MatchController {
         // Generate display bean.
         List<JoinedPlayerDisplay> joinedPlayerDisplayList = new ArrayList<>();
         for(PlayerMatch pm : playerMatchList) {
-            PlayerRating playerRating = playerRatingDao.findPlayerIdAndMatchIdAndRaterId(pm.getPlayer().getId(),
+            PlayerRating playerRating = playerRatingDao.findByPlayerIdAndMatchIdAndRaterId(pm.getPlayer().getId(),
                     pm.getMatch().getId(), loggedInPlayer.getId());
             JoinedPlayerDisplay joinedPlayerDisplay = new JoinedPlayerDisplay();
             joinedPlayerDisplay.setPlayer(pm.getPlayer());
@@ -188,7 +188,7 @@ public class MatchController {
         if(!"".equals(playerRatingId)) { // When edit rating, playerRatingId will not be "".
             playerRating.setId(playerRatingId);
         }
-        playerRating.setScore(score);
+        playerRating.setRating(score);
         playerRating.setPlayer(player);
         playerRating.setMatch(match);
         playerRating.setRater(CookieSessionUtil.getLoggedInPlayer(request));
