@@ -36,7 +36,7 @@
             <c:forEach items="${joinedPlayerDisplayList}" var="joinedPlayer">
                 <div>
                     ${joinedPlayer.player.username}
-                    <span class="star" id="${joinedPlayer.player.id}_${joinedPlayer.match.id}_${joinedPlayer.playerRating.id}" data-score="${joinedPlayer.playerRating.score}"></span>
+                    <span class="star" id="${joinedPlayer.player.id}_${joinedPlayer.match.id}_${joinedPlayer.playerRating.id}" data-score="${joinedPlayer.playerRating.rating}"></span>
                 </div>
             </c:forEach>
         </div>
