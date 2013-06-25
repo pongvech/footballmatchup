@@ -20,13 +20,23 @@
           <div class="navbar-inner">
             <div class="container">
                 <a class="brand" href="<spring:url value='/' />">FootballMatchUp!</a>
-                <form class="navbar-form pull-right">
-                  <input class="span2" type="text" placeholder="Email">
-                  <input class="span2" type="password" placeholder="Password">
-                  <button type="submit" class="btn btn-primary">Sign in</button>
-                  <button type="button" class="btn btn-info">Register</button>
-                  <!--<a href="<spring:url value='/register' />" >Register</a>-->
-                </form>
+                <c:choose>
+                    <c:when test="${loggedInPlayer != null}">
+                        <span style="color: white">${loggedInPlayer.username}</span> &bull;
+                        <a href="<spring:url value='/logout' />" >Logout</a>
+                    </c:when>
+                    <c:otherwise>
+                        <form action="<spring:url value="/login" />" method="post" class="navbar-form pull-right">
+                            <input class="span2" type="text" name="emailOrUsername" placeholder="Email Or Username">
+                            <input class="span2" type="password" name="password" placeholder="Password">
+                            <button type="submit" class="btn btn-primary">Sign in</button>
+                            <button type="button" class="btn btn-info">Register</button>
+                            <!--<a href="<spring:url value='/register' />" >Register</a>-->
+                        </form>
+                    </c:otherwise>
+                </c:choose>
+            </div>
+
             </div>
           </div>
      </div>
