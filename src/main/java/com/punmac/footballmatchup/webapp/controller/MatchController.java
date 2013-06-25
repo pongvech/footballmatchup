@@ -68,10 +68,8 @@ public class MatchController {
 
     @RequestMapping(value = {"/", "home"})
     public String home(Model model, HttpServletRequest request) {
-
         MatchSearchForm matchSearchForm = new MatchSearchForm();
         List<Match> matchList = matchSearch.searchMatch(matchSearchForm);
-
         model.addAttribute("countMatch", matchSearch.countMatch(matchSearchForm));
         model.addAttribute("loadMoreLimit", footballMatchUpProperties.getPaginationLoadMoreLimit());
         model.addAttribute("pageContent", "match/home");
@@ -80,28 +78,22 @@ public class MatchController {
             MatchCardDisplay matchCardDisplay = new MatchCardDisplay();
             matchCardDisplay.setMatch(match);
             Player loggedInPlayer = CookieSessionUtil.getLoggedInPlayer(request);
-
-            if (loggedInPlayer == null) {
+            if (loggedInPlayer == null) { // Player not login.
                 matchCardDisplay.setCardColor("matchcard-needlogin");
                 matchCardDisplay.setButtonName("Please sign-in");
                 matchCardDisplay.setButtonLink("login/");
-
-            } else if (match.getPlayTime().isAfterNow()) {
+            } else if (match.getPlayTime().isAfterNow()) { // Player logged in and playtime is not start,
                 matchCardDisplay.setCardColor("matchcard-future");
                 matchCardDisplay.setButtonName("Join");
-                matchCardDisplay.setButtonLink("match/join/"+match.getId());
-
-            } else if (match.getPlayTime().plusHours(1).isBeforeNow()) {
+                matchCardDisplay.setButtonLink("match/join/" + match.getId());
+            } else if (match.getPlayTime().plusHours(1).isBeforeNow()) { // Player logged in and playtime is end.
                 matchCardDisplay.setCardColor("matchcard-past");
                 matchCardDisplay.setButtonName("Rate");
-                matchCardDisplay.setButtonLink("match/info/"+match.getId());
-
+                matchCardDisplay.setButtonLink("match/info/" + match.getId());
             }
-
             matchCardDisplayList.add(matchCardDisplay);
         }
         model.addAttribute("matchCardDisplayList", matchCardDisplayList);
-
         return "layout";
     }
 
