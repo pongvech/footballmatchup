@@ -47,9 +47,6 @@
 
     <div class="container">
         <div class="row">
-            <c:if test="${pageTitle != null}">
-                <h2>${pageTitle}</h2>
-            </c:if>
             <jsp:include page="${pageContent}.jsp" />
         </div>
     </div>
