@@ -62,7 +62,7 @@ public class MatchController {
     private FootballMatchUpProperties footballMatchUpProperties;
 
     @RequestMapping(value = {"/", "home"})
-    public String index(Model model) {
+    public String home(Model model) {
         MatchSearchForm matchSearchForm = new MatchSearchForm();
         List<Match> matchList = matchSearch.searchMatch(matchSearchForm);
         model.addAttribute("matchList", matchList);
@@ -129,7 +129,7 @@ public class MatchController {
             saveMatchValidator.validate(match, bindingResult);
             if(!bindingResult.hasErrors()) {
                 matchDao.save(match);
-                return "redirect:/match/index";
+                return "redirect:/match/";
             }
         } else {
             match.setPlayTime(DateTime.now());
@@ -160,7 +160,7 @@ public class MatchController {
     }
 
     /**
-     * This method will be use in match/index page.
+     * This method will be use in match/home page.
      * When click on "Load More", Request will be send to this method to get more match and display in page.
      */
     @RequestMapping(value = "rest/include/loadmore", method = RequestMethod.POST)
@@ -169,7 +169,7 @@ public class MatchController {
         matchSearchForm.setStart(start);
         List<Match> matchList = matchSearch.searchMatch(matchSearchForm);
         model.addAttribute("matchList", matchList);
-        return "match/include/index_loadmore";
+        return "match/include/home_loadmore";
     }
 
     /**

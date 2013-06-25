@@ -1,9 +1,8 @@
 package com.punmac.footballmatchup.webapp.controller;
 
-import com.punmac.footballmatchup.webapp.bean.form.LoginForm;
 import com.punmac.footballmatchup.core.dao.PlayerDao;
-import com.punmac.footballmatchup.core.dao.PlayerMatchDao;
 import com.punmac.footballmatchup.core.model.Player;
+import com.punmac.footballmatchup.webapp.bean.form.LoginForm;
 import com.punmac.footballmatchup.webapp.util.CookieSessionUtil;
 import com.punmac.footballmatchup.webapp.validator.LoginValidator;
 import com.punmac.footballmatchup.webapp.validator.RegisterValidator;
@@ -34,12 +33,9 @@ public class DefaultController {
     @Autowired
     private LoginValidator loginValidator;
 
-    @Autowired
-    private PlayerMatchDao playerMatchDao;
-
-    @RequestMapping(value = {"/", "index"})
-    public String index(Model model, HttpServletRequest request) {
-        return "redirect:/match/home";
+    @RequestMapping(value = {"/", "home"})
+    public String home() {
+        return "forward:/match/home";
     }
 
     @RequestMapping(value = "register")
@@ -75,7 +71,7 @@ public class DefaultController {
                     CookieSessionUtil.createLoggedInSession(request, player);
                     log.debug("Session value : {}", request.getSession().getAttribute("player"));
                 }
-                return "redirect:index.html";
+                return "redirect:/";
             }
         }
         model.addAttribute("pageTitle", "Login");
@@ -86,6 +82,6 @@ public class DefaultController {
     @RequestMapping(value = "logout")
     public String logout(HttpServletRequest request, HttpServletResponse response) {
         CookieSessionUtil.deleteLoggedInPlayer(request, response);
-        return "redirect:index.html";
+        return "redirect:/";
     }
 }

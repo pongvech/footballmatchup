@@ -8,7 +8,7 @@
             Create new Match
         </a>
     <div id="match-list">
-        <%@ include file="include/index_loadmore.jsp"%>
+        <%@ include file="include/home_loadmore.jsp"%>
     </div>
 
     <!-- Will implement this later...

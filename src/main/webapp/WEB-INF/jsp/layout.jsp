@@ -19,7 +19,7 @@
     <div class="navbar navbar-inverse navbar-fixed-top">
           <div class="navbar-inner">
             <div class="container">
-                <a class="brand" href="<spring:url value='/index' />">FootballMatchUp!</a>
+                <a class="brand" href="<spring:url value='/' />">FootballMatchUp!</a>
                 <form class="navbar-form pull-right">
                   <input class="span2" type="text" placeholder="Email">
                   <input class="span2" type="password" placeholder="Password">
