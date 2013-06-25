@@ -2,7 +2,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<div class="span12">
+<div class="span12 matchcard-needlogin matchcard">
+    <c:if test="${pageTitle != null}">
+            <h2>${pageTitle}</h2>
+    </c:if>
     <form:form commandName="match" cssClass="form-horizontal">
         <div class="control-group">
             <label class="control-label">Name</label>

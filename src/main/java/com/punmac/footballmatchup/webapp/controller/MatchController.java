@@ -155,6 +155,10 @@ public class MatchController {
     @RequestMapping(value = "create")
     public String create(Model model, HttpServletRequest request, @ModelAttribute Match match,
                          BindingResult bindingResult) {
+        Player player = CookieSessionUtil.getLoggedInPlayer(request);
+        if (player == null) {
+            return "redirect:/login";
+        }
         if(RequestMethod.POST.toString().equals(request.getMethod())) {
             // Set creator as loggedIn player
             match.setCreator(CookieSessionUtil.getLoggedInPlayer(request));
