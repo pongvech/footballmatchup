@@ -4,13 +4,16 @@
 <%@taglib prefix="joda" uri="http://www.joda.org/joda/time/tags" %>
 
     <ul class="thumbnails">
-    <c:forEach items="${matchList}" var="match">
+    <c:forEach items="${matchCardDisplayList}" var="match">
         <li class="span4">
-            <div class="thumbnail">
-                <h2><a href="<spring:url value='/match/info/${match.id}' />">${match.name}</a></h2>
-                <h4>Date/Time : <joda:format value="${match.playTime}" pattern="${formatDateTime}" /></h4>
-                <h4>Venue : ( ${match.place} )</h4>
-                <p><a href="#" class="btn btn">Join</a></p>
+            <div class="thumbnail ${match.cardColor}">
+                <h2>${match.match.name}</h2>
+                <h4>Date/Time : <joda:format value="${match.match.playTime}" pattern="${formatDateTime}" /></h4>
+                <h4>Venue : ( ${match.match.place} )</h4>
+                <p>
+                    <a href="${match.buttonLink}" class="btn btn">${match.buttonName}</a>
+                    <a href="<spring:url value='/match/info/${match.match.id}' />" class="btn">More Detail </a>
+                </p>
             </div>
         </li>
     </c:forEach>

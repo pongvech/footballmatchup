@@ -74,7 +74,7 @@ public class DefaultController {
                 return "redirect:/";
             }
         }
-        model.addAttribute("pageTitle", "Login");
+        model.addAttribute("pageTitle", "Sign In");
         model.addAttribute("pageContent", "default/login");
         return "layout";
     }

@@ -8,7 +8,9 @@ import com.punmac.footballmatchup.core.model.Match;
 import com.punmac.footballmatchup.core.model.Player;
 import com.punmac.footballmatchup.core.model.PlayerMatch;
 import com.punmac.footballmatchup.core.model.PlayerRating;
+import com.punmac.footballmatchup.core.service.RatingService;
 import com.punmac.footballmatchup.webapp.bean.display.JoinedPlayerDisplay;
+import com.punmac.footballmatchup.webapp.bean.display.MatchCardDisplay;
 import com.punmac.footballmatchup.webapp.bean.form.MatchSearchForm;
 import com.punmac.footballmatchup.webapp.search.MatchSearch;
 import com.punmac.footballmatchup.webapp.typeeditor.DateTimeTypeEditor;
@@ -61,14 +63,44 @@ public class MatchController {
     @Autowired
     private FootballMatchUpProperties footballMatchUpProperties;
 
+    @Autowired
+    private RatingService ratingService;
+
     @RequestMapping(value = {"/", "home"})
-    public String home(Model model) {
+    public String home(Model model, HttpServletRequest request) {
+
         MatchSearchForm matchSearchForm = new MatchSearchForm();
         List<Match> matchList = matchSearch.searchMatch(matchSearchForm);
-        model.addAttribute("matchList", matchList);
+
         model.addAttribute("countMatch", matchSearch.countMatch(matchSearchForm));
         model.addAttribute("loadMoreLimit", footballMatchUpProperties.getPaginationLoadMoreLimit());
         model.addAttribute("pageContent", "match/home");
+        List<MatchCardDisplay> matchCardDisplayList = new ArrayList<>();
+        for (Match match : matchList) {
+            MatchCardDisplay matchCardDisplay = new MatchCardDisplay();
+            matchCardDisplay.setMatch(match);
+            Player loggedInPlayer = CookieSessionUtil.getLoggedInPlayer(request);
+
+            if (loggedInPlayer == null) {
+                matchCardDisplay.setButtonName("Please sign-in");
+                matchCardDisplay.setButtonLink("login/");
+
+            } else if (match.getPlayTime().isAfterNow()) {
+                matchCardDisplay.setCardColor("matchcard-future");
+                matchCardDisplay.setButtonName("Join");
+                matchCardDisplay.setButtonLink("match/join/"+match.getId());
+
+            } else if (match.getPlayTime().plusHours(1).isBeforeNow()) {
+                matchCardDisplay.setCardColor("matchcard-past");
+                matchCardDisplay.setButtonName("Rate");
+                matchCardDisplay.setButtonLink("match/info/"+match.getId());
+
+            }
+
+            matchCardDisplayList.add(matchCardDisplay);
+        }
+        model.addAttribute("matchCardDisplayList", matchCardDisplayList);
+
         return "layout";
     }
 

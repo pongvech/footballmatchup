@@ -6,7 +6,7 @@
     <head>
         <title>Football Match Up</title>
         <link rel="stylesheet" type="text/css" href="<spring:url value='/assets/css/bootstrap/css/bootstrap.min.css' />" />
-        <link rel="stylesheet" type="text/css" href="<spring:url value='/assets/css/style.css' />" />
+        <link rel="stylesheet" type="text/css" href="<spring:url value='/assets/css/myStyle.css' />" />
         <script type="text/javascript" src="<spring:url value='/assets/js/jquery/jquery-2.0.2.min.js' />"></script>
         <style>
               body {

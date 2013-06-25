@@ -17,11 +17,11 @@
                 <form:errors path="password" cssClass="text-error" />
             </div>
         </div>
-        <div class="control-group">
+        <!--<div class="control-group">
             <div class="controls span3">
                 <label class="checkbox inline"> <form:checkbox path="rememberMe" id="chkRememberMe" /> Remember Me</label>
             </div>
-        </div>
+        </div>-->
         <div class="control-group">
             <div class="controls span3">
                 <input type="submit" value="Login" class="btn btn-success btn-block" />
