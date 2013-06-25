@@ -7,9 +7,15 @@
 .matchcard-needlogin {
   background-color: #ffffff;
 }
-
 .white {
   color: white;
+}
+.matchcard {
+-webkit-border-radius: 20px;
+-moz-border-radius: 20px;
+border-radius: 20px;
+box-shadow: 4px 4px 8px;
+padding-left:15px
 }
 
 body {
