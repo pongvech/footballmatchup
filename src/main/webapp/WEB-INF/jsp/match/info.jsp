@@ -3,7 +3,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@taglib prefix="joda" uri="http://www.joda.org/joda/time/tags" %>
-<div class="span12">
+<div class="span12 matchcard-needlogin matchcard">
     <div class="pull-right">
         <c:if test="${playerMatch == null}">
             <span>
@@ -17,6 +17,7 @@
         </c:if>
     </div>
     <div class="pull-left">
+        <h2>${match.name}</h2>
         <div>
             Creator : ${match.creator.username}
         </div>
