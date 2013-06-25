@@ -21,10 +21,14 @@
             <div class="container">
                 <a class="brand" href="<spring:url value='/' />">FootballMatchUp!</a>
                 <c:choose>
+
                     <c:when test="${loggedInPlayer != null}">
-                        <span style="color: white">${loggedInPlayer.username}</span> &bull;
-                        <a href="<spring:url value='/logout' />" >Logout</a>
+                        <div class="navbar-form pull-right">
+                            <button type="button" class="btn">${loggedInPlayer.username}</button>
+                            <button type="button" class="btn btn-danger" onclick="window.location.href='<spring:url value='/logout' />'">Logout</button>
+                        </div>
                     </c:when>
+
                     <c:otherwise>
                         <form action="<spring:url value="/login" />" method="post" class="navbar-form pull-right">
                             <input class="span2" type="text" name="emailOrUsername" placeholder="Email Or Username">
