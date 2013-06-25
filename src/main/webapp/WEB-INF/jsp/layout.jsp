@@ -24,8 +24,8 @@
 
                     <c:when test="${loggedInPlayer != null}">
                         <div class="navbar-form pull-right">
-                            <button type="button" class="btn">${loggedInPlayer.username}</button>
-                            <button type="button" class="btn btn-danger" onclick="window.location.href='<spring:url value='/logout' />'">Logout</button>
+                            <button type="button" class="btn"><i class="icon-user"></i> ${loggedInPlayer.username} </button>
+                            <button type="button" class="btn btn-danger" onclick="window.location.href='<spring:url value='/logout' />'"><i class="icon-off"></i> Logout </button>
                         </div>
                     </c:when>
 
@@ -33,8 +33,8 @@
                         <form action="<spring:url value="/login" />" method="post" class="navbar-form pull-right">
                             <input class="span2" type="text" name="emailOrUsername" placeholder="Email Or Username">
                             <input class="span2" type="password" name="password" placeholder="Password">
-                            <button type="submit" class="btn btn-primary">Sign in</button>
-                            <button type="button" class="btn btn-info">Register</button>
+                            <button type="submit" class="btn btn-primary"><i class="icon-circle-arrow-right"></i> Sign in </button>
+                            <button type="button" class="btn btn-info"><i class="icon-book"></i> Register </button>
                             <!--<a href="<spring:url value='/register' />" >Register</a>-->
                         </form>
                     </c:otherwise>
@@ -57,7 +57,7 @@
     <div class="container">
         <div class="row">
             <div id="footer" class="span12 muted">
-              <h6>Football Match Up 2013</h6>
+              <h6>&copy; FootballMatchUp! 2013</h6>
             </div>
         </div>
     </div>
