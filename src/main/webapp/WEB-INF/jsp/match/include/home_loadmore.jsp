@@ -9,7 +9,7 @@
             <div class="thumbnail ${match.cardColor} matchcard">
                 <h2>${match.match.name}</h2>
                 <h4>Date/Time : <joda:format value="${match.match.playTime}" pattern="${formatDateTime}" /></h4>
-                <h4>Venue : ( ${match.match.place} )</h4>
+                <h4>Venue : ${match.match.place}</h4>
                 <p>
                     <a href="${match.buttonLink}" class="btn btn">${match.buttonName}</a>
                     <a href="<spring:url value='/match/info/${match.match.id}' />" class="btn">More Detail </a>
