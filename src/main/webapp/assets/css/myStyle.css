@@ -4,3 +4,14 @@
 .matchcard-past {
   background-color: #fcf8e3;
 }
+.matchcard-needlogin {
+  background-color: #ffffff;
+}
+
+.white {
+  color: white;
+}
+
+body {
+    background:url("../img/grass.jpg");
+}

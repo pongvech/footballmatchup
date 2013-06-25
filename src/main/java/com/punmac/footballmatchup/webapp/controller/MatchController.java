@@ -82,6 +82,7 @@ public class MatchController {
             Player loggedInPlayer = CookieSessionUtil.getLoggedInPlayer(request);
 
             if (loggedInPlayer == null) {
+                matchCardDisplay.setCardColor("matchcard-needlogin");
                 matchCardDisplay.setButtonName("Please sign-in");
                 matchCardDisplay.setButtonLink("login/");
 

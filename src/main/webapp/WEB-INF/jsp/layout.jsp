@@ -56,7 +56,7 @@
 
     <div class="container">
         <div class="row">
-            <div id="footer" class="span12 muted">
+            <div id="footer" class="span12 muted white">
               <h6>&copy; FootballMatchUp! 2013</h6>
             </div>
         </div>
