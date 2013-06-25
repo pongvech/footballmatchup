@@ -107,7 +107,7 @@ public class MatchController {
 
     @RequestMapping(value = "info/{matchId}")
     public String info(Model model, HttpServletRequest request, @PathVariable(value = "matchId") String matchId) {
-        // Check wh ether loggedInPlayer already join this match or not.
+        // Check whether loggedInPlayer already join this match or not.
         Player loggedInPlayer = CookieSessionUtil.getLoggedInPlayer(request);
         if (loggedInPlayer != null) {
             PlayerMatch playerMatch = playerMatchDao.findByPlayerIdAndMatchId(loggedInPlayer.getId(), matchId);
@@ -123,12 +123,15 @@ public class MatchController {
         // Generate display bean.
         List<JoinedPlayerDisplay> joinedPlayerDisplayList = new ArrayList<>();
         for(PlayerMatch pm : playerMatchList) {
-            PlayerRating playerRating = playerRatingDao.findByPlayerIdAndMatchIdAndRaterId(pm.getPlayer().getId(),
-                    pm.getMatch().getId(), loggedInPlayer.getId());
             JoinedPlayerDisplay joinedPlayerDisplay = new JoinedPlayerDisplay();
             joinedPlayerDisplay.setPlayer(pm.getPlayer());
             joinedPlayerDisplay.setMatch(pm.getMatch());
-            joinedPlayerDisplay.setPlayerRating(playerRating);
+            // If logged in, player can see their own rating.
+            if(loggedInPlayer != null) {
+                PlayerRating playerRating = playerRatingDao.findByPlayerIdAndMatchIdAndRaterId(pm.getPlayer().getId(),
+                        pm.getMatch().getId(), loggedInPlayer.getId());
+                joinedPlayerDisplay.setPlayerRating(playerRating);
+            }
             joinedPlayerDisplayList.add(joinedPlayerDisplay);
         }
         model.addAttribute("match", match);
