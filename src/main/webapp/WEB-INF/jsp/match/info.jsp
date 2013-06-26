@@ -34,12 +34,12 @@
         </div>
         <h3>Who join</h3>
         <div class="row">
-            <div class="span4 dropplayerbox">
+            <div class="span4">
                 Team A
-                <ul></ul>
+                <ul class="drop"></ul>
             </div>
             <div class="span4">
-                <ul>
+                <ul class="drop">
                     <c:forEach items="${joinedPlayerDisplayList}" var="joinedPlayer">
                         <li class="playercard">
                                 ${joinedPlayer.player.username}
@@ -48,9 +48,9 @@
                     </c:forEach>
                 </ul>
             </div>
-            <div class="span4 dropplayerbox">
+            <div class="span4">
                 Team B
-                <ul></ul>
+                <ul class="drop"></ul>
             </div>
         </div>
     </div>
@@ -82,14 +82,8 @@
                 return $(this).attr('data-score');
             }
         });
-        $(".playercard").draggable({
-            revert: "invalid" // when not dropped, the item will revert back to its initial position
-        });
-        $(".dropplayerbox ul").droppable({
-            accept: ".playercard",
-            drop: function( event, ui ) {
-                $(this).append(ui.draggable);
-            }
-        });
+        $(".drop").sortable({
+            connectWith: ".drop"
+        }).disableSelection();
     });
 </script>

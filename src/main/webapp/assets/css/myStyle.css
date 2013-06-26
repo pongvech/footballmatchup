@@ -25,7 +25,7 @@ body {
 .playercard {
     border: #808080 solid thin;
 }
-.dropplayerbox ul {
+.drop {
     background-color: #ddffd6;
     height: 300px;
 }
