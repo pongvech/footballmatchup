@@ -8,6 +8,7 @@
         <link rel="stylesheet" type="text/css" href="<spring:url value='/assets/css/bootstrap/css/bootstrap.min.css' />" />
         <link rel="stylesheet" type="text/css" href="<spring:url value='/assets/css/myStyle.css' />" />
         <script type="text/javascript" src="<spring:url value='/assets/js/jquery/jquery-2.0.2.min.js' />"></script>
+        <script type="text/javascript" src="<spring:url value='/assets/js/jquery-ui/js/jquery-ui-1.10.3.custom.min.js' />"></script>
         <style>
               body {
                 padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */

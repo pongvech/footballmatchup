@@ -21,3 +21,11 @@ padding-left:15px
 body {
     background:url("../img/grass4.jpg");
 }
+
+.playercard {
+    border: #808080 solid thin;
+}
+.dropplayerbox ul {
+    background-color: #ddffd6;
+    height: 300px;
+}

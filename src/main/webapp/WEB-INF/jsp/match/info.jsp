@@ -33,13 +33,25 @@
             When : <joda:format value="${match.playTime}" pattern="${formatDateTime}" />
         </div>
         <h3>Who join</h3>
-        <div>
-            <c:forEach items="${joinedPlayerDisplayList}" var="joinedPlayer">
-                <div>
-                    ${joinedPlayer.player.username}
-                    <span class="star" id="${joinedPlayer.player.id}_${joinedPlayer.match.id}_${joinedPlayer.playerRating.id}" data-score="${joinedPlayer.playerRating.rating}"></span>
-                </div>
-            </c:forEach>
+        <div class="row">
+            <div class="span4 dropplayerbox">
+                Team A
+                <ul></ul>
+            </div>
+            <div class="span4">
+                <ul>
+                    <c:forEach items="${joinedPlayerDisplayList}" var="joinedPlayer">
+                        <li class="playercard">
+                                ${joinedPlayer.player.username}
+                            <span class="star" id="${joinedPlayer.player.id}_${joinedPlayer.match.id}_${joinedPlayer.playerRating.id}" data-score="${joinedPlayer.playerRating.rating}"></span>
+                        </li>
+                    </c:forEach>
+                </ul>
+            </div>
+            <div class="span4 dropplayerbox">
+                Team B
+                <ul></ul>
+            </div>
         </div>
     </div>
 </div>
@@ -68,6 +80,15 @@
             },
             score: function() {
                 return $(this).attr('data-score');
+            }
+        });
+        $(".playercard").draggable({
+            revert: "invalid" // when not dropped, the item will revert back to its initial position
+        });
+        $(".dropplayerbox ul").droppable({
+            accept: ".playercard",
+            drop: function( event, ui ) {
+                $(this).append(ui.draggable);
             }
         });
     });
