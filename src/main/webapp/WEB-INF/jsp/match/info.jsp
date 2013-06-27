@@ -4,57 +4,76 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@taglib prefix="joda" uri="http://www.joda.org/joda/time/tags" %>
 <div class="span12 matchcard-needlogin matchcard">
-    <div class="pull-right">
-        <c:if test="${playerMatch == null}">
-            <span>
-                <a href="<spring:url value='/match/join/${match.id}' />" class="btn">
-                    Join
-                </a>
-            </span>
-        </c:if>
-        <c:if test="${match.creator.id == loggedInPlayer.id}">
-            <a href="<spring:url value='/match/edit/${match.id}' />" class="btn">Edit</a>
-        </c:if>
-    </div>
-    <div class="pull-left">
-        <h2>${match.name}</h2>
-        <div>
-            Creator : ${match.creator.username}
+
+    <!-- Top button section -->
+    <div class="row">
+        <div class="span12">&nbsp;</div>
+        <div class="span12">
+            <c:if test="${playerMatch == null}">
+                <span>
+                    <a href="<spring:url value='/match/join/${match.id}' />" class="btn">
+                        Join
+                    </a>
+                </span>
+            </c:if>
+            <c:if test="${match.creator.id == loggedInPlayer.id}">
+                <a href="<spring:url value='/match/edit/${match.id}' />" class="btn">Edit</a>
+            </c:if>
         </div>
-        <c:if test="${match.detail != null}">
+    </div>
+
+    <!-- Match Info section -->
+    <div class="row">
+        <div class="span12">
+            <h2>${match.name}</h2>
             <div>
-                Detail : ${match.detail}
+                Creator : ${match.creator.username}
             </div>
-        </c:if>
-        <div>
-            Where : ${match.place}
-        </div>
-        <div>
-            When : <joda:format value="${match.playTime}" pattern="${formatDateTime}" />
-        </div>
-        <h3>Who join</h3>
-        <div class="row">
-            <div class="span4">
-                Team A
-                <ul class="drop"></ul>
+            <c:if test="${match.detail != null}">
+                <div>
+                    Detail : ${match.detail}
+                </div>
+            </c:if>
+            <div>
+                Where : ${match.place}
             </div>
-            <div class="span4">
-                <ul class="drop">
-                    <c:forEach items="${joinedPlayerDisplayList}" var="joinedPlayer">
-                        <li class="playercard">
-                                ${joinedPlayer.player.username}
-                            <span class="star" id="${joinedPlayer.player.id}_${joinedPlayer.match.id}_${joinedPlayer.playerRating.id}" data-score="${joinedPlayer.playerRating.rating}"></span>
-                        </li>
-                    </c:forEach>
-                </ul>
+            <div>
+                When : <joda:format value="${match.playTime}" pattern="${formatDateTime}" />
             </div>
-            <div class="span4">
-                Team B
-                <ul class="drop"></ul>
-            </div>
+            <h3>Players</h3>
         </div>
     </div>
+
+    <!-- Player Section -->
+    <div class="row">
+        <div class="span4">Team A</div>
+        <div class="span4">Button here</div>
+        <div class="span4">Team B</div>
+    </div>
+     <div class="row">
+        <div class="span4">
+            &nbsp;
+        </div>
+        <div class="span4">
+            <c:forEach items="${joinedPlayerDisplayList}" var="joinedPlayer">
+                <li class="playercard">
+                        ${joinedPlayer.player.username}
+                    <span class="star" id="${joinedPlayer.player.id}_${joinedPlayer.match.id}_${joinedPlayer.playerRating.id}" data-score="${joinedPlayer.playerRating.rating}"></span>
+                </li>
+            </c:forEach>
+        </div>
+        <div class="span4">
+            &nbsp;
+        </div>
+    </div>
+
+    <!-- Spacer -->
+    <div class="row">
+        <div class="span12"> &nbsp; </div>
+    </div>
+
 </div>
+
 <script type="text/javascript" src="<spring:url value='/assets/js/raty/jquery.raty.min.js' />"></script>
 <script type="text/javascript">
     $(document).ready(function() {
