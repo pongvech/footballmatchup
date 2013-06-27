@@ -123,7 +123,7 @@ public class MatchController {
         Match match = new Match();
         match.setId(matchId); // Set Id only because Id is reference to playerMatch.player.
         if (playerMatchDao.findByPlayerIdAndMatchId(player.getId(),match.getId()) != null) {
-            model.addAttribute("alert", "You already joined the match");
+            model.addAttribute("alert", "<strong>Error!</strong> You already joined the match");
             model.addAttribute("alertCss", "alert alert-error");
             model.addAttribute("pageContent", "match/home");
             return "forward:/match/info/" + matchId;
@@ -133,7 +133,7 @@ public class MatchController {
         playerMatch.setMatch(match);
         log.debug("PlayerMatch : {}", playerMatch);
         playerMatchDao.save(playerMatch);
-        model.addAttribute("alert", "You've joined the match");
+        model.addAttribute("alert", "<strong>Success!</strong> You've joined the match");
         model.addAttribute("alertCss", "alert alert-success");
         model.addAttribute("pageContent", "match/home");
         return "forward:/match/info/" + matchId;
@@ -153,7 +153,9 @@ public class MatchController {
             saveMatchValidator.validate(match, bindingResult);
             if(!bindingResult.hasErrors()) {
                 matchDao.save(match);
-                return "redirect:/match/";
+                model.addAttribute("alert", "<strong>Success!</strong> Match created");
+                model.addAttribute("alertCss", "alert alert-success");
+                return "forward:/match/";
             }
         } else {
             match.setPlayTime(DateTime.now());
@@ -172,6 +174,9 @@ public class MatchController {
             saveMatchValidator.validate(match, bindingResult);
             if(!bindingResult.hasErrors()) {
                 matchDao.save(match);
+                model.addAttribute("alert", "<strong>Success!</strong> Match edited");
+                model.addAttribute("alertCss", "alert alert-success");
+                return "forward:/match/info/" + matchId;
             }
         } else {
             match = matchDao.findById(matchId);

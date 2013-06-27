@@ -36,6 +36,20 @@
             </div>
         </div>
         <div class="control-group">
+            <label class="control-label">Team A score</label>
+            <div class="controls">
+                <form:input path="teamAScore" placeholder="0" cssClass="span3" />
+                <form:errors path="teamAScore" cssClass="text-error" />
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">Team B score</label>
+            <div class="controls">
+                <form:input path="teamBScore" placeholder="0" cssClass="span3" />
+                <form:errors path="teamBScore" cssClass="text-error" />
+            </div>
+        </div>
+        <div class="control-group">
             <div class="controls span3">
                 <c:if test="${match.id != null}">
                     <form:hidden path="id" />
