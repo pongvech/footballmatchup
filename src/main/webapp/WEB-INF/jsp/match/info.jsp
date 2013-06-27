@@ -10,14 +10,14 @@
         <div class="span12">&nbsp;</div>
         <div class="span12">
             <c:if test="${playerMatch == null}">
-                <span>
-                    <a href="<spring:url value='/match/join/${match.id}' />" class="btn">
-                        Join
-                    </a>
-                </span>
+                <a href="<spring:url value='/match/join/${match.id}' />" class="btn">
+                    Join
+                </a>
             </c:if>
             <c:if test="${match.creator.id == loggedInPlayer.id}">
-                <a href="<spring:url value='/match/edit/${match.id}' />" class="btn">Edit</a>
+                <a href="<spring:url value='/match/edit/${match.id}' />" class="btn">
+                    Edit
+                </a>
             </c:if>
         </div>
     </div>
@@ -31,15 +31,16 @@
             </div>
             <c:if test="${match.detail != null}">
                 <div>
-                    Detail : ${match.detail}
+                    Description : ${match.detail}
                 </div>
             </c:if>
             <div>
-                Where : ${match.place}
+                Date/Time : <joda:format value="${match.playTime}" pattern="${formatDateTime}" />
             </div>
             <div>
-                When : <joda:format value="${match.playTime}" pattern="${formatDateTime}" />
+                Venue : ${match.place}
             </div>
+
         </div>
     </div>
 
