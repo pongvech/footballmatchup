@@ -10,12 +10,26 @@
 .white {
   color: white;
 }
+.bg_lightgreen {
+  background-color: #dff0d8;
+}
+.bg_lightblue {
+  background-color: #d9edf7;
+}
+
 .matchcard {
 -webkit-border-radius: 20px;
 -moz-border-radius: 20px;
 border-radius: 20px;
 box-shadow: 4px 4px 8px;
 padding-left:15px
+}
+
+.playercard {
+-webkit-border-radius: 7px;
+-moz-border-radius: 7px;
+border-radius: 7px;
+padding:5px
 }
 
 body {

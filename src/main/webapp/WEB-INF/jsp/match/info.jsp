@@ -54,12 +54,12 @@
         <div class="span4">
             &nbsp;
         </div>
-        <div class="span4">
+        <div class="span4 playercard bg_lightblue">
             <c:forEach items="${joinedPlayerDisplayList}" var="joinedPlayer">
-                <li class="playercard">
+                <div class="playercard">
                         ${joinedPlayer.player.username}
                     <span class="star" id="${joinedPlayer.player.id}_${joinedPlayer.match.id}_${joinedPlayer.playerRating.id}" data-score="${joinedPlayer.playerRating.rating}"></span>
-                </li>
+                </div>
             </c:forEach>
         </div>
         <div class="span4">
