@@ -159,7 +159,7 @@ public class MatchController {
                 matchDao.save(match);
                 model.addAttribute("alert", "<strong>Success!</strong> Match created");
                 model.addAttribute("alertCss", "alert alert-success");
-                return "forward:/match/";
+                return "forward:/match/info/" + match.getId();
             }
         } else {
             match.setPlayTime(DateTime.now());
