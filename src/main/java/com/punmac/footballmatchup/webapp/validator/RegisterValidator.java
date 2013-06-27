@@ -39,14 +39,14 @@ public class RegisterValidator implements Validator {
         }
 
         if("".equals(player.getUsername())) {
-            errors.rejectValue("username", null, "Username is reqired");
+            errors.rejectValue("username", null, "Username is required");
         }
         if(!errors.hasFieldErrors("username") && playerDao.findByUsername(player.getUsername()) != null) {
             errors.rejectValue("username", null, "Username already exist");
         }
 
         if("".equals(player.getPassword())) {
-            errors.rejectValue("password", null, "Password is reqired");
+            errors.rejectValue("password", null, "Password is required");
         }
     }
 }

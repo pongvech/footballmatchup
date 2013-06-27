@@ -6,6 +6,7 @@ import com.punmac.footballmatchup.webapp.bean.form.LoginForm;
 import com.punmac.footballmatchup.webapp.util.CookieSessionUtil;
 import com.punmac.footballmatchup.webapp.validator.LoginValidator;
 import com.punmac.footballmatchup.webapp.validator.RegisterValidator;
+import com.punmac.footballmatchup.webapp.validator.UpdateProfileValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -31,6 +33,9 @@ public class DefaultController {
     private RegisterValidator registerValidator;
 
     @Autowired
+    private UpdateProfileValidator updateProfileValidator;
+
+    @Autowired
     private LoginValidator loginValidator;
 
     @RequestMapping(value = {"/", "home"})
@@ -39,8 +44,34 @@ public class DefaultController {
     }
 
     @RequestMapping(value = "register")
-    public String register(Model model, HttpServletRequest request, @ModelAttribute Player player,
-                           BindingResult bindingResult) {
+    public String register(Model model, HttpServletRequest request, HttpServletResponse response,
+                           @ModelAttribute Player player,
+                           BindingResult bindingResult,
+                           @RequestParam(value = "edit",required = false) boolean editProfile) {
+
+        // Edit profile
+        if (editProfile) {
+            if (RequestMethod.POST.toString().equals(request.getMethod())){
+                updateProfileValidator.validate(player, bindingResult);
+                if (!bindingResult.hasErrors()) {
+                    playerDao.save(player);
+                    model.addAttribute("alert", "<strong>Success!</strong> Profile updated");
+                    model.addAttribute("alertCss", "alert alert-success");
+                    CookieSessionUtil.deleteLoggedInPlayer(request, response);
+                    CookieSessionUtil.createLoggedInCookie(response, playerDao.findById(player.getId()));
+                    return "forward:/match/";
+                }
+            }
+            Player loggedInPlayer = CookieSessionUtil.getLoggedInPlayer(request);
+            model.addAttribute("pageTitle", "Edit profile");
+            model.addAttribute("pageContent", "default/register");
+            model.addAttribute("player", loggedInPlayer);
+            model.addAttribute("edit", true);
+            model.addAttribute("buttonName", "Update");
+            return "layout";
+        }
+
+        // Register
         if(RequestMethod.POST.toString().equals(request.getMethod())) {
             log.debug("Player : {}", player.toString());
             registerValidator.validate(player, bindingResult);
@@ -52,6 +83,7 @@ public class DefaultController {
         }
         model.addAttribute("pageTitle", "Register");
         model.addAttribute("pageContent", "default/register");
+        model.addAttribute("buttonName", "Register");
         return "layout";
     }
 
@@ -64,13 +96,8 @@ public class DefaultController {
             if(!bindingResult.hasErrors()) {
                 Player player = loginForm.getPlayer();
                 log.debug("Player {} login success", player.toString());
-                if(loginForm.isRememberMe()) { // Create cookie.
-                    CookieSessionUtil.createLoggedInCookie(response, player);
-                    log.debug("Cookie value : {}", CookieSessionUtil.getCookie(request, "player"));
-                } else { // Create session.
-                    CookieSessionUtil.createLoggedInSession(request, player);
-                    log.debug("Session value : {}", request.getSession().getAttribute("player"));
-                }
+                CookieSessionUtil.createLoggedInCookie(response, player);
+                log.debug("Cookie value : {}", CookieSessionUtil.getCookie(request, "player"));
                 return "redirect:/";
             }
         }

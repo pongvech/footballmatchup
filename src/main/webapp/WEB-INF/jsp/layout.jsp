@@ -25,7 +25,7 @@
 
                         <c:when test="${loggedInPlayer != null}">
                             <div class="navbar-form pull-right">
-                                <a href="#" class="btn btn"><i class="icon-user"></i> ${loggedInPlayer.username} </a>
+                                <a href="<spring:url value='/register?edit=true' />" class="btn btn"><i class="icon-user"></i> ${loggedInPlayer.username} </a>
                                 <a href="<spring:url value='/logout' />" class="btn btn-danger"><i class="icon-off"></i> Logout </a>
                             </div>
                         </c:when>
