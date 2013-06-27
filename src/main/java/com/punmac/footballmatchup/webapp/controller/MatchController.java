@@ -118,13 +118,15 @@ public class MatchController {
         // Init PlayerMatch in here because don't want user to see playerId and matchId in hidden field.
         Player player = CookieSessionUtil.getLoggedInPlayer(request);
         if (player == null) {
-            return "redirect:/login";
+            model.addAttribute("alert", "<strong>Warning!</strong> You need to sign in to create a match");
+            model.addAttribute("alertCss", "alert alert-warning");
+            return "forward:/login";
         }
         Match match = new Match();
         match.setId(matchId); // Set Id only because Id is reference to playerMatch.player.
         if (playerMatchDao.findByPlayerIdAndMatchId(player.getId(),match.getId()) != null) {
-            model.addAttribute("alert", "<strong>Error!</strong> You already joined the match");
-            model.addAttribute("alertCss", "alert alert-error");
+            model.addAttribute("alert", "<strong>Warning!</strong> You already joined the match");
+            model.addAttribute("alertCss", "alert alert-warning");
             model.addAttribute("pageContent", "match/home");
             return "forward:/match/info/" + matchId;
         }
@@ -144,7 +146,9 @@ public class MatchController {
                          BindingResult bindingResult) {
         Player player = CookieSessionUtil.getLoggedInPlayer(request);
         if (player == null) {
-            return "redirect:/login";
+            model.addAttribute("alert", "<strong>Warning!</strong> You need to sign in to create a match");
+            model.addAttribute("alertCss", "alert alert-warning");
+            return "forward:/login";
         }
         if(RequestMethod.POST.toString().equals(request.getMethod())) {
             // Set creator as loggedIn player

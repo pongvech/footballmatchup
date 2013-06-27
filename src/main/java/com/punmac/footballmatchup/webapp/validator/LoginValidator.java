@@ -45,7 +45,7 @@ public class LoginValidator implements Validator {
              */
             loginForm.setPlayer(player);
             if(player == null) {
-                errors.rejectValue("emailOrUsername", null, "Password is incorrect");
+                errors.rejectValue("password", null, "Password is incorrect");
             }
         }
     }
