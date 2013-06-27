@@ -13,8 +13,8 @@ public class Match {
     private DateTime createdTime;
     @DBRef
     private Player creator;
-    private int teamAScore;
-    private int teamBScore;
+    private int teamAScore = 0;
+    private int teamBScore = 0;
 
     public String getId() {
         return id;

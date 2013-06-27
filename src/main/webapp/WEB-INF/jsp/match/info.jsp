@@ -51,13 +51,13 @@
 
     <!-- Player Column Header -->
     <div class="row">
-        <div class="span4 pagination-centered"><b>Team A</b></div>
+        <div class="span4 pagination-centered"><h3>Team A (${match.teamAScore})</h3></div>
         <div class="span4 pagination-centered">
-            <a href="#" class="btn btn-danger">
+            <a href="#" class="btn btn-danger matchup_button">
                 MatchUp!
             </a>
         </div>
-        <div class="span4 pagination-centered"><b>Team B</b></div>
+        <div class="span4 pagination-centered"><h3>(${match.teamBScore}) Team B</h3></div>
     </div>
 
     <!-- Spacer -->

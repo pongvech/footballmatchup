@@ -20,6 +20,9 @@
 .matchcard_playercount {
   vertical-align:middle;
 }
+.matchup_button {
+  vertical-align:-20px;
+}
 
 .matchcard {
 -webkit-border-radius: 20px;
