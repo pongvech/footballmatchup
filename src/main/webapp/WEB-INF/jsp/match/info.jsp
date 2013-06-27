@@ -9,7 +9,7 @@
     <div class="row">
         <div class="span12">&nbsp;</div>
         <div class="span12">
-            <c:if test="${playerMatch == null}">
+            <c:if test="${playerMatch == null && !past}">
                 <a href="<spring:url value='/match/join/${match.id}' />" class="btn">
                     Join
                 </a>

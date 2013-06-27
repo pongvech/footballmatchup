@@ -77,6 +77,7 @@ public class MatchController {
     public String info(Model model, HttpServletRequest request, @PathVariable(value = "matchId") String matchId) {
         // Check whether loggedInPlayer already join this match or not.
         Player loggedInPlayer = CookieSessionUtil.getLoggedInPlayer(request);
+        Match match = matchDao.findById(matchId);
         if (loggedInPlayer != null) {
             PlayerMatch playerMatch = playerMatchDao.findByPlayerIdAndMatchId(loggedInPlayer.getId(), matchId);
             log.debug("PlayerMatch : {}", playerMatch);
@@ -85,7 +86,10 @@ public class MatchController {
                 model.addAttribute("playerMatch", playerMatch);
             }
         }
-        Match match = matchDao.findById(matchId);
+        if (match.getPlayTime().isBeforeNow()) {
+            model.addAttribute("past", true);
+        }
+
         // Find player who joined this match.
         List<PlayerMatch> playerMatchList = playerMatchDao.findAllPlayerInMatch(matchId);
         // Generate display bean.
@@ -113,6 +117,9 @@ public class MatchController {
     public String join(Model model, HttpServletRequest request, @PathVariable(value = "matchId") String matchId) {
         // Init PlayerMatch in here because don't want user to see playerId and matchId in hidden field.
         Player player = CookieSessionUtil.getLoggedInPlayer(request);
+        if (player == null) {
+            return "redirect:/login";
+        }
         Match match = new Match();
         match.setId(matchId); // Set Id only because Id is reference to playerMatch.player.
         if (playerMatchDao.findByPlayerIdAndMatchId(player.getId(),match.getId()) != null) {
