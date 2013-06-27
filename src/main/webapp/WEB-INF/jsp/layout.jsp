@@ -46,6 +46,13 @@
         </div>
 
         <div class="container">
+            <c:if test="${not empty alert}">
+                <div class="row">
+                    <div class="span12">
+                        <div class="${alertCss}">${alert}</div>
+                    </div>
+                </div>
+            </c:if>
             <div class="row">
                 <jsp:include page="${pageContent}.jsp" />
             </div>

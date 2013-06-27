@@ -68,33 +68,8 @@ public class MatchController {
 
     @RequestMapping(value = {"/", "home"})
     public String home(Model model, HttpServletRequest request) {
-        MatchSearchForm matchSearchForm = new MatchSearchForm();
-        List<Match> matchList = matchSearch.searchMatch(matchSearchForm);
-        model.addAttribute("countMatch", matchSearch.countMatch(matchSearchForm));
-        model.addAttribute("loadMoreLimit", footballMatchUpProperties.getPaginationLoadMoreLimit());
         model.addAttribute("pageContent", "match/home");
-        List<MatchCardDisplay> matchCardDisplayList = new ArrayList<>();
-        for (Match match : matchList) {
-            MatchCardDisplay matchCardDisplay = new MatchCardDisplay();
-            matchCardDisplay.setPlayerCount(playerMatchDao.findAllPlayerInMatch(match.getId()).size());
-            matchCardDisplay.setMatch(match);
-            Player loggedInPlayer = CookieSessionUtil.getLoggedInPlayer(request);
-            if (loggedInPlayer == null) { // Player not login.
-                matchCardDisplay.setCardColor("matchcard-needlogin");
-                matchCardDisplay.setButtonName("Please sign-in");
-                matchCardDisplay.setButtonLink("login/");
-            } else if (match.getPlayTime().isAfterNow()) { // Player logged in and playtime is not start,
-                matchCardDisplay.setCardColor("matchcard-future");
-                matchCardDisplay.setButtonName("Join");
-                matchCardDisplay.setButtonLink("match/join/" + match.getId());
-            } else if (match.getPlayTime().plusHours(1).isBeforeNow()) { // Player logged in and playtime is end.
-                matchCardDisplay.setCardColor("matchcard-past");
-                matchCardDisplay.setButtonName("Rate");
-                matchCardDisplay.setButtonLink("match/info/" + match.getId());
-            }
-            matchCardDisplayList.add(matchCardDisplay);
-        }
-        model.addAttribute("matchCardDisplayList", matchCardDisplayList);
+        loadMatch(model, request);
         return "layout";
     }
 
@@ -140,12 +115,21 @@ public class MatchController {
         Player player = CookieSessionUtil.getLoggedInPlayer(request);
         Match match = new Match();
         match.setId(matchId); // Set Id only because Id is reference to playerMatch.player.
+        if (playerMatchDao.findByPlayerIdAndMatchId(player.getId(),match.getId()) != null) {
+            model.addAttribute("alert", "You already joined the match");
+            model.addAttribute("alertCss", "alert alert-error");
+            model.addAttribute("pageContent", "match/home");
+            return "forward:/match/info/" + matchId;
+        }
         PlayerMatch playerMatch = new PlayerMatch();
         playerMatch.setPlayer(player);
         playerMatch.setMatch(match);
         log.debug("PlayerMatch : {}", playerMatch);
         playerMatchDao.save(playerMatch);
-        return "redirect:/match/info/" + matchId;
+        model.addAttribute("alert", "You've joined the match");
+        model.addAttribute("alertCss", "alert alert-success");
+        model.addAttribute("pageContent", "match/home");
+        return "forward:/match/info/" + matchId;
     }
 
     @RequestMapping(value = "create")
@@ -233,5 +217,31 @@ public class MatchController {
     @InitBinder
     public void binder(WebDataBinder binder) {
         binder.registerCustomEditor(DateTime.class, dateTimeTypeEditor);
+    }
+
+    private void loadMatch(Model model, HttpServletRequest request) {
+        List<Match> matchList = matchDao.findAll();
+        List<MatchCardDisplay> matchCardDisplayList = new ArrayList<>();
+        for (Match match : matchList) {
+            MatchCardDisplay matchCardDisplay = new MatchCardDisplay();
+            matchCardDisplay.setPlayerCount(playerMatchDao.findAllPlayerInMatch(match.getId()).size());
+            matchCardDisplay.setMatch(match);
+            Player loggedInPlayer = CookieSessionUtil.getLoggedInPlayer(request);
+            if (loggedInPlayer == null) { // Player not login.
+                matchCardDisplay.setCardColor("matchcard-needlogin");
+                matchCardDisplay.setButtonName("Please sign-in");
+                matchCardDisplay.setButtonLink("login/");
+            } else if (match.getPlayTime().isAfterNow()) { // Player logged in and playtime is not start,
+                matchCardDisplay.setCardColor("matchcard-future");
+                matchCardDisplay.setButtonName("Join");
+                matchCardDisplay.setButtonLink("match/join/" + match.getId());
+            } else if (match.getPlayTime().plusHours(1).isBeforeNow()) { // Player logged in and playtime is end.
+                matchCardDisplay.setCardColor("matchcard-past");
+                matchCardDisplay.setButtonName("Rate");
+                matchCardDisplay.setButtonLink("match/info/" + match.getId());
+            }
+            matchCardDisplayList.add(matchCardDisplay);
+        }
+        model.addAttribute("matchCardDisplayList", matchCardDisplayList);
     }
 }
