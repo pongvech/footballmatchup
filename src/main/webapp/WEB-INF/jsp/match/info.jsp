@@ -25,7 +25,16 @@
     <!-- Match Info section -->
     <div class="row">
         <div class="span12">
-            <h2>${match.name}</h2>
+            <h2>
+                ${match.name}
+                <c:if test="${creator == true}">
+                    <span class="label label-important matchcard_playercount">Creator</span>
+                </c:if>
+                <c:if test="${not empty playerMatch}">
+                    <span class="label label-success matchcard_playercount">Joined</span>
+                </c:if>
+            </h2>
+
             <div>
                 Creator : ${match.creator.username}
             </div>

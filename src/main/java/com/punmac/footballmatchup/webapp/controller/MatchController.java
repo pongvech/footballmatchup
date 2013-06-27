@@ -85,10 +85,14 @@ public class MatchController {
                 log.debug("Player (username = {}) already join this match (id = {})", loggedInPlayer.getUsername(), matchId);
                 model.addAttribute("playerMatch", playerMatch);
             }
+            if (match.getCreator()!= null && match.getCreator().getId().equals(loggedInPlayer.getId())) {
+                model.addAttribute("creator", true);
+            }
         }
         if (match.getPlayTime().isBeforeNow()) {
             model.addAttribute("past", true);
         }
+
 
         // Find player who joined this match.
         List<PlayerMatch> playerMatchList = playerMatchDao.findAllPlayerInMatch(matchId);
@@ -251,7 +255,7 @@ public class MatchController {
                 matchCardDisplay.setCardColor("matchcard-future");
                 matchCardDisplay.setButtonName("Join");
                 matchCardDisplay.setButtonLink("match/join/" + match.getId());
-            } else if (match.getPlayTime().plusHours(1).isBeforeNow()) { // Player logged in and playtime is end.
+            } else if (match.getPlayTime().isBeforeNow()) { // Player logged in and playtime is end.
                 matchCardDisplay.setCardColor("matchcard-past");
                 matchCardDisplay.setButtonName("Rate");
                 matchCardDisplay.setButtonLink("match/info/" + match.getId());
