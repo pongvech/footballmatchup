@@ -17,6 +17,10 @@
   background-color: #d9edf7;
 }
 
+.matchcard_playercount {
+  vertical-align:middle;
+}
+
 .matchcard {
 -webkit-border-radius: 20px;
 -moz-border-radius: 20px;

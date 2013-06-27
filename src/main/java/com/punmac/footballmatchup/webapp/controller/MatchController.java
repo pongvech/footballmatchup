@@ -76,6 +76,7 @@ public class MatchController {
         List<MatchCardDisplay> matchCardDisplayList = new ArrayList<>();
         for (Match match : matchList) {
             MatchCardDisplay matchCardDisplay = new MatchCardDisplay();
+            matchCardDisplay.setPlayerCount(playerMatchDao.findAllPlayerInMatch(match.getId()).size());
             matchCardDisplay.setMatch(match);
             Player loggedInPlayer = CookieSessionUtil.getLoggedInPlayer(request);
             if (loggedInPlayer == null) { // Player not login.

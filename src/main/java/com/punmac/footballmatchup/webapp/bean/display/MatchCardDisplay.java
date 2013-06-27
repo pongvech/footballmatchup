@@ -7,6 +7,7 @@ public class MatchCardDisplay {
     private String buttonName;
     private String buttonLink;
     private String cardColor;
+    private int playerCount;
 
     public Match getMatch() {
         return match;
@@ -38,5 +39,13 @@ public class MatchCardDisplay {
 
     public void setCardColor(String cardColor) {
         this.cardColor = cardColor;
+    }
+
+    public int getPlayerCount() {
+        return playerCount;
+    }
+
+    public void setPlayerCount(int playerCount) {
+        this.playerCount = playerCount;
     }
 }
