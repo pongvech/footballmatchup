@@ -69,9 +69,9 @@
         <div class="span4">
             &nbsp;
         </div>
-        <div class="span4 playercard bg_lightblue">
+        <div class="span4">
             <c:forEach items="${joinedPlayerDisplayList}" var="joinedPlayer">
-                <div class="playercard pagination-centered">
+                <div class="playercard bg_lightblue pagination-centered">
                         ${joinedPlayer.player.username}
                     <span class="star" id="${joinedPlayer.player.id}_${joinedPlayer.match.id}_${joinedPlayer.playerRating.id}" data-score="${joinedPlayer.playerRating.rating}"></span>
                 </div>
