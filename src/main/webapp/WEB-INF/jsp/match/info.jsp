@@ -40,23 +40,38 @@
             <div>
                 When : <joda:format value="${match.playTime}" pattern="${formatDateTime}" />
             </div>
-            <h3>Players</h3>
         </div>
     </div>
 
-    <!-- Player Section -->
-    <div class="row">
-        <div class="span4">Team A</div>
-        <div class="span4">Button here</div>
-        <div class="span4">Team B</div>
+    <!-- Spacer -->
+            <div class="row">
+                <div class="span12"> &nbsp; </div>
     </div>
+
+    <!-- Player Column Header -->
+    <div class="row">
+        <div class="span4 pagination-centered"><b>Team A</b></div>
+        <div class="span4 pagination-centered">
+            <a href="#" class="btn btn-danger">
+                MatchUp!
+            </a>
+        </div>
+        <div class="span4 pagination-centered"><b>Team B</b></div>
+    </div>
+
+    <!-- Spacer -->
+    <div class="row">
+        <div class="span12"> &nbsp; </div>
+    </div>
+
+     <!-- Player Section -->
      <div class="row">
         <div class="span4">
             &nbsp;
         </div>
         <div class="span4 playercard bg_lightblue">
             <c:forEach items="${joinedPlayerDisplayList}" var="joinedPlayer">
-                <div class="playercard">
+                <div class="playercard pagination-centered">
                         ${joinedPlayer.player.username}
                     <span class="star" id="${joinedPlayer.player.id}_${joinedPlayer.match.id}_${joinedPlayer.playerRating.id}" data-score="${joinedPlayer.playerRating.rating}"></span>
                 </div>
