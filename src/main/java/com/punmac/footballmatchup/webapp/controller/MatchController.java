@@ -81,15 +81,17 @@ public class MatchController {
         if (loggedInPlayer != null) {
             PlayerMatch playerMatch = playerMatchDao.findByPlayerIdAndMatchId(loggedInPlayer.getId(), matchId);
             log.debug("PlayerMatch : {}", playerMatch);
-            if(playerMatch != null) { // Player already join this match.
+            if(playerMatch != null) { // Player already join this match. Only for disable join button
                 log.debug("Player (username = {}) already join this match (id = {})", loggedInPlayer.getUsername(), matchId);
                 model.addAttribute("playerMatch", playerMatch);
             }
             if (match.getCreator()!= null && match.getCreator().getId().equals(loggedInPlayer.getId())) {
+                // for creator tag
                 model.addAttribute("creator", true);
             }
         }
         if (match.getPlayTime().isBeforeNow()) {
+            // if match is past then player can not join (disable join button)
             model.addAttribute("past", true);
         }
 
@@ -103,7 +105,7 @@ public class MatchController {
             joinedPlayerDisplay.setPlayer(pm.getPlayer());
             joinedPlayerDisplay.setMatch(pm.getMatch());
             // If logged in, player can see their own rating.
-            if(loggedInPlayer != null) {
+            if(loggedInPlayer != null && pm.getPlayer() != null) {
                 PlayerRating playerRating = playerRatingDao.findByPlayerIdAndMatchIdAndRaterId(pm.getPlayer().getId(),
                         pm.getMatch().getId(), loggedInPlayer.getId());
                 joinedPlayerDisplay.setPlayerRating(playerRating);
@@ -160,6 +162,7 @@ public class MatchController {
             log.debug("Match : {}", match.toString());
             saveMatchValidator.validate(match, bindingResult);
             if(!bindingResult.hasErrors()) {
+                match.setCreator(player);
                 matchDao.save(match);
                 model.addAttribute("alert", "<strong>Success!</strong> Match created");
                 model.addAttribute("alertCss", "alert alert-success");

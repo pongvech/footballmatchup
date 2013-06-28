@@ -31,16 +31,8 @@
         <div class="control-group">
             <label class="control-label">Play time</label>
             <div class="controls">
-                  <div id="datetimepicker1">
-                    <form:input data-format="dd/MM/yyyy hh:mm:ss" path="playTime" placeholder="Play time" />
-                    <span class="add-on">
-                      <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
-                    </span>
-                    <form:errors path="playTime" cssClass="text-error" />
-                  </div>
-
-
-
+                <form:input path="playTime" placeholder="Play time" cssClass="span3" />
+                <form:errors path="playTime" cssClass="text-error" />
             </div>
         </div>
         <div class="control-group">
@@ -62,18 +54,10 @@
                 <c:if test="${match.id != null}">
                     <form:hidden path="id" />
                     <form:hidden path="createdTime" />
-                    <form:hidden path="creator.id" />
+                    <form:hidden path="creator" />
                 </c:if>
                 <input type="submit" value="${btnSubmitValue}" class="btn btn-success btn-block" />
             </div>
         </div>
     </form:form>
-
-    <script type="text/javascript">
-      $(function() {
-        $('#datetimepicker1').datetimepicker({
-          language: 'pt-BR'
-        });
-      });
-    </script>
 </div>

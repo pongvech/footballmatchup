@@ -7,6 +7,10 @@
 
     <!-- Top button section -->
     <div class="row">
+        <c:if test="${playerMatch == null && !past || match.creator.id == loggedInPlayer.id}">
+            <!-- Add some space if there is a button -->
+            <div class="span12">&nbsp;</div>
+        </c:if>
         <div class="span12">
             <c:if test="${playerMatch == null && !past}">
                 <a href="<spring:url value='/match/join/${match.id}' />" class="btn">
@@ -82,7 +86,10 @@
             <c:forEach items="${joinedPlayerDisplayList}" var="joinedPlayer">
                 <div class="playercard bg_lightyellow pagination-centered">
                         ${joinedPlayer.player.username}
-                    <span class="star" id="${joinedPlayer.player.id}_${joinedPlayer.match.id}_${joinedPlayer.playerRating.id}" data-score="${joinedPlayer.playerRating.rating}"></span>
+                        <c:if test="${past == true}">
+                            <span class="star" id="${joinedPlayer.player.id}_${joinedPlayer.match.id}_${joinedPlayer.playerRating.id}" data-score="${joinedPlayer.playerRating.rating}"></span>
+                        </c:if>
+
                 </div>
             </c:forEach>
         </div>
