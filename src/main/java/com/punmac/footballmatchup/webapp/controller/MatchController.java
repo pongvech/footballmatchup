@@ -104,6 +104,8 @@ public class MatchController {
         List<PlayerMatch> playerMatchList = playerMatchDao.findAllPlayerInMatch(matchId);
         // Generate display bean.
         List<JoinedPlayerDisplay> joinedPlayerDisplayList = new ArrayList<>();
+        List<JoinedPlayerDisplay> joinedPlayerTeamADisplayList = new ArrayList<>();
+        List<JoinedPlayerDisplay> joinedPlayerTeamBDisplayList = new ArrayList<>();
         for(PlayerMatch pm : playerMatchList) {
             JoinedPlayerDisplay joinedPlayerDisplay = new JoinedPlayerDisplay();
             joinedPlayerDisplay.setPlayer(pm.getPlayer());
@@ -114,10 +116,19 @@ public class MatchController {
                         pm.getMatch().getId(), loggedInPlayer.getId());
                 joinedPlayerDisplay.setPlayerRating(playerRating);
             }
-            joinedPlayerDisplayList.add(joinedPlayerDisplay);
+            joinedPlayerDisplay.setPlayerMatch(pm);
+            if(pm.getTeam() == 0) { // Player have no team
+                joinedPlayerDisplayList.add(joinedPlayerDisplay);
+            } else if(pm.getTeam() == 1) { // Player is in team-a
+                joinedPlayerTeamADisplayList.add(joinedPlayerDisplay);
+            } else if(pm.getTeam() == 2) {
+                joinedPlayerTeamBDisplayList.add(joinedPlayerDisplay);
+            }
         }
         model.addAttribute("match", match);
         model.addAttribute("joinedPlayerDisplayList", joinedPlayerDisplayList);
+        model.addAttribute("joinedPlayerTeamADisplayList", joinedPlayerTeamADisplayList);
+        model.addAttribute("joinedPlayerTeamBDisplayList", joinedPlayerTeamBDisplayList);
         model.addAttribute("pageTitle", match.getName());
         model.addAttribute("pageContent", "match/info");
         return "layout";
@@ -255,6 +266,35 @@ public class MatchController {
         playerRatingDao.save(playerRating);
         return playerRating;
     }
+
+    @RequestMapping(value = "rest/playerchangeteam", method = RequestMethod.POST)
+    public @ResponseBody PlayerMatch restPlayerChangeTeam(@RequestParam String playerId,
+                                                          @RequestParam String matchId,
+                                                          @RequestParam String playerMatchId,
+                                                          @RequestParam String team) {
+        Match match = new Match();
+        match.setId(matchId);
+        Player player = new Player();
+        player.setId(playerId);
+        PlayerMatch playerMatch = new PlayerMatch();
+        if(!"".equals(playerMatchId)) { // When edit playerMatch, playerMatchId will not be "".
+            playerMatch.setId(playerMatchId);
+        }
+        int playerTeam = 0;
+        if("team-a".equals(team)) {
+            playerTeam = 1;
+        }
+        if("team-b".equals(team)) {
+            playerTeam = 2;
+        }
+        playerMatch.setTeam(playerTeam);
+        playerMatch.setMatch(match);
+        playerMatch.setPlayer(player);
+        log.debug("PlayerMatch : {}", playerMatch);
+        playerMatchDao.save(playerMatch);
+        return playerMatch;
+    }
+
 
     @InitBinder
     public void binder(WebDataBinder binder) {

@@ -79,22 +79,29 @@
 
      <!-- Player Section -->
      <div class="row">
-        <div class="span4 teambox">
-            &nbsp;
-        </div>
-        <div class="span4 teambox">
-            <c:forEach items="${joinedPlayerDisplayList}" var="joinedPlayer">
+        <div class="span4 teambox" id="team-a">
+            <c:forEach items="${joinedPlayerTeamADisplayList}" var="joinedPlayer">
                 <div class="playercard bg_lightyellow pagination-centered">
                         ${joinedPlayer.player.username}
-                        <c:if test="${past == true}">
-                            <span class="star" id="${joinedPlayer.player.id}_${joinedPlayer.match.id}_${joinedPlayer.playerRating.id}" data-score="${joinedPlayer.playerRating.rating}"></span>
-                        </c:if>
-
+                    <span class="star" id="${joinedPlayer.player.id}_${joinedPlayer.match.id}_${joinedPlayer.playerRating.id}_${joinedPlayer.playerMatch.id}" data-score="${joinedPlayer.playerRating.rating}"></span>
                 </div>
             </c:forEach>
         </div>
-        <div class="span4 teambox">
-            &nbsp;
+        <div class="span4 teambox" id="team-non">
+            <c:forEach items="${joinedPlayerDisplayList}" var="joinedPlayer">
+                <div class="playercard bg_lightyellow pagination-centered">
+                        ${joinedPlayer.player.username}
+                    <span class="star" id="${joinedPlayer.player.id}_${joinedPlayer.match.id}_${joinedPlayer.playerRating.id}_${joinedPlayer.playerMatch.id}" data-score="${joinedPlayer.playerRating.rating}"></span>
+                </div>
+            </c:forEach>
+        </div>
+        <div class="span4 teambox" id="team-b">
+            <c:forEach items="${joinedPlayerTeamBDisplayList}" var="joinedPlayer">
+                <div class="playercard bg_lightyellow pagination-centered">
+                        ${joinedPlayer.player.username}
+                    <span class="star" id="${joinedPlayer.player.id}_${joinedPlayer.match.id}_${joinedPlayer.playerRating.id}_${joinedPlayer.playerMatch.id}" data-score="${joinedPlayer.playerRating.rating}"></span>
+                </div>
+            </c:forEach>
         </div>
     </div>
 
@@ -136,7 +143,23 @@
             connectWith: ".teambox",
             placeholder: "placeholder",
             receive: function( event, ui ) {
-                console.log(ui.item.attr("class"));
+                var team = $(this).attr("id");
+                var splitStarId = ui.item.children(".star").attr("id").split("_");
+                var playerId = splitStarId[0];
+                var matchId = splitStarId[1];
+                var playerMatchId = splitStarId[3];
+                console.log("playerMatchId = " + playerMatchId);
+                $.post("<spring:url value='/match/rest/playerchangeteam' />", {
+                    "playerId": playerId,
+                    "matchId": matchId,
+                    "playerMatchId": playerMatchId,
+                    "team": team
+                },function(data) {
+                    console.log(data);
+                    if(playerMatchId == "") {
+                        ui.item.children(".star").attr("id", ui.item.children(".star").attr("id") + data.id)
+                    }
+                });
             }
         });
     });
