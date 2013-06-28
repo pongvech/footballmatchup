@@ -31,11 +31,11 @@ public class TeamMatchingService {
     @Autowired
     private RatingService ratingService;
 
-    public boolean matchUp(String matchId) {
+    public double matchUp(String matchId) {
         Match match = matchDao.findById(matchId);
         if (match == null) {
             log.error("MatchID {} not found", matchId);
-            return false;
+            return 0;
         }
         List<PlayerRating> playerRatingList = new ArrayList<>();
         List<PlayerMatch> playerMatchList = playerMatchDao.findAllPlayerInMatch(match.getId());
@@ -47,19 +47,25 @@ public class TeamMatchingService {
         }
         Collections.sort(playerRatingList, new RatingComparator());
         boolean teamA = true;
+        double rateA = 0.0;
+        double rateB = 0.0;
         for (PlayerRating playerRating : playerRatingList) {
             if (teamA) {
                 playerRating.getPlayerMatch().setTeam(1);
                 playerMatchDao.save(playerRating.getPlayerMatch());
                 teamA = false;
+                rateA += playerRating.getAverageRating();
             } else {
                 playerRating.getPlayerMatch().setTeam(2);
                 playerMatchDao.save(playerRating.getPlayerMatch());
                 teamA = true;
+                rateB += playerRating.getAverageRating();
             }
 
         }
-        return true;
+        double teamAWinningPercentage = (rateA / (rateA+rateB)) * 100;
+        log.debug("Team A {} {} Team B ", teamAWinningPercentage, 100 - teamAWinningPercentage);
+        return teamAWinningPercentage;
     }
 
     private class RatingComparator implements Comparator<PlayerRating> {

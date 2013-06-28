@@ -34,6 +34,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -164,16 +165,16 @@ public class MatchController {
 
     @RequestMapping(value = "matchup/{matchId}")
     public String matchup(Model model, @PathVariable(value = "matchId") String matchId) {
-        boolean matchingResult = teamMatchingService.matchUp(matchId);
-        if (matchingResult) {
-            model.addAttribute("alert", "<strong>Success!</strong> Matched up");
-            model.addAttribute("alertCss", "alert alert-success");
-        } else {
-            model.addAttribute("alert", "<strong>Error!</strong> Match up failed!");
-            model.addAttribute("alertCss", "alert alert-error");
-        }
-
-        return "redirect:/match/info/" + matchId;
+        double teamAWinningPercentage = teamMatchingService.matchUp(matchId);
+        double teamBWinningPercentage = 100 - teamAWinningPercentage;
+        BigDecimal t1 = new BigDecimal(teamAWinningPercentage);
+        BigDecimal t2 = new BigDecimal(teamBWinningPercentage);
+        int decimalPlaces = 2;
+        t1 = t1.setScale(decimalPlaces, BigDecimal.ROUND_HALF_UP);
+        t2 = t2.setScale(decimalPlaces, BigDecimal.ROUND_HALF_UP);
+        model.addAttribute("teamAPercentage", t1.toString() + "%");
+        model.addAttribute("teamBPercentage", t2.toString() + "%");
+        return "forward:/match/info/" + matchId;
     }
 
     @RequestMapping(value = "create")

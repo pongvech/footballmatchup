@@ -63,13 +63,13 @@
 
     <!-- Player Column Header -->
     <div class="row">
-        <div class="span4 pagination-centered"><h3>Team A (${match.teamAScore})</h3></div>
+        <div class="span4 pagination-centered"><h3>Team A (${match.teamAScore}) ${teamAPercentage}</h3></div>
         <div class="span4 pagination-centered">
-            <a href="<spring:url value='/match/matchup/${match.id}' />" class="btn btn-danger matchup_button">
+             <a href="<spring:url value='/match/matchup/${match.id}' />" class="btn btn-danger matchup_button">
                 MatchUp!
             </a>
         </div>
-        <div class="span4 pagination-centered"><h3>(${match.teamBScore}) Team B</h3></div>
+        <div class="span4 pagination-centered"><h3>${teamBPercentage} (${match.teamBScore}) Team B</h3></div>
     </div>
 
     <!-- Spacer -->
