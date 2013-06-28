@@ -280,7 +280,10 @@ public class MatchController {
     }
 
     private void loadMatch(Model model, HttpServletRequest request) {
-        List<Match> matchList = matchDao.findAll();
+        MatchSearchForm matchSearchForm = new MatchSearchForm();
+        List<Match> matchList = matchSearch.searchMatch(matchSearchForm);
+        model.addAttribute("countMatch", matchSearch.countMatch(matchSearchForm));
+        model.addAttribute("loadMoreLimit", footballMatchUpProperties.getPaginationLoadMoreLimit());
         List<MatchCardDisplay> matchCardDisplayList = new ArrayList<>();
         for (Match match : matchList) {
             MatchCardDisplay matchCardDisplay = new MatchCardDisplay();
