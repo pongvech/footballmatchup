@@ -172,7 +172,8 @@ public class MatchController {
             model.addAttribute("alert", "<strong>Error!</strong> Match up failed!");
             model.addAttribute("alertCss", "alert alert-error");
         }
-        return "forward:/match/info/" + matchId;
+
+        return "redirect:/match/info/" + matchId;
     }
 
     @RequestMapping(value = "create")
