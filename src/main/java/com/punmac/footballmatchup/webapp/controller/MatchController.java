@@ -164,7 +164,6 @@ public class MatchController {
 
     @RequestMapping(value = "matchup/{matchId}")
     public String matchup(Model model, @PathVariable(value = "matchId") String matchId) {
-        // Init PlayerMatch in here because don't want user to see playerId and matchId in hidden field.
         boolean matchingResult = teamMatchingService.matchUp(matchId);
         if (matchingResult) {
             model.addAttribute("alert", "<strong>Success!</strong> Matched up");
@@ -173,7 +172,6 @@ public class MatchController {
             model.addAttribute("alert", "<strong>Error!</strong> Match up failed!");
             model.addAttribute("alertCss", "alert alert-error");
         }
-
         return "forward:/match/info/" + matchId;
     }
 
