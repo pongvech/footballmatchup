@@ -45,6 +45,10 @@ margin:10px
     height: auto;
     min-height: 100px;
 }
+.teambox .placeholder {
+    background-color: #94d764;
+    padding:20px;
+}
 
 body {
     background:url("../img/grass4.jpg");

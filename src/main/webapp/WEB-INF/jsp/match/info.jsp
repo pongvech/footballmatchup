@@ -127,7 +127,11 @@
             }
         });
         $(".teambox").sortable({
-            connectWith: ".teambox"
-        }).disableSelection();
+            connectWith: ".teambox",
+            placeholder: "placeholder",
+            receive: function( event, ui ) {
+                console.log(ui.item.attr("class"));
+            }
+        });
     });
 </script>
