@@ -30,7 +30,7 @@ public class MatchSearch {
         if(!"".equals(matchSearchForm.getName()) && matchSearchForm.getName() != null) {
             query.addCriteria(where("name").is(matchSearchForm.getName()));
         }
-        query.with(new Sort(Sort.Direction.DESC, "createdTime"));
+        query.with(new Sort(Sort.Direction.DESC, "playTime"));
         // TODO http://docs.mongodb.org/manual/reference/method/cursor.skip/
         // TODO As offset increases, cursor.skip() will become slower and more CPU intensive.
         query.skip(matchSearchForm.getStart());
