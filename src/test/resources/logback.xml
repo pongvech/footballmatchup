@@ -6,7 +6,7 @@
         </encoder>
     </appender>
     <logger name="com.punmac" level="DEBUG"/>
-    <logger name="org.springframework.data.mongodb" level="DEBUG"/>
+    <logger name="org.springframework.data.mongodb" level="WARN"/>
     <root level="INFO">
         <appender-ref ref="console"/>
     </root>

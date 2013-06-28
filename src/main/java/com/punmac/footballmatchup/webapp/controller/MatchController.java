@@ -9,6 +9,7 @@ import com.punmac.footballmatchup.core.model.Player;
 import com.punmac.footballmatchup.core.model.PlayerMatch;
 import com.punmac.footballmatchup.core.model.PlayerRating;
 import com.punmac.footballmatchup.core.service.RatingService;
+import com.punmac.footballmatchup.core.service.TeamMatchingService;
 import com.punmac.footballmatchup.webapp.bean.display.JoinedPlayerDisplay;
 import com.punmac.footballmatchup.webapp.bean.display.MatchCardDisplay;
 import com.punmac.footballmatchup.webapp.bean.form.MatchSearchForm;
@@ -65,6 +66,9 @@ public class MatchController {
 
     @Autowired
     private RatingService ratingService;
+
+    @Autowired
+    private TeamMatchingService teamMatchingService;
 
     @RequestMapping(value = {"/", "home"})
     public String home(Model model, HttpServletRequest request) {
@@ -144,6 +148,21 @@ public class MatchController {
         model.addAttribute("alert", "<strong>Success!</strong> You've joined the match");
         model.addAttribute("alertCss", "alert alert-success");
         model.addAttribute("pageContent", "match/home");
+        return "forward:/match/info/" + matchId;
+    }
+
+    @RequestMapping(value = "matchup/{matchId}")
+    public String matchup(Model model, @PathVariable(value = "matchId") String matchId) {
+        // Init PlayerMatch in here because don't want user to see playerId and matchId in hidden field.
+        boolean matchingResult = teamMatchingService.matchUp(matchId);
+        if (matchingResult) {
+            model.addAttribute("alert", "<strong>Success!</strong> Matched up");
+            model.addAttribute("alertCss", "alert alert-success");
+        } else {
+            model.addAttribute("alert", "<strong>Error!</strong> Match up failed!");
+            model.addAttribute("alertCss", "alert alert-error");
+        }
+
         return "forward:/match/info/" + matchId;
     }
 

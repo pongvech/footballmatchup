@@ -29,9 +29,13 @@ public class RatingService {
         List<PlayerRating> overallRatingList = playerRatingDao.findByPlayerId(playerId);
         double totalRating = 0;
         for (PlayerRating matchRating : overallRatingList) {
-            totalRating =+ matchRating.getRating();
+            log.debug("Player {} Match {} Rating {} ", matchRating.getPlayer().getEmail(), matchRating.getMatch().getName(), matchRating.getRating());
+            totalRating += matchRating.getRating();
         }
-        return totalRating/overallRatingList.size();
+        log.debug("Total Rating for playerID {} = {}",playerId, totalRating);
+        double averagedRating = totalRating/overallRatingList.size();
+        log.debug("Averaged : {} ",averagedRating);
+        return averagedRating;
     }
 
     /*
