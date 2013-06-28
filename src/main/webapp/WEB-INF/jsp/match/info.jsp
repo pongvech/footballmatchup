@@ -76,10 +76,10 @@
 
      <!-- Player Section -->
      <div class="row">
-        <div class="span4">
+        <div class="span4 teambox">
             &nbsp;
         </div>
-        <div class="span4">
+        <div class="span4 teambox">
             <c:forEach items="${joinedPlayerDisplayList}" var="joinedPlayer">
                 <div class="playercard bg_lightblue pagination-centered">
                         ${joinedPlayer.player.username}
@@ -87,7 +87,7 @@
                 </div>
             </c:forEach>
         </div>
-        <div class="span4">
+        <div class="span4 teambox">
             &nbsp;
         </div>
     </div>
@@ -126,8 +126,8 @@
                 return $(this).attr('data-score');
             }
         });
-        $(".drop").sortable({
-            connectWith: ".drop"
+        $(".teambox").sortable({
+            connectWith: ".teambox"
         }).disableSelection();
     });
 </script>
