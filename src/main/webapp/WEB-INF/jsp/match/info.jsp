@@ -7,7 +7,6 @@
 
     <!-- Top button section -->
     <div class="row">
-        <div class="span12">&nbsp;</div>
         <div class="span12">
             <c:if test="${playerMatch == null && !past}">
                 <a href="<spring:url value='/match/join/${match.id}' />" class="btn">
@@ -81,7 +80,7 @@
         </div>
         <div class="span4 teambox">
             <c:forEach items="${joinedPlayerDisplayList}" var="joinedPlayer">
-                <div class="playercard bg_lightblue pagination-centered">
+                <div class="playercard bg_lightyellow pagination-centered">
                         ${joinedPlayer.player.username}
                     <span class="star" id="${joinedPlayer.player.id}_${joinedPlayer.match.id}_${joinedPlayer.playerRating.id}" data-score="${joinedPlayer.playerRating.rating}"></span>
                 </div>

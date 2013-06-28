@@ -16,6 +16,12 @@
 .bg_lightblue {
   background-color: #d9edf7;
 }
+.bg_lightyellow {
+  background-color: #fcf8e3;
+}
+.bg_lightred {
+  background-color: #f2dede;
+}
 
 .matchcard_playercount {
   vertical-align:middle;
@@ -29,24 +35,32 @@
 -moz-border-radius: 20px;
 border-radius: 20px;
 box-shadow: 4px 4px 8px;
-padding-left:15px
+padding-left:15px;
+padding-right:15px
 }
 
 .playercard {
 -webkit-border-radius: 7px;
 -moz-border-radius: 7px;
 border-radius: 7px;
-padding:10px;
-margin:10px
+box-shadow: 2px 2px 3px;
+padding:7px;
+margin:7px
 }
 
 .teambox {
-    background-color: #468847;
+    border-radius: 7px;
+    -webkit-border-radius: 7px;
+    -moz-border-radius: 7px;
+    background-color: #dff0d8;
     height: auto;
     min-height: 100px;
 }
 .teambox .placeholder {
-    background-color: #94d764;
+    border-radius: 7px;
+    -webkit-border-radius: 7px;
+    -moz-border-radius: 7px;
+    background-color: #f2dede;
     padding:20px;
 }
 
