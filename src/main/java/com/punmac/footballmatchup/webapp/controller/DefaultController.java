@@ -10,9 +10,12 @@ import com.punmac.footballmatchup.webapp.validator.UpdateProfileValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -110,5 +113,10 @@ public class DefaultController {
     public String logout(HttpServletRequest request, HttpServletResponse response) {
         CookieSessionUtil.deleteLoggedInPlayer(request, response);
         return "redirect:/";
+    }
+
+    @InitBinder
+    public void binder(WebDataBinder binder) {
+        binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
     }
 }

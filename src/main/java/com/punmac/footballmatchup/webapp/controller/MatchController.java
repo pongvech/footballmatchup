@@ -15,12 +15,14 @@ import com.punmac.footballmatchup.webapp.bean.display.MatchCardDisplay;
 import com.punmac.footballmatchup.webapp.bean.form.MatchSearchForm;
 import com.punmac.footballmatchup.webapp.search.MatchSearch;
 import com.punmac.footballmatchup.webapp.typeeditor.DateTimeTypeEditor;
+import com.punmac.footballmatchup.webapp.typeeditor.HtmlEscapeEditor;
 import com.punmac.footballmatchup.webapp.util.CookieSessionUtil;
 import com.punmac.footballmatchup.webapp.validator.SaveMatchValidator;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -299,6 +301,8 @@ public class MatchController {
     @InitBinder
     public void binder(WebDataBinder binder) {
         binder.registerCustomEditor(DateTime.class, dateTimeTypeEditor);
+        binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
+        binder.registerCustomEditor(String.class, "detail",new HtmlEscapeEditor());
     }
 
     private void loadMatch(Model model, HttpServletRequest request) {
