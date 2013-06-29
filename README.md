@@ -18,5 +18,5 @@ How to run
 1. Install all requirement
 2. Open terminal, change directory to footballmatchup and then run the following command
     * `mvn clean install` to compile project
-    * `mvn mvn jetty:run` to run project
-3. Open [http://localhost:9000/index.html](http://localhost:9000/index.html) in browser
+    * `mvn jetty:run` to run project
+3. Open [http://localhost:9000](http://localhost:9000) in browser
