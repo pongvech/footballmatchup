@@ -8,8 +8,18 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 @Component
 public class RegisterValidator implements Validator {
+
+    /**
+     * Allowed a-z, A-Z, 0-9, _ and - for username.
+     */
+    private static final String USERNAME_PATTERN = "^[a-zA-Z0-9_-]*$";
+    private static final int USERNAME_MIN_LENGTH = 3;
+    private static final int USERNAME_MAX_LENGTH = 12;
 
     @Autowired
     private PlayerDao playerDao;
@@ -21,7 +31,7 @@ public class RegisterValidator implements Validator {
 
     /**
      * email is required, must be valid format and unique.
-     * username is required and must be unique,
+     * username is required, must be unique, valid format and length is between 3 - 12 char.
      * password is required.
      */
     @Override
@@ -41,6 +51,16 @@ public class RegisterValidator implements Validator {
         if("".equals(player.getUsername())) {
             errors.rejectValue("username", null, "Username is required");
         }
+        int usernameLength = player.getUsername().length();
+        if(!errors.hasFieldErrors("username") && usernameLength < USERNAME_MIN_LENGTH) {
+            errors.rejectValue("username", null, "Username must not shorter than 3 characters");
+        }
+        if(!errors.hasFieldErrors("username") && usernameLength > USERNAME_MAX_LENGTH) {
+            errors.rejectValue("username", null, "Username must not longer than 12 characters");
+        }
+        if(!errors.hasFieldErrors("username") && !isUsernameValid(player.getUsername())) {
+            errors.rejectValue("username", null, "Username allow a-z, A-Z, 0-9, Underscore and Hypen only");
+        }
         if(!errors.hasFieldErrors("username") && playerDao.findByUsername(player.getUsername()) != null) {
             errors.rejectValue("username", null, "Username already exist");
         }
@@ -48,5 +68,11 @@ public class RegisterValidator implements Validator {
         if("".equals(player.getPassword())) {
             errors.rejectValue("password", null, "Password is required");
         }
+    }
+
+    private boolean isUsernameValid(String username) {
+        Pattern pattern = Pattern.compile(USERNAME_PATTERN);
+        Matcher matcher = pattern.matcher(username);
+        return matcher.matches();
     }
 }
