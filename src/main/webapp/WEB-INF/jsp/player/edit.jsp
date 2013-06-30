@@ -8,7 +8,7 @@
         <div class="control-group">
             <label class="control-label">Email</label>
             <div class="controls">
-                <form:input path="email" placeholder="Email" cssClass="span3" />
+                <form:input path="email" placeholder="Email" cssClass="span3" readonly="true" />
                 <form:errors path="email" cssClass="text-error" />
             </div>
         </div>
@@ -20,16 +20,9 @@
             </div>
         </div>
         <div class="control-group">
-            <label class="control-label">Password</label>
-            <div class="controls">
-                <form:password path="password" placeholder="Password" cssClass="span3" />
-                <form:errors path="password" cssClass="text-error" />
-            </div>
-        </div>
-        <div class="control-group">
             <div class="controls span3">
                 <form:hidden path="id" />
-                <input type="submit" value="Register" class="btn btn-success btn-block" />
+                <input type="submit" value="Edit" class="btn btn-success btn-block" />
             </div>
         </div>
     </form:form>

@@ -81,7 +81,7 @@ public class MatchController {
     }
 
     @RequestMapping(value = "info/{matchId}")
-    public String info(Model model, HttpServletRequest request, @PathVariable(value = "matchId") String matchId) {
+    public String info(Model model, HttpServletRequest request, @PathVariable String matchId) {
         // Check whether loggedInPlayer already join this match or not.
         Player loggedInPlayer = CookieSessionUtil.getLoggedInPlayer(request);
         Match match = matchDao.findById(matchId);

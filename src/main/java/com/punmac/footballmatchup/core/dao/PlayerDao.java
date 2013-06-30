@@ -4,6 +4,7 @@ import com.punmac.footballmatchup.core.model.Player;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.BasicQuery;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -49,6 +50,13 @@ public class PlayerDao {
 
     public void save(Player player) {
         mongoTemplate.save(player);
+    }
+
+    /**
+     * Find player by id and update some field.
+     */
+    public void updateById(String id, Update update) {
+        mongoTemplate.updateFirst(query(where("id").is(id)), update, Player .class);
     }
 
     public void deleteById(String id) {

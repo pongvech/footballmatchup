@@ -71,6 +71,7 @@ public final class CookieSessionUtil {
     public static Cookie createCookie(HttpServletResponse response, String name, String value) {
         Cookie cookie = new Cookie(name, value);
         cookie.setMaxAge(COOKIE_MAX_AGE);
+        cookie.setPath("/");
         response.addCookie(cookie);
         return cookie;
     }
