@@ -122,9 +122,11 @@ public class MatchController {
                 joinedPlayerTeamBDisplayList.add(joinedPlayerDisplay);
             }
         }
-        double teamA = teamMatchingService.teamAWinningPercentage(matchId);
-        model.addAttribute("teamAPercentage",  toStringPercentage(teamA));
-        model.addAttribute("teamBPercentage", toStringPercentage(100 - teamA));
+        if (playerMatchList.size() > 0) {
+            double teamA = teamMatchingService.teamAWinningPercentage(matchId);
+            model.addAttribute("teamAPercentage",  toStringPercentage(teamA));
+            model.addAttribute("teamBPercentage", toStringPercentage(100 - teamA));
+        }
         model.addAttribute("match", match);
         model.addAttribute("joinedPlayerDisplayList", joinedPlayerDisplayList);
         model.addAttribute("joinedPlayerTeamADisplayList", joinedPlayerTeamADisplayList);
@@ -163,10 +165,7 @@ public class MatchController {
 
     @RequestMapping(value = "matchup/{matchId}")
     public String matchup(Model model, @PathVariable(value = "matchId") String matchId) {
-        double teamAWinningPercentage = teamMatchingService.matchUp(matchId);
-        double teamBWinningPercentage = 100 - teamAWinningPercentage;
-        model.addAttribute("teamAPercentage",  toStringPercentage(teamAWinningPercentage));
-        model.addAttribute("teamBPercentage", toStringPercentage(teamBWinningPercentage));
+        teamMatchingService.matchUp(matchId);
         return "forward:/match/info/" + matchId;
     }
 

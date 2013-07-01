@@ -71,7 +71,7 @@
                 </a>
             </c:if>
         </div>
-        <div class="span4 pagination-centered"><h3><span id="teamBPercentage">$${teamBPercentage}</span> (${match.teamBScore}) Team B</h3></div>
+        <div class="span4 pagination-centered"><h3><span id="teamBPercentage">${teamBPercentage}</span> (${match.teamBScore}) Team B</h3></div>
     </div>
 
     <!-- Spacer -->
