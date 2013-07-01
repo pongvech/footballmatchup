@@ -11,6 +11,7 @@ import com.punmac.footballmatchup.core.model.PlayerRating;
 import com.punmac.footballmatchup.core.service.TeamMatchingService;
 import com.punmac.footballmatchup.webapp.bean.display.JoinedPlayerDisplay;
 import com.punmac.footballmatchup.webapp.bean.display.MatchCardDisplay;
+import com.punmac.footballmatchup.webapp.bean.display.PlayerMatchDisplay;
 import com.punmac.footballmatchup.webapp.bean.form.search.MatchSearchForm;
 import com.punmac.footballmatchup.webapp.search.MatchSearch;
 import com.punmac.footballmatchup.webapp.typeeditor.DateTimeTypeEditor;
@@ -259,10 +260,10 @@ public class MatchController {
     }
 
     @RequestMapping(value = "rest/playerchangeteam", method = RequestMethod.POST)
-    public @ResponseBody PlayerMatch restPlayerChangeTeam(Model model, @RequestParam String playerId,
-                                                          @RequestParam String matchId,
-                                                          @RequestParam String playerMatchId,
-                                                          @RequestParam String team) {
+    public @ResponseBody PlayerMatchDisplay restPlayerChangeTeam(@RequestParam String playerId,
+                                                                 @RequestParam String matchId,
+                                                                 @RequestParam String playerMatchId,
+                                                                 @RequestParam String team) {
         Match match = new Match();
         match.setId(matchId);
         Player player = new Player();
@@ -284,9 +285,11 @@ public class MatchController {
         log.debug("Changing player team, PlayerMatch = {}", playerMatch);
         playerMatchDao.save(playerMatch);
         double teamA = teamMatchingService.teamAWinningPercentage(matchId);
-        model.addAttribute("teamAPercentage",  toStringPercentage(teamA));
-        model.addAttribute("teamBPercentage", toStringPercentage(100 - teamA));
-        return playerMatch;
+        PlayerMatchDisplay playerMatchDisplay = new PlayerMatchDisplay();
+        playerMatchDisplay.setPlayerMatch(playerMatch);
+        playerMatchDisplay.setTeamAPercentage(toStringPercentage(teamA));
+        playerMatchDisplay.setTeamBPercentage(toStringPercentage(100 - teamA));
+        return playerMatchDisplay;
     }
 
     private void loadMatch(Model model, HttpServletRequest request) {

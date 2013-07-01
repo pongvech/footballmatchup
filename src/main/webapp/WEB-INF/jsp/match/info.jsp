@@ -63,13 +63,13 @@
 
     <!-- Player Column Header -->
     <div class="row">
-        <div class="span4 pagination-centered"><h3>Team A (${match.teamAScore}) ${teamAPercentage}</h3></div>
+        <div class="span4 pagination-centered"><h3>Team A (${match.teamAScore}) <span id="teamAPercentage">${teamAPercentage}</span></h3></div>
         <div class="span4 pagination-centered">
              <a href="<spring:url value='/match/matchup/${match.id}' />" class="btn btn-danger matchup_button">
                 MatchUp!
             </a>
         </div>
-        <div class="span4 pagination-centered"><h3>${teamBPercentage} (${match.teamBScore}) Team B</h3></div>
+        <div class="span4 pagination-centered"><h3><span id="teamBPercentage">$${teamBPercentage}</span> (${match.teamBScore}) Team B</h3></div>
     </div>
 
     <!-- Spacer -->
@@ -163,8 +163,10 @@
                 },function(data) {
                     console.log(data);
                     if(playerMatchId == "") {
-                        ui.item.children(".star").attr("id", ui.item.children(".star").attr("id") + data.id)
+                        ui.item.children(".star").attr("id", ui.item.children(".star").attr("id") + data.playerMatch.id)
                     }
+                    $("#teamAPercentage").html(data.teamAPercentage);
+                    $("#teamBPercentage").html(data.teamBPercentage);
                 });
             }
         });
