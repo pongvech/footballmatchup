@@ -34,6 +34,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -136,30 +137,29 @@ public class MatchController {
     }
 
     @RequestMapping(value = "join/{matchId}")
-    public String join(Model model, HttpServletRequest request, @PathVariable(value = "matchId") String matchId) {
+    public String join(HttpServletRequest request, @PathVariable(value = "matchId") String matchId,
+                       RedirectAttributes redirectAttributes) {
         Player player = CookieSessionUtil.getLoggedInPlayer(request);
         log.debug("Player {} is joining Match {}", player.getUsername(), matchId);
         if (player == null) {
-            model.addAttribute("alert", "<strong>Warning!</strong> You need to sign in to create a match");
-            model.addAttribute("alertCss", "alert alert-warning");
-            return "forward:/login";
+            redirectAttributes.addFlashAttribute("alert", "<strong>Warning!</strong> You need to sign in to create a match");
+            redirectAttributes.addFlashAttribute("alertCss", "alert alert-warning");
+            return "redirect:/login";
         }
         Match match = new Match();
         match.setId(matchId); // Set Id only because Id is reference to playerMatch.player.
         if (playerMatchDao.findByPlayerIdAndMatchId(player.getId(),match.getId()) != null) {
-            model.addAttribute("alert", "<strong>Warning!</strong> You already joined the match");
-            model.addAttribute("alertCss", "alert alert-warning");
-            model.addAttribute("pageContent", "match/home");
-            return "forward:/match/info/" + matchId;
+            redirectAttributes.addFlashAttribute("alert", "<strong>Warning!</strong> You already joined the match");
+            redirectAttributes.addFlashAttribute("alertCss", "alert alert-warning");
+            return "redirect:/match/info/" + matchId;
         }
         PlayerMatch playerMatch = new PlayerMatch();
         playerMatch.setPlayer(player);
         playerMatch.setMatch(match);
         playerMatchDao.save(playerMatch);
-        model.addAttribute("alert", "<strong>Success!</strong> You've joined the match");
-        model.addAttribute("alertCss", "alert alert-success");
-        model.addAttribute("pageContent", "match/home");
-        return "forward:/match/info/" + matchId;
+        redirectAttributes.addFlashAttribute("alert", "<strong>Success!</strong> You've joined the match");
+        redirectAttributes.addFlashAttribute("alertCss", "alert alert-success");
+        return "redirect:/match/info/" + matchId;
     }
 
     @RequestMapping(value = "matchup/{matchId}")
