@@ -71,6 +71,9 @@ public class TeamMatchingService {
                 rateB += ratingService.retrieveAverageRatingByPlayerId(playerMatch.getPlayer().getId());
             }
         }
+        if(rateA == 0.0 && rateB == 0.0) {
+            return 0.0;
+        }
         double teamAWinningPercentage = (rateA / (rateA+rateB)) * 100;
         log.debug("Team A {} {} Team B ", teamAWinningPercentage, 100 - teamAWinningPercentage);
         return  teamAWinningPercentage;
