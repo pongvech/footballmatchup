@@ -121,6 +121,9 @@ public class MatchController {
                 joinedPlayerTeamBDisplayList.add(joinedPlayerDisplay);
             }
         }
+        double teamA = teamMatchingService.teamAWinningPercentage(matchId);
+        model.addAttribute("teamAPercentage",  toStringPercentage(teamA));
+        model.addAttribute("teamBPercentage", toStringPercentage(100 - teamA));
         model.addAttribute("match", match);
         model.addAttribute("joinedPlayerDisplayList", joinedPlayerDisplayList);
         model.addAttribute("joinedPlayerTeamADisplayList", joinedPlayerTeamADisplayList);
@@ -161,13 +164,8 @@ public class MatchController {
     public String matchup(Model model, @PathVariable(value = "matchId") String matchId) {
         double teamAWinningPercentage = teamMatchingService.matchUp(matchId);
         double teamBWinningPercentage = 100 - teamAWinningPercentage;
-        BigDecimal t1 = new BigDecimal(teamAWinningPercentage);
-        BigDecimal t2 = new BigDecimal(teamBWinningPercentage);
-        int decimalPlaces = 2;
-        t1 = t1.setScale(decimalPlaces, BigDecimal.ROUND_HALF_UP);
-        t2 = t2.setScale(decimalPlaces, BigDecimal.ROUND_HALF_UP);
-        model.addAttribute("teamAPercentage", t1.toString() + "%");
-        model.addAttribute("teamBPercentage", t2.toString() + "%");
+        model.addAttribute("teamAPercentage",  toStringPercentage(teamAWinningPercentage));
+        model.addAttribute("teamBPercentage", toStringPercentage(teamBWinningPercentage));
         return "forward:/match/info/" + matchId;
     }
 
@@ -261,7 +259,7 @@ public class MatchController {
     }
 
     @RequestMapping(value = "rest/playerchangeteam", method = RequestMethod.POST)
-    public @ResponseBody PlayerMatch restPlayerChangeTeam(@RequestParam String playerId,
+    public @ResponseBody PlayerMatch restPlayerChangeTeam(Model model, @RequestParam String playerId,
                                                           @RequestParam String matchId,
                                                           @RequestParam String playerMatchId,
                                                           @RequestParam String team) {
@@ -285,6 +283,9 @@ public class MatchController {
         playerMatch.setPlayer(player);
         log.debug("Changing player team, PlayerMatch = {}", playerMatch);
         playerMatchDao.save(playerMatch);
+        double teamA = teamMatchingService.teamAWinningPercentage(matchId);
+        model.addAttribute("teamAPercentage",  toStringPercentage(teamA));
+        model.addAttribute("teamBPercentage", toStringPercentage(100 - teamA));
         return playerMatch;
     }
 
@@ -315,6 +316,13 @@ public class MatchController {
             matchCardDisplayList.add(matchCardDisplay);
         }
         model.addAttribute("matchCardDisplayList", matchCardDisplayList);
+    }
+
+    private String toStringPercentage(double percentage) {
+        int decimalPlaces = 2;
+        BigDecimal t1 = new BigDecimal(percentage);
+        t1 = t1.setScale(decimalPlaces, BigDecimal.ROUND_HALF_UP);
+        return t1.toString()+"%";
     }
 
     @InitBinder

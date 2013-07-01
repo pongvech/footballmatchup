@@ -47,25 +47,33 @@ public class TeamMatchingService {
         }
         Collections.sort(playerRatingList, new RatingComparator());
         boolean teamA = true;
-        double rateA = 0.0;
-        double rateB = 0.0;
         for (PlayerRating playerRating : playerRatingList) {
             if (teamA) {
                 playerRating.getPlayerMatch().setTeam(1);
                 playerMatchDao.save(playerRating.getPlayerMatch());
                 teamA = false;
-                rateA += playerRating.getAverageRating();
             } else {
                 playerRating.getPlayerMatch().setTeam(2);
                 playerMatchDao.save(playerRating.getPlayerMatch());
                 teamA = true;
-                rateB += playerRating.getAverageRating();
             }
+        }
+        return teamAWinningPercentage(matchId);
+    }
 
+    public double teamAWinningPercentage(String matchId) {
+        double rateA = 0.0;
+        double rateB = 0.0;
+        for (PlayerMatch playerMatch : playerMatchDao.findAllPlayerInMatch(matchId)) {
+            if (playerMatch.getTeam() == 1) {
+                rateA += ratingService.retrieveAverageRatingByPlayerId(playerMatch.getPlayer().getId());
+            } else if (playerMatch.getTeam() == 2) {
+                rateB += ratingService.retrieveAverageRatingByPlayerId(playerMatch.getPlayer().getId());
+            }
         }
         double teamAWinningPercentage = (rateA / (rateA+rateB)) * 100;
         log.debug("Team A {} {} Team B ", teamAWinningPercentage, 100 - teamAWinningPercentage);
-        return teamAWinningPercentage;
+        return  teamAWinningPercentage;
     }
 
     private class RatingComparator implements Comparator<PlayerRating> {
