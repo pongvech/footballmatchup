@@ -137,6 +137,7 @@ public class MatchController {
     public String join(Model model, HttpServletRequest request, @PathVariable(value = "matchId") String matchId) {
         // Init PlayerMatch in here because don't want user to see playerId and matchId in hidden field.
         Player player = CookieSessionUtil.getLoggedInPlayer(request);
+        log.debug("Player {} is joining Match {}", player.getUsername(), matchId);
         if (player == null) {
             model.addAttribute("alert", "<strong>Warning!</strong> You need to sign in to create a match");
             model.addAttribute("alertCss", "alert alert-warning");
@@ -153,7 +154,6 @@ public class MatchController {
         PlayerMatch playerMatch = new PlayerMatch();
         playerMatch.setPlayer(player);
         playerMatch.setMatch(match);
-        log.debug("PlayerMatch : {}", playerMatch);
         playerMatchDao.save(playerMatch);
         model.addAttribute("alert", "<strong>Success!</strong> You've joined the match");
         model.addAttribute("alertCss", "alert alert-success");
@@ -185,11 +185,10 @@ public class MatchController {
             return "forward:/login";
         }
         if(RequestMethod.POST.toString().equals(request.getMethod())) {
-            // Set creator as loggedIn player
-            match.setCreator(CookieSessionUtil.getLoggedInPlayer(request));
-            log.debug("Match : {}", match.toString());
+            log.debug("Creating new Match, Match = {}", match.toString());
             saveMatchValidator.validate(match, bindingResult);
             if(!bindingResult.hasErrors()) {
+                // Set creator as loggedInPlayer
                 match.setCreator(player);
                 matchDao.save(match);
                 model.addAttribute("alert", "<strong>Success!</strong> Match created");
@@ -209,7 +208,7 @@ public class MatchController {
     public String edit(Model model, HttpServletRequest request, @PathVariable(value = "matchId") String matchId,
                        @ModelAttribute Match match, BindingResult bindingResult) {
         if(RequestMethod.POST.toString().equals(request.getMethod())) {
-            log.debug("Match : {}", match.toString());
+            log.debug("Editing Match, Match : {}", match.toString());
             saveMatchValidator.validate(match, bindingResult);
             if(!bindingResult.hasErrors()) {
                 matchDao.save(match);
@@ -260,7 +259,7 @@ public class MatchController {
         playerRating.setPlayer(player);
         playerRating.setMatch(match);
         playerRating.setRater(CookieSessionUtil.getLoggedInPlayer(request));
-        log.debug("PlayerRating : {}", playerRating);
+        log.debug("Rating, PlayerRating = {}", playerRating.toString());
         playerRatingDao.save(playerRating);
         return playerRating;
     }
@@ -288,7 +287,7 @@ public class MatchController {
         playerMatch.setTeam(playerTeam);
         playerMatch.setMatch(match);
         playerMatch.setPlayer(player);
-        log.debug("PlayerMatch : {}", playerMatch);
+        log.debug("Changing player team, PlayerMatch = {}", playerMatch);
         playerMatchDao.save(playerMatch);
         return playerMatch;
     }
