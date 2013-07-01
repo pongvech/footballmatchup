@@ -42,15 +42,14 @@ public class DefaultController {
     }
 
     @RequestMapping(value = "register")
-    public String register(Model model, HttpServletRequest request, HttpServletResponse response,
-                           @ModelAttribute Player player,
+    public String register(Model model, HttpServletRequest request, @ModelAttribute Player player,
                            BindingResult bindingResult) {
         if(RequestMethod.POST.toString().equals(request.getMethod())) {
-            log.debug("Player : {}", player.toString());
+            log.debug("Registering player, Player = {}", player.toString());
             registerValidator.validate(player, bindingResult);
             if(!bindingResult.hasErrors()) {
                 playerDao.save(player);
-                log.debug("Registered new player (id = {})", player.getId());
+                log.debug("Registered new player (username = {})", player.getUsername());
                 return "redirect:login.html";
             }
         }
@@ -63,13 +62,12 @@ public class DefaultController {
     public String login(Model model, HttpServletRequest request, HttpServletResponse response,
                         @ModelAttribute LoginForm loginForm, BindingResult bindingResult) {
         if(RequestMethod.POST.toString().equals(request.getMethod())) {
-            log.debug("LoginForm : {}", loginForm.toString());
+            log.debug("Logging In, LoginForm = {}", loginForm.toString());
             loginValidator.validate(loginForm, bindingResult);
             if(!bindingResult.hasErrors()) {
                 Player player = loginForm.getPlayer();
-                log.debug("Player {} login success", player.toString());
+                log.debug("Player {} login success", player.getUsername());
                 CookieSessionUtil.createLoggedInCookie(response, player);
-                log.debug("Cookie value : {}", CookieSessionUtil.getCookie(request, "player"));
                 return "redirect:/";
             }
         }
@@ -85,7 +83,8 @@ public class DefaultController {
     }
 
     @InitBinder
-    public void binder(WebDataBinder binder) {
+    private void binder(WebDataBinder binder) {
+        // StringTrimmerEditor will trim all String when we submit form.
         binder.registerCustomEditor(String.class, new StringTrimmerEditor(false));
     }
 }

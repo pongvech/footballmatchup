@@ -28,7 +28,6 @@
         </div>
         <div class="control-group">
             <div class="controls span3">
-                <form:hidden path="id" />
                 <input type="submit" value="Register" class="btn btn-success btn-block" />
             </div>
         </div>

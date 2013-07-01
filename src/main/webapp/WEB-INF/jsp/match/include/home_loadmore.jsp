@@ -2,8 +2,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="joda" uri="http://www.joda.org/joda/time/tags" %>
-
-    <ul class="thumbnails">
+<ul class="thumbnails">
     <c:forEach items="${matchCardDisplayList}" var="match">
         <li class="span4">
             <div class="thumbnail ${match.cardColor} matchcard">
@@ -17,5 +16,5 @@
             </div>
         </li>
     </c:forEach>
-    </ul>
+</ul>
 

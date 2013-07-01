@@ -6,7 +6,5 @@
 <div class="span12"><a href="<spring:url value='/match/create' />" class="btn btn-success"><i class="icon-plus icon-white"></i> Create new Match </a></div>
 <div class="span12">&nbsp;</div>
 <div class="span12">
-
     <%@ include file="include/home_loadmore.jsp"%>
-
 </div>

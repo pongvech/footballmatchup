@@ -1,4 +1,4 @@
-package com.punmac.footballmatchup.webapp.bean.form;
+package com.punmac.footballmatchup.webapp.bean.form.search;
 
 import com.punmac.footballmatchup.webapp.bean.form.pagination.LoadMorePagination;
 

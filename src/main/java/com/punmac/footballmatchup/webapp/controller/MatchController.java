@@ -8,11 +8,10 @@ import com.punmac.footballmatchup.core.model.Match;
 import com.punmac.footballmatchup.core.model.Player;
 import com.punmac.footballmatchup.core.model.PlayerMatch;
 import com.punmac.footballmatchup.core.model.PlayerRating;
-import com.punmac.footballmatchup.core.service.RatingService;
 import com.punmac.footballmatchup.core.service.TeamMatchingService;
 import com.punmac.footballmatchup.webapp.bean.display.JoinedPlayerDisplay;
 import com.punmac.footballmatchup.webapp.bean.display.MatchCardDisplay;
-import com.punmac.footballmatchup.webapp.bean.form.MatchSearchForm;
+import com.punmac.footballmatchup.webapp.bean.form.search.MatchSearchForm;
 import com.punmac.footballmatchup.webapp.search.MatchSearch;
 import com.punmac.footballmatchup.webapp.typeeditor.DateTimeTypeEditor;
 import com.punmac.footballmatchup.webapp.typeeditor.HtmlEscapeEditor;
@@ -66,9 +65,6 @@ public class MatchController {
 
     @Autowired
     private FootballMatchUpProperties footballMatchUpProperties;
-
-    @Autowired
-    private RatingService ratingService;
 
     @Autowired
     private TeamMatchingService teamMatchingService;
@@ -297,14 +293,6 @@ public class MatchController {
         return playerMatch;
     }
 
-
-    @InitBinder
-    public void binder(WebDataBinder binder) {
-        binder.registerCustomEditor(DateTime.class, dateTimeTypeEditor);
-        binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
-        binder.registerCustomEditor(String.class, "detail",new HtmlEscapeEditor());
-    }
-
     private void loadMatch(Model model, HttpServletRequest request) {
         MatchSearchForm matchSearchForm = new MatchSearchForm();
         List<Match> matchList = matchSearch.searchMatch(matchSearchForm);
@@ -332,5 +320,12 @@ public class MatchController {
             matchCardDisplayList.add(matchCardDisplay);
         }
         model.addAttribute("matchCardDisplayList", matchCardDisplayList);
+    }
+
+    @InitBinder
+    private void binder(WebDataBinder binder) {
+        binder.registerCustomEditor(DateTime.class, dateTimeTypeEditor);
+        binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
+        binder.registerCustomEditor(String.class, "detail", new HtmlEscapeEditor());
     }
 }

@@ -34,7 +34,8 @@ public final class CookieSessionUtil {
      */
     public static void deleteLoggedInPlayer(HttpServletRequest request, HttpServletResponse response) {
         deleteCookie(request, response, COOKIE_SESSION_NAME);
-        request.getSession().invalidate();
+        // We don't use session anymore.
+        // request.getSession().invalidate();
     }
 
     /**

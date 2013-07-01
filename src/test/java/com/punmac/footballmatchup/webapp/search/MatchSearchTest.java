@@ -3,7 +3,7 @@ package com.punmac.footballmatchup.webapp.search;
 import com.punmac.footballmatchup.config.FootballMatchUpProperties;
 import com.punmac.footballmatchup.core.dao.MatchDao;
 import com.punmac.footballmatchup.core.model.Match;
-import com.punmac.footballmatchup.webapp.bean.form.MatchSearchForm;
+import com.punmac.footballmatchup.webapp.bean.form.search.MatchSearchForm;
 import junit.framework.Assert;
 import org.junit.After;
 import org.junit.Before;
