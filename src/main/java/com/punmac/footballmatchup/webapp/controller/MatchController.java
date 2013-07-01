@@ -78,17 +78,16 @@ public class MatchController {
 
     @RequestMapping(value = "info/{matchId}")
     public String info(Model model, HttpServletRequest request, @PathVariable String matchId) {
-        // Check whether loggedInPlayer already join this match or not.
         Player loggedInPlayer = CookieSessionUtil.getLoggedInPlayer(request);
         Match match = matchDao.findById(matchId);
         if (loggedInPlayer != null) {
+            // Check whether loggedInPlayer already join this match or not.
             PlayerMatch playerMatch = playerMatchDao.findByPlayerIdAndMatchId(loggedInPlayer.getId(), matchId);
-            log.debug("PlayerMatch : {}", playerMatch);
             if(playerMatch != null) { // Player already join this match. Only for disable join button
                 log.debug("Player (username = {}) already join this match (id = {})", loggedInPlayer.getUsername(), matchId);
                 model.addAttribute("playerMatch", playerMatch);
             }
-            if (match.getCreator()!= null && match.getCreator().getId().equals(loggedInPlayer.getId())) {
+            if (match.getCreator() != null && match.getCreator().getId().equals(loggedInPlayer.getId())) {
                 // for creator tag
                 model.addAttribute("creator", true);
             }
@@ -97,8 +96,6 @@ public class MatchController {
             // if match is past then player can not join (disable join button)
             model.addAttribute("past", true);
         }
-
-
         // Find player who joined this match.
         List<PlayerMatch> playerMatchList = playerMatchDao.findAllPlayerInMatch(matchId);
         // Generate display bean.
@@ -120,7 +117,7 @@ public class MatchController {
                 joinedPlayerDisplayList.add(joinedPlayerDisplay);
             } else if(pm.getTeam() == 1) { // Player is in team-a
                 joinedPlayerTeamADisplayList.add(joinedPlayerDisplay);
-            } else if(pm.getTeam() == 2) {
+            } else if(pm.getTeam() == 2) { // Player is in team-b
                 joinedPlayerTeamBDisplayList.add(joinedPlayerDisplay);
             }
         }
@@ -135,7 +132,6 @@ public class MatchController {
 
     @RequestMapping(value = "join/{matchId}")
     public String join(Model model, HttpServletRequest request, @PathVariable(value = "matchId") String matchId) {
-        // Init PlayerMatch in here because don't want user to see playerId and matchId in hidden field.
         Player player = CookieSessionUtil.getLoggedInPlayer(request);
         log.debug("Player {} is joining Match {}", player.getUsername(), matchId);
         if (player == null) {

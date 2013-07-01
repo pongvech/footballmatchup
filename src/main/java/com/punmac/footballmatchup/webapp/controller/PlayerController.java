@@ -42,7 +42,7 @@ public class PlayerController {
                        BindingResult bindingResult) {
         Player loggedInPlayer = CookieSessionUtil.getLoggedInPlayer(request);
         if(RequestMethod.POST.toString().equals(request.getMethod())) {
-            log.debug("Player : {}", player.toString());
+            log.debug("Player {} is editing profile, Player : {}", player.getUsername(),player.toString());
             updateProfileValidator.validate(player, bindingResult);
             if(!bindingResult.hasErrors()) {
                 playerDao.updateById(loggedInPlayer.getId(), update("username", player.getUsername()));
