@@ -36,7 +36,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -321,10 +320,11 @@ public class MatchController {
     }
 
     private String toStringPercentage(double percentage) {
-        int decimalPlaces = 2;
-        BigDecimal t1 = new BigDecimal(percentage);
-        t1 = t1.setScale(decimalPlaces, BigDecimal.ROUND_HALF_UP);
-        return t1.toString()+"%";
+        return "";
+//        int decimalPlaces = 2;
+//        BigDecimal t1 = new BigDecimal(percentage);
+//        t1 = t1.setScale(decimalPlaces, BigDecimal.ROUND_HALF_UP);
+//        return t1.toString()+"%";
     }
 
     @InitBinder
