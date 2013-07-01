@@ -65,9 +65,11 @@
     <div class="row">
         <div class="span4 pagination-centered"><h3>Team A (${match.teamAScore}) <span id="teamAPercentage">${teamAPercentage}</span></h3></div>
         <div class="span4 pagination-centered">
-             <a href="<spring:url value='/match/matchup/${match.id}' />" class="btn btn-danger matchup_button">
-                MatchUp!
-            </a>
+            <c:if test="${!past}">
+                 <a href="<spring:url value='/match/matchup/${match.id}' />" class="btn btn-danger matchup_button">
+                    MatchUp!
+                </a>
+            </c:if>
         </div>
         <div class="span4 pagination-centered"><h3><span id="teamBPercentage">$${teamBPercentage}</span> (${match.teamBScore}) Team B</h3></div>
     </div>
