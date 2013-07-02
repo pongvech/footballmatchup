@@ -136,57 +136,25 @@ public class MatchController {
         return "layout";
     }
 
-    @RequestMapping(value = "join/{matchId}")
-    public String join(HttpServletRequest request, @PathVariable(value = "matchId") String matchId,
-                       RedirectAttributes redirectAttributes) {
-        Player player = CookieSessionUtil.getLoggedInPlayer(request);
-        log.debug("Player {} is joining Match {}", player.getUsername(), matchId);
-        if (player == null) {
+    @RequestMapping(value = "create")
+    public String create(Model model, RedirectAttributes redirectAttributes, HttpServletRequest request,
+                         @ModelAttribute Match match, BindingResult bindingResult) {
+        Player loggedInPlayer = CookieSessionUtil.getLoggedInPlayer(request);
+        if (loggedInPlayer == null) {
             redirectAttributes.addFlashAttribute("alert", "<strong>Warning!</strong> You need to sign in to create a match");
             redirectAttributes.addFlashAttribute("alertCss", "alert alert-warning");
             return "redirect:/login";
-        }
-        Match match = new Match();
-        match.setId(matchId); // Set Id only because Id is reference to playerMatch.player.
-        if (playerMatchDao.findByPlayerIdAndMatchId(player.getId(),match.getId()) != null) {
-            redirectAttributes.addFlashAttribute("alert", "<strong>Warning!</strong> You already joined the match");
-            redirectAttributes.addFlashAttribute("alertCss", "alert alert-warning");
-            return "redirect:/match/info/" + matchId;
-        }
-        PlayerMatch playerMatch = new PlayerMatch();
-        playerMatch.setPlayer(player);
-        playerMatch.setMatch(match);
-        playerMatchDao.save(playerMatch);
-        redirectAttributes.addFlashAttribute("alert", "<strong>Success!</strong> You've joined the match");
-        redirectAttributes.addFlashAttribute("alertCss", "alert alert-success");
-        return "redirect:/match/info/" + matchId;
-    }
-
-    @RequestMapping(value = "matchup/{matchId}")
-    public String matchup(Model model, @PathVariable(value = "matchId") String matchId) {
-        teamMatchingService.matchUp(matchId);
-        return "forward:/match/info/" + matchId;
-    }
-
-    @RequestMapping(value = "create")
-    public String create(Model model, HttpServletRequest request, @ModelAttribute Match match,
-                         BindingResult bindingResult) {
-        Player player = CookieSessionUtil.getLoggedInPlayer(request);
-        if (player == null) {
-            model.addAttribute("alert", "<strong>Warning!</strong> You need to sign in to create a match");
-            model.addAttribute("alertCss", "alert alert-warning");
-            return "forward:/login";
         }
         if(RequestMethod.POST.toString().equals(request.getMethod())) {
             log.debug("Creating new Match, Match = {}", match.toString());
             saveMatchValidator.validate(match, bindingResult);
             if(!bindingResult.hasErrors()) {
                 // Set creator as loggedInPlayer
-                match.setCreator(player);
+                match.setCreator(loggedInPlayer);
                 matchDao.save(match);
-                model.addAttribute("alert", "<strong>Success!</strong> Match created");
-                model.addAttribute("alertCss", "alert alert-success");
-                return "forward:/match/info/" + match.getId();
+                redirectAttributes.addFlashAttribute("alert", "<strong>Success!</strong> Match created");
+                redirectAttributes.addFlashAttribute("alertCss", "alert alert-success");
+                return "redirect:/match/info/" + match.getId();
             }
         } else {
             match.setPlayTime(DateTime.now());
@@ -198,16 +166,22 @@ public class MatchController {
     }
 
     @RequestMapping(value = "edit/{matchId}")
-    public String edit(Model model, HttpServletRequest request, @PathVariable(value = "matchId") String matchId,
-                       @ModelAttribute Match match, BindingResult bindingResult) {
+    public String edit(Model model, RedirectAttributes redirectAttributes, HttpServletRequest request,
+                       @PathVariable String matchId, @ModelAttribute Match match, BindingResult bindingResult) {
+        Player loggedInPlayer = CookieSessionUtil.getLoggedInPlayer(request);
+        if (loggedInPlayer == null) {
+            redirectAttributes.addFlashAttribute("alert", "<strong>Warning!</strong> You need to sign in to edit this match");
+            redirectAttributes.addFlashAttribute("alertCss", "alert alert-warning");
+            return "redirect:/login";
+        }
         if(RequestMethod.POST.toString().equals(request.getMethod())) {
             log.debug("Editing Match, Match : {}", match.toString());
             saveMatchValidator.validate(match, bindingResult);
             if(!bindingResult.hasErrors()) {
                 matchDao.save(match);
-                model.addAttribute("alert", "<strong>Success!</strong> Match edited");
-                model.addAttribute("alertCss", "alert alert-success");
-                return "forward:/match/info/" + matchId;
+                redirectAttributes.addFlashAttribute("alert", "<strong>Success!</strong> Match edited");
+                redirectAttributes.addFlashAttribute("alertCss", "alert alert-success");
+                return "redirect:/match/info/" + matchId;
             }
         } else {
             match = matchDao.findById(matchId);
@@ -217,6 +191,38 @@ public class MatchController {
         model.addAttribute("pageTitle", "Edit Match");
         model.addAttribute("pageContent", "match/save");
         return "layout";
+    }
+
+    @RequestMapping(value = "join/{matchId}")
+    public String join(HttpServletRequest request, @PathVariable(value = "matchId") String matchId,
+                       RedirectAttributes redirectAttributes) {
+        Player loggedInPlayer = CookieSessionUtil.getLoggedInPlayer(request);
+        log.debug("Player {} is joining Match {}", loggedInPlayer.getUsername(), matchId);
+        if (loggedInPlayer == null) {
+            redirectAttributes.addFlashAttribute("alert", "<strong>Warning!</strong> You need to sign in to create a match");
+            redirectAttributes.addFlashAttribute("alertCss", "alert alert-warning");
+            return "redirect:/login";
+        }
+        if (playerMatchDao.findByPlayerIdAndMatchId(loggedInPlayer.getId(), matchId) != null) {
+            redirectAttributes.addFlashAttribute("alert", "<strong>Warning!</strong> You already joined the match");
+            redirectAttributes.addFlashAttribute("alertCss", "alert alert-warning");
+            return "redirect:/match/info/" + matchId;
+        }
+        Match match = new Match();
+        match.setId(matchId); // Set Id only because Id is reference to playerMatch.player.
+        PlayerMatch playerMatch = new PlayerMatch();
+        playerMatch.setPlayer(loggedInPlayer);
+        playerMatch.setMatch(match);
+        playerMatchDao.save(playerMatch);
+        redirectAttributes.addFlashAttribute("alert", "<strong>Success!</strong> You've joined the match");
+        redirectAttributes.addFlashAttribute("alertCss", "alert alert-success");
+        return "redirect:/match/info/" + matchId;
+    }
+
+    @RequestMapping(value = "matchup/{matchId}")
+    public String matchup(Model model, @PathVariable(value = "matchId") String matchId) {
+        teamMatchingService.matchUp(matchId);
+        return "forward:/match/info/" + matchId;
     }
 
     /**
@@ -257,6 +263,10 @@ public class MatchController {
         return playerRating;
     }
 
+    /**
+     * This method will be use in match/info page.
+     * When user change player team, Request will be send to this method to update player team.
+     */
     @RequestMapping(value = "rest/playerchangeteam", method = RequestMethod.POST)
     public @ResponseBody PlayerMatchDisplay restPlayerChangeTeam(@RequestParam String playerId,
                                                                  @RequestParam String matchId,
