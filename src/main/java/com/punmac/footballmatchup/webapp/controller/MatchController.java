@@ -37,6 +37,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -121,11 +122,6 @@ public class MatchController {
             } else if(pm.getTeam() == 2) { // Player is in team-b
                 joinedPlayerTeamBDisplayList.add(joinedPlayerDisplay);
             }
-        }
-        if (playerMatchList.size() > 0) {
-            double teamA = teamMatchingService.teamAWinningPercentage(matchId);
-            model.addAttribute("teamAPercentage",  toStringPercentage(teamA));
-            model.addAttribute("teamBPercentage", toStringPercentage(100 - teamA));
         }
         model.addAttribute("match", match);
         model.addAttribute("joinedPlayerDisplayList", joinedPlayerDisplayList);
@@ -256,6 +252,12 @@ public class MatchController {
         if(!"".equals(playerRatingId)) { // When edit rating, playerRatingId will not be "".
             playerRating.setId(playerRatingId);
         }
+        // Just to make sure score can not be more than 5 and less than 0
+        if (score > 5) {
+            score = 5;
+        } else if (score < 0) {
+            score = 0;
+        }
         playerRating.setRating(score);
         playerRating.setPlayer(player);
         playerRating.setMatch(match);
@@ -274,8 +276,7 @@ public class MatchController {
                                                                  @RequestParam String matchId,
                                                                  @RequestParam(required = false) String playerMatchId,
                                                                  @RequestParam String team) {
-        Match match = new Match();
-        match.setId(matchId);
+        Match match = matchDao.findById(matchId);
         Player player = new Player();
         player.setId(playerId);
         PlayerMatch playerMatch = new PlayerMatch();
@@ -294,11 +295,14 @@ public class MatchController {
         playerMatch.setPlayer(player);
         log.debug("Changing player team, PlayerMatch = {}", playerMatch);
         playerMatchDao.save(playerMatch);
-        double teamA = teamMatchingService.teamAWinningPercentage(matchId);
         PlayerMatchDisplay playerMatchDisplay = new PlayerMatchDisplay();
         playerMatchDisplay.setPlayerMatch(playerMatch);
-        playerMatchDisplay.setTeamAPercentage(toStringPercentage(teamA));
-        playerMatchDisplay.setTeamBPercentage(toStringPercentage(100 - teamA));
+
+        // Update winning percentage
+        match.setTeamAWinning(teamMatchingService.teamWinningPercentage(matchId,1));
+        match.setTeamBWinning(teamMatchingService.teamWinningPercentage(matchId,2));
+        matchDao.save(match);
+
         return playerMatchDisplay;
     }
 
@@ -329,14 +333,6 @@ public class MatchController {
             matchCardDisplayList.add(matchCardDisplay);
         }
         model.addAttribute("matchCardDisplayList", matchCardDisplayList);
-    }
-
-    private String toStringPercentage(double percentage) {
-        return "";
-//        int decimalPlaces = 2;
-//        BigDecimal t1 = new BigDecimal(percentage);
-//        t1 = t1.setScale(decimalPlaces, BigDecimal.ROUND_HALF_UP);
-//        return t1.toString()+"%";
     }
 
     @InitBinder

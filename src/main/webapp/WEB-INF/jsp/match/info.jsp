@@ -63,7 +63,7 @@
 
     <!-- Player Column Header -->
     <div class="row">
-        <div class="span4 pagination-centered"><h3>Team A (${match.teamAScore}) <span id="teamAPercentage">${teamAPercentage}</span></h3></div>
+        <div class="span4 pagination-centered"><h3>Team A (${match.teamAScore}) <span id="teamAPercentage">${match.teamAWinning}</span></h3></div>
         <div class="span4 pagination-centered">
             <c:if test="${!past}">
                  <a href="<spring:url value='/match/matchup/${match.id}' />" class="btn btn-danger matchup_button">
@@ -71,7 +71,7 @@
                 </a>
             </c:if>
         </div>
-        <div class="span4 pagination-centered"><h3><span id="teamBPercentage">${teamBPercentage}</span> (${match.teamBScore}) Team B</h3></div>
+        <div class="span4 pagination-centered"><h3><span id="teamBPercentage">${match.teamBWinning}</span> (${match.teamBScore}) Team B</h3></div>
     </div>
 
     <!-- Spacer -->
@@ -85,9 +85,9 @@
             <c:forEach items="${joinedPlayerTeamADisplayList}" var="joinedPlayer">
                 <div class="playercard bg_lightyellow pagination-centered">
                         ${joinedPlayer.player.username}
-                        <%--<c:if test="${past && loggedInPlayer.id != joinedPlayer.player.id}">--%>
+                        <c:if test="${past && loggedInPlayer.id != joinedPlayer.player.id}">
                             <span class="star" id="${joinedPlayer.player.id}_${joinedPlayer.match.id}_${joinedPlayer.playerRating.id}_${joinedPlayer.playerMatch.id}" data-score="${joinedPlayer.playerRating.rating}"></span>
-                        <%--</c:if>--%>
+                        </c:if>
                 </div>
             </c:forEach>
         </div>
@@ -95,9 +95,9 @@
             <c:forEach items="${joinedPlayerDisplayList}" var="joinedPlayer">
                 <div class="playercard bg_lightyellow pagination-centered">
                         ${joinedPlayer.player.username}
-                        <%--<c:if test="${past && loggedInPlayer.id != joinedPlayer.player.id}">--%>
+                        <c:if test="${past && loggedInPlayer.id != joinedPlayer.player.id}">
                             <span class="star" id="${joinedPlayer.player.id}_${joinedPlayer.match.id}_${joinedPlayer.playerRating.id}_${joinedPlayer.playerMatch.id}" data-score="${joinedPlayer.playerRating.rating}"></span>
-                        <%--</c:if>--%>
+                        </c:if>
                 </div>
             </c:forEach>
         </div>
@@ -105,9 +105,9 @@
             <c:forEach items="${joinedPlayerTeamBDisplayList}" var="joinedPlayer">
                 <div class="playercard bg_lightyellow pagination-centered">
                         ${joinedPlayer.player.username}
-                        <%--<c:if test="${past && loggedInPlayer.id != joinedPlayer.player.id}">--%>
+                        <c:if test="${past && loggedInPlayer.id != joinedPlayer.player.id}">
                             <span class="star" id="${joinedPlayer.player.id}_${joinedPlayer.match.id}_${joinedPlayer.playerRating.id}_${joinedPlayer.playerMatch.id}" data-score="${joinedPlayer.playerRating.rating}"></span>
-                        <%--</c:if>--%>
+                        </c:if>
                 </div>
             </c:forEach>
         </div>

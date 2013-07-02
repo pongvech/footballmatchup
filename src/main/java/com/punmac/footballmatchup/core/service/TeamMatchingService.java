@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -31,11 +32,11 @@ public class TeamMatchingService {
     @Autowired
     private RatingService ratingService;
 
-    public double matchUp(String matchId) {
+    public boolean matchUp(String matchId) {
         Match match = matchDao.findById(matchId);
         if (match == null) {
             log.error("MatchID {} not found", matchId);
-            return 0;
+            return false;
         }
         List<PlayerRating> playerRatingList = new ArrayList<>();
         List<PlayerMatch> playerMatchList = playerMatchDao.findAllPlayerInMatch(match.getId());
@@ -58,10 +59,14 @@ public class TeamMatchingService {
                 teamA = true;
             }
         }
-        return teamAWinningPercentage(matchId);
+        // Update winning percentage
+        match.setTeamAWinning(teamWinningPercentage(matchId,1));
+        match.setTeamBWinning(teamWinningPercentage(matchId,2));
+        matchDao.save(match);
+        return true;
     }
 
-    public double teamAWinningPercentage(String matchId) {
+    public String teamWinningPercentage(String matchId, int team) {
         double rateA = 0.0;
         double rateB = 0.0;
         for (PlayerMatch playerMatch : playerMatchDao.findAllPlayerInMatch(matchId)) {
@@ -72,11 +77,26 @@ public class TeamMatchingService {
             }
         }
         if(rateA == 0.0 && rateB == 0.0) {
-            return 0.0;
+            return "";
         }
-        double teamAWinningPercentage = (rateA / (rateA+rateB)) * 100;
-        log.debug("Team A {} {} Team B ", teamAWinningPercentage, 100 - teamAWinningPercentage);
-        return  teamAWinningPercentage;
+        double teamAWinningPercentage;
+        double teamBWinningPercentage;
+        teamAWinningPercentage = (rateA / (rateA+rateB)) * 100;
+        teamBWinningPercentage = (rateB / (rateA+rateB)) * 100;
+        log.debug("Team A {} {} Team B ", teamAWinningPercentage, teamBWinningPercentage);
+        if (team == 1) {
+            return toStringPercentage(teamAWinningPercentage);
+        } else  if (team == 2) {
+            return toStringPercentage(teamBWinningPercentage);
+        }
+        return  "";
+    }
+
+    private String toStringPercentage(double percentage) {
+        int decimalPlaces = 2;
+        BigDecimal t1 = new BigDecimal(percentage);
+        t1 = t1.setScale(decimalPlaces, BigDecimal.ROUND_HALF_UP);
+        return t1.toString()+"%";
     }
 
     private class RatingComparator implements Comparator<PlayerRating> {

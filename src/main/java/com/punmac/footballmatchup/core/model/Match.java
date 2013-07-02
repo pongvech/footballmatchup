@@ -15,6 +15,8 @@ public class Match {
     private Player creator;
     private int teamAScore = 0;
     private int teamBScore = 0;
+    private String teamAWinning = "";
+    private String teamBWinning = "";
 
     public String getId() {
         return id;
@@ -88,6 +90,22 @@ public class Match {
         this.teamBScore = teamBScore;
     }
 
+    public String getTeamAWinning() {
+        return teamAWinning;
+    }
+
+    public void setTeamAWinning(String teamAWinning) {
+        this.teamAWinning = teamAWinning;
+    }
+
+    public String getTeamBWinning() {
+        return teamBWinning;
+    }
+
+    public void setTeamBWinning(String teamBWinning) {
+        this.teamBWinning = teamBWinning;
+    }
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("Match{");
@@ -100,6 +118,8 @@ public class Match {
         sb.append(", creator=").append(creator);
         sb.append(", teamAScore=").append(teamAScore);
         sb.append(", teamBScore=").append(teamBScore);
+        sb.append(", teamAWinning='").append(teamAWinning).append('\'');
+        sb.append(", teamBWinning='").append(teamBWinning).append('\'');
         sb.append('}');
         return sb.toString();
     }

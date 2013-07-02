@@ -32,7 +32,9 @@ public class RatingService {
             log.debug("Player {} Match {} Rating {} ", matchRating.getPlayer().getEmail(), matchRating.getMatch().getName(), matchRating.getRating());
             totalRating += matchRating.getRating();
         }
-        log.debug("Total Rating for playerID {} = {}",playerId, totalRating);
+        if (overallRatingList.size() == 0) {
+            return 0;
+        }
         double averagedRating = totalRating/overallRatingList.size();
         log.debug("Averaged : {} ",averagedRating);
         return averagedRating;
