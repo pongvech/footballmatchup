@@ -79,8 +79,13 @@ public class MatchController {
     }
 
     @RequestMapping(value = "info/{matchId}")
-    public String info(Model model, HttpServletRequest request, @PathVariable String matchId) {
+    public String info(Model model, RedirectAttributes redirectAttributes, HttpServletRequest request, @PathVariable String matchId) {
         Player loggedInPlayer = CookieSessionUtil.getLoggedInPlayer(request);
+        if (loggedInPlayer == null) {
+            redirectAttributes.addFlashAttribute("alert", "<strong>Warning!</strong> You need to sign in to see match details");
+            redirectAttributes.addFlashAttribute("alertCss", "alert alert-warning");
+            return "redirect:/login";
+        }
         Match match = matchDao.findById(matchId);
         if (loggedInPlayer != null) {
             // Check whether loggedInPlayer already join this match or not.
