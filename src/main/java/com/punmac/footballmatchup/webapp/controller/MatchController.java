@@ -243,9 +243,11 @@ public class MatchController {
      * When give rating, Request will be send to this method to give rating score to player.
      */
     @RequestMapping(value = "rest/giverating", method = RequestMethod.POST)
-    public @ResponseBody PlayerRating restGiveRating(HttpServletRequest request, @RequestParam int score,
-                                 @RequestParam String playerRatingId, @RequestParam String playerId,
-                                 @RequestParam String matchId) {
+    public @ResponseBody PlayerRating restGiveRating(HttpServletRequest request,
+                                                     @RequestParam int score,
+                                                     @RequestParam(required = false) String playerRatingId,
+                                                     @RequestParam String playerId,
+                                                     @RequestParam String matchId) {
         Player player = new Player();
         player.setId(playerId);
         Match match = new Match();
@@ -270,7 +272,7 @@ public class MatchController {
     @RequestMapping(value = "rest/playerchangeteam", method = RequestMethod.POST)
     public @ResponseBody PlayerMatchDisplay restPlayerChangeTeam(@RequestParam String playerId,
                                                                  @RequestParam String matchId,
-                                                                 @RequestParam String playerMatchId,
+                                                                 @RequestParam(required = false) String playerMatchId,
                                                                  @RequestParam String team) {
         Match match = new Match();
         match.setId(matchId);

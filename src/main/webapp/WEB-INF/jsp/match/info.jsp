@@ -127,7 +127,7 @@
             path: '<spring:url value='/assets/js/raty/img/' />',
             click: function(score, evt) {
                 var splitStarId = $(this).attr('id').split("_");
-                console.log("splitStarId = " + splitStarId);
+                console.log("splitStarId = " + splitStarId[0] + " | " + splitStarId[1] + " | " + splitStarId[2]);
                 var playerId = splitStarId[0];
                 var matchId = splitStarId[1];
                 var playerRatingId = splitStarId[2];
@@ -137,7 +137,7 @@
                     "matchId": matchId,
                     "playerRatingId": playerRatingId
                 }, function(data) {
-                    log.debug(data);
+                    console.debug(data);
                     // First time loggedInPlayer give rating, joinedPlayer.playerRating.id is "".
                     // When loggedInPlayer change rating it will save a new document to db.
                     if(playerRatingId == "") {
