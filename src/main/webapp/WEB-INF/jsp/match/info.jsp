@@ -127,7 +127,6 @@
             path: '<spring:url value='/assets/js/raty/img/' />',
             click: function(score, evt) {
                 var splitStarId = $(this).attr('id').split("_");
-                console.log("splitStarId = " + splitStarId[0] + " | " + splitStarId[1] + " | " + splitStarId[2]);
                 var playerId = splitStarId[0];
                 var matchId = splitStarId[1];
                 var playerRatingId = splitStarId[2];
@@ -137,7 +136,6 @@
                     "matchId": matchId,
                     "playerRatingId": playerRatingId
                 }, function(data) {
-                    console.debug(data);
                     // First time loggedInPlayer give rating, joinedPlayer.playerRating.id is "".
                     // When loggedInPlayer change rating it will save a new document to db.
                     if(playerRatingId == "") {
@@ -158,14 +156,12 @@
                 var playerId = splitStarId[0];
                 var matchId = splitStarId[1];
                 var playerMatchId = splitStarId[3];
-                console.log("playerMatchId = " + playerMatchId);
                 $.post("<spring:url value='/match/rest/playerchangeteam' />", {
                     "playerId": playerId,
                     "matchId": matchId,
                     "playerMatchId": playerMatchId,
                     "team": team
                 },function(data) {
-                    console.log(data);
                     if(playerMatchId == "") {
                         ui.item.children(".star").attr("id", ui.item.children(".star").attr("id") + data.playerMatch.id)
                     }
