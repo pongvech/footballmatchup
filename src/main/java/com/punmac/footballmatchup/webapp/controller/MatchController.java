@@ -39,7 +39,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -234,7 +233,7 @@ public class MatchController {
     @RequestMapping(value = "matchup/{matchId}")
     public String matchup(Model model, @PathVariable(value = "matchId") String matchId) {
         teamMatchingService.matchUp(matchId);
-        return "forward:/match/info/" + matchId;
+        return "redirect:/match/info/" + matchId;
     }
 
     /**
