@@ -2,6 +2,7 @@ package com.punmac.footballmatchup.webapp.controller;
 
 import com.punmac.footballmatchup.config.FootballMatchUpProperties;
 import com.punmac.footballmatchup.core.dao.MatchDao;
+import com.punmac.footballmatchup.core.dao.PlayerDao;
 import com.punmac.footballmatchup.core.dao.PlayerMatchDao;
 import com.punmac.footballmatchup.core.dao.PlayerRatingDao;
 import com.punmac.footballmatchup.core.model.Match;
@@ -37,6 +38,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -55,6 +57,9 @@ public class MatchController {
 
     @Autowired
     private PlayerMatchDao playerMatchDao;
+
+    @Autowired
+    private PlayerDao playerDao;
 
     @Autowired
     private PlayerRatingDao playerRatingDao;
@@ -79,9 +84,15 @@ public class MatchController {
     }
 
     @RequestMapping(value = "info/{matchId}")
-    public String info(Model model, RedirectAttributes redirectAttributes, HttpServletRequest request, @PathVariable String matchId) {
+    public String info(Model model, RedirectAttributes redirectAttributes, HttpServletRequest request, HttpServletResponse response, @PathVariable String matchId) {
         Player loggedInPlayer = CookieSessionUtil.getLoggedInPlayer(request);
         if (loggedInPlayer == null) {
+            redirectAttributes.addFlashAttribute("alert", "<strong>Warning!</strong> You need to sign in to see match details");
+            redirectAttributes.addFlashAttribute("alertCss", "alert alert-warning");
+            return "redirect:/login";
+        }
+        if (playerDao.findById(loggedInPlayer.getId()) == null) {
+            CookieSessionUtil.deleteLoggedInPlayer(request, response);
             redirectAttributes.addFlashAttribute("alert", "<strong>Warning!</strong> You need to sign in to see match details");
             redirectAttributes.addFlashAttribute("alertCss", "alert alert-warning");
             return "redirect:/login";

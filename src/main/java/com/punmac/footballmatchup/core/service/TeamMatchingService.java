@@ -41,6 +41,9 @@ public class TeamMatchingService {
         List<PlayerRating> playerRatingList = new ArrayList<>();
         List<PlayerMatch> playerMatchList = playerMatchDao.findAllPlayerInMatch(match.getId());
         for (PlayerMatch playerMatch : playerMatchList) {
+            if (playerMatch.getPlayer() == null) {
+                continue;
+            }
             PlayerRating playerRating = new PlayerRating();
             playerRating.setPlayerMatch(playerMatch);
             playerRating.setAverageRating(ratingService.retrieveAverageRatingByPlayerId(playerMatch.getPlayer().getId()));
