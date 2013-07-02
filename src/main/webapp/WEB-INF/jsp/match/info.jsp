@@ -147,14 +147,11 @@
                 var playerId = splitStarId[0];
                 var matchId = splitStarId[1];
                 var playerRatingId = splitStarId[2];
-                if (playerRatingId == '') {
-                    playerRatingId = '0';
-                }
                 $.post("<spring:url value='/match/rest/giverating' />", {
                     "score": score,
+                    "playerRatingId": playerRatingId,
                     "playerId": playerId,
-                    "matchId": matchId,
-                    "playerRatingId": playerRatingId
+                    "matchId": matchId
                 }, function(data) {
                     // First time loggedInPlayer give rating, joinedPlayer.playerRating.id is "".
                     // When loggedInPlayer change rating it will save a new document to db.

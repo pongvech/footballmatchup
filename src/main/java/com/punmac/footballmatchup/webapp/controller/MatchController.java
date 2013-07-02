@@ -264,7 +264,7 @@ public class MatchController {
         Match match = new Match();
         match.setId(matchId);
         PlayerRating playerRating = new PlayerRating();
-        if(!playerRatingId.equals("0")) { // When edit rating, playerRatingId will not be "".
+        if(!"".equals(playerRatingId)) { // When edit rating, playerRatingId will not be "".
             playerRating.setId(playerRatingId);
         }
         // Just to make sure score can not be more than 5 and less than 0
