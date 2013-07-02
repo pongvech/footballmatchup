@@ -303,6 +303,9 @@ public class MatchController {
         match.setTeamBWinning(teamMatchingService.teamWinningPercentage(matchId,2));
         matchDao.save(match);
 
+        playerMatchDisplay.setTeamAPercentage(match.getTeamAWinning());
+        playerMatchDisplay.setTeamBPercentage(match.getTeamBWinning());
+
         return playerMatchDisplay;
     }
 
