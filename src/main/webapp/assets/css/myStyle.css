@@ -48,6 +48,8 @@ padding:7px;
 margin:7px
 }
 
+.hidden {visibility:hidden;}
+
 .teambox {
     border-radius: 7px;
     -webkit-border-radius: 7px;
