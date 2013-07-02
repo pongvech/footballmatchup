@@ -85,7 +85,7 @@
             <c:forEach items="${joinedPlayerTeamADisplayList}" var="joinedPlayer">
                 <div class="playercard bg_lightyellow pagination-centered">
                         ${joinedPlayer.player.username}
-                        <c:if test="${past && loggedInPlayer.id != joinedPlayer.player.id}">
+                        <c:if test="${loggedInPlayer != null && past && loggedInPlayer.id != joinedPlayer.player.id}">
                             <span class="star" id="${joinedPlayer.player.id}_${joinedPlayer.match.id}_${joinedPlayer.playerRating.id}_${joinedPlayer.playerMatch.id}" data-score="${joinedPlayer.playerRating.rating}"></span>
                         </c:if>
                 </div>
@@ -95,7 +95,7 @@
             <c:forEach items="${joinedPlayerDisplayList}" var="joinedPlayer">
                 <div class="playercard bg_lightyellow pagination-centered">
                         ${joinedPlayer.player.username}
-                        <c:if test="${past && loggedInPlayer.id != joinedPlayer.player.id}">
+                        <c:if test="${loggedInPlayer != null && past && loggedInPlayer.id != joinedPlayer.player.id}">
                             <span class="star" id="${joinedPlayer.player.id}_${joinedPlayer.match.id}_${joinedPlayer.playerRating.id}_${joinedPlayer.playerMatch.id}" data-score="${joinedPlayer.playerRating.rating}"></span>
                         </c:if>
                 </div>
@@ -105,7 +105,7 @@
             <c:forEach items="${joinedPlayerTeamBDisplayList}" var="joinedPlayer">
                 <div class="playercard bg_lightyellow pagination-centered">
                         ${joinedPlayer.player.username}
-                        <c:if test="${past && loggedInPlayer.id != joinedPlayer.player.id}">
+                        <c:if test="${loggedInPlayer != null && past && loggedInPlayer.id != joinedPlayer.player.id}">
                             <span class="star" id="${joinedPlayer.player.id}_${joinedPlayer.match.id}_${joinedPlayer.playerRating.id}_${joinedPlayer.playerMatch.id}" data-score="${joinedPlayer.playerRating.rating}"></span>
                         </c:if>
                 </div>
@@ -130,6 +130,9 @@
                 var playerId = splitStarId[0];
                 var matchId = splitStarId[1];
                 var playerRatingId = splitStarId[2];
+                if (playerRatingId == '') {
+                    playerRatingId = '0';
+                }
                 $.post("<spring:url value='/match/rest/giverating' />", {
                     "score": score,
                     "playerId": playerId,
