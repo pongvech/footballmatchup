@@ -232,7 +232,15 @@ public class MatchController {
     }
 
     @RequestMapping(value = "matchup/{matchId}")
-    public String matchup(Model model, @PathVariable(value = "matchId") String matchId) {
+    public String matchup(HttpServletRequest request, HttpServletResponse response,
+                          RedirectAttributes redirectAttributes, @PathVariable(value = "matchId") String matchId) {
+        Player loggedInPlayer = CookieSessionUtil.getLoggedInPlayer(request);
+        if (loggedInPlayer == null || playerDao.findById(loggedInPlayer.getId()) == null) {
+            CookieSessionUtil.deleteLoggedInPlayer(request, response);
+            redirectAttributes.addFlashAttribute("alert", "<strong>Warning!</strong> You need to sign in to match up");
+            redirectAttributes.addFlashAttribute("alertCss", "alert alert-warning");
+            return "redirect:/login";
+        }
         teamMatchingService.matchUp(matchId);
         return "redirect:/match/info/" + matchId;
     }
