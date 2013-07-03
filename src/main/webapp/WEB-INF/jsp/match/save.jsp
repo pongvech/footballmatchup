@@ -31,7 +31,12 @@
         <div class="control-group">
             <label class="control-label">Play time</label>
             <div class="controls">
-                <form:input path="playTime" placeholder="Play time" cssClass="span3" />
+                <span class="datetimepicker input-append date">
+                    <form:input path="playTime" placeholder="Play time" cssClass="span3" data-format="dd/MM/yyyy hh:mm" />
+                    <span class="add-on">
+                        <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+                    </span>
+                </span>
                 <form:errors path="playTime" cssClass="text-error" />
             </div>
         </div>
@@ -61,3 +66,10 @@
         </div>
     </form:form>
 </div>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('.datetimepicker').datetimepicker({
+            language: 'pt-BR'
+        });
+    });
+</script>
