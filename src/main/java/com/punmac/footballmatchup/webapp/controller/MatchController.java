@@ -265,7 +265,6 @@ public class MatchController {
     @RequestMapping(value = "rest/giverating", method = RequestMethod.POST)
     public @ResponseBody PlayerRating restGiveRating(HttpServletRequest request,
                                                      @RequestParam int score,
-                                                     @RequestParam(required = false) String playerRatingId,
                                                      @RequestParam String playerId,
                                                      @RequestParam String matchId) {
         Player player = new Player();
@@ -273,8 +272,8 @@ public class MatchController {
         Match match = new Match();
         match.setId(matchId);
         PlayerRating playerRating = new PlayerRating();
-        if(!"".equals(playerRatingId)) { // When edit rating, playerRatingId will not be "".
-            playerRating.setId(playerRatingId);
+        if(!"".equals(request.getParameter("playerRatingId"))) { // When edit rating, playerRatingId will not be "".
+            playerRating.setId(request.getParameter("playerRatingId"));
         }
         // Just to make sure score can not be more than 5 and less than 0
         if (score > 5) {
@@ -298,7 +297,7 @@ public class MatchController {
     @RequestMapping(value = "rest/playerchangeteam", method = RequestMethod.POST)
     public @ResponseBody PlayerMatchDisplay restPlayerChangeTeam(@RequestParam String playerId,
                                                                  @RequestParam String matchId,
-                                                                 @RequestParam(required = false) String playerMatchId,
+                                                                 @RequestParam String playerMatchId,
                                                                  @RequestParam String team) {
         Match match = matchDao.findById(matchId);
         Player player = new Player();
