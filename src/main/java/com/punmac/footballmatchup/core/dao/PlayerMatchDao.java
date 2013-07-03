@@ -41,4 +41,8 @@ public class PlayerMatchDao {
     public void deleteById(String id) {
         mongoTemplate.remove(query(where("_id").is(id)), PlayerMatch.class);
     }
+
+    public void deleteByPlayerIdAndMatchId(String playerId, String matchId) {
+        mongoTemplate.remove(query(where("player.$id").is(new ObjectId(playerId)).and("match.$id").is(new ObjectId(matchId))), PlayerMatch.class);
+    }
 }

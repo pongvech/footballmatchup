@@ -17,6 +17,11 @@
                     Join
                 </a>
             </c:if>
+            <c:if test="${playerMatch != null && !past}">
+                <a href="<spring:url value='/match/unjoin/${match.id}' />" class="btn">
+                    UnJoin
+                </a>
+            </c:if>
             <c:if test="${match.creator.id == loggedInPlayer.id}">
                 <a href="<spring:url value='/match/edit/${match.id}' />" class="btn">
                     Edit

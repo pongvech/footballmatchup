@@ -98,7 +98,7 @@ public class MatchController {
             // Check whether loggedInPlayer already join this match or not.
             PlayerMatch playerMatch = playerMatchDao.findByPlayerIdAndMatchId(loggedInPlayer.getId(), matchId);
             if(playerMatch != null) { // Player already join this match. Only for disable join button
-                log.debug("Player (username = {}) already join this match (id = {})", loggedInPlayer.getUsername(), matchId);
+                log.debug("Player (username = {}) has joined this match (id = {})", loggedInPlayer.getUsername(), matchId);
                 model.addAttribute("playerMatch", playerMatch);
             }
             if (match.getCreator() != null && match.getCreator().getId().equals(loggedInPlayer.getId())) {
@@ -206,12 +206,12 @@ public class MatchController {
 
     @RequestMapping(value = "join/{matchId}")
     public String join(HttpServletRequest request, HttpServletResponse response,
-                       @PathVariable(value = "matchId") String matchId, RedirectAttributes redirectAttributes) {
+                       @PathVariable String matchId, RedirectAttributes redirectAttributes) {
         Player loggedInPlayer = CookieSessionUtil.getLoggedInPlayer(request);
         log.debug("Player {} is joining Match {}", loggedInPlayer.getUsername(), matchId);
         if (loggedInPlayer == null || playerDao.findById(loggedInPlayer.getId()) == null) {
             CookieSessionUtil.deleteLoggedInPlayer(request, response);
-            redirectAttributes.addFlashAttribute("alert", "<strong>Warning!</strong> You need to sign in to create a match");
+            redirectAttributes.addFlashAttribute("alert", "<strong>Warning!</strong> You need to sign in to join a match");
             redirectAttributes.addFlashAttribute("alertCss", "alert alert-warning");
             return "redirect:/login";
         }
@@ -228,6 +228,21 @@ public class MatchController {
         playerMatchDao.save(playerMatch);
         redirectAttributes.addFlashAttribute("alert", "<strong>Success!</strong> You've joined the match");
         redirectAttributes.addFlashAttribute("alertCss", "alert alert-success");
+        return "redirect:/match/info/" + matchId;
+    }
+
+    @RequestMapping(value = "unjoin/{matchId}")
+    public String unJoin(HttpServletRequest request, HttpServletResponse response,
+                         @PathVariable String matchId, RedirectAttributes redirectAttributes) {
+        Player loggedInPlayer = CookieSessionUtil.getLoggedInPlayer(request);
+        log.debug("Player {} is un-joining Match {}", loggedInPlayer.getUsername(), matchId);
+        if (loggedInPlayer == null || playerDao.findById(loggedInPlayer.getId()) == null) {
+            CookieSessionUtil.deleteLoggedInPlayer(request, response);
+            redirectAttributes.addFlashAttribute("alert", "<strong>Warning!</strong> You need to sign in to un join a match");
+            redirectAttributes.addFlashAttribute("alertCss", "alert alert-warning");
+            return "redirect:/login";
+        }
+        playerMatchDao.deleteByPlayerIdAndMatchId(loggedInPlayer.getId(), matchId);
         return "redirect:/match/info/" + matchId;
     }
 
