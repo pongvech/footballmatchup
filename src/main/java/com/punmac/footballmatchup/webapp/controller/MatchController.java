@@ -83,14 +83,11 @@ public class MatchController {
     }
 
     @RequestMapping(value = "info/{matchId}")
-    public String info(Model model, RedirectAttributes redirectAttributes, HttpServletRequest request, HttpServletResponse response, @PathVariable String matchId) {
+    public String info(Model model, RedirectAttributes redirectAttributes, HttpServletRequest request,
+                       HttpServletResponse response, @PathVariable String matchId) {
         Player loggedInPlayer = CookieSessionUtil.getLoggedInPlayer(request);
-        if (loggedInPlayer == null) {
-            redirectAttributes.addFlashAttribute("alert", "<strong>Warning!</strong> You need to sign in to see match details");
-            redirectAttributes.addFlashAttribute("alertCss", "alert alert-warning");
-            return "redirect:/login";
-        }
-        if (playerDao.findById(loggedInPlayer.getId()) == null) {
+        // If user not logged in or player in cookie does not exist in db.
+        if (loggedInPlayer == null || playerDao.findById(loggedInPlayer.getId()) == null) {
             CookieSessionUtil.deleteLoggedInPlayer(request, response);
             redirectAttributes.addFlashAttribute("alert", "<strong>Warning!</strong> You need to sign in to see match details");
             redirectAttributes.addFlashAttribute("alertCss", "alert alert-warning");
@@ -149,9 +146,10 @@ public class MatchController {
 
     @RequestMapping(value = "create")
     public String create(Model model, RedirectAttributes redirectAttributes, HttpServletRequest request,
-                         @ModelAttribute Match match, BindingResult bindingResult) {
+                         HttpServletResponse response, @ModelAttribute Match match, BindingResult bindingResult) {
         Player loggedInPlayer = CookieSessionUtil.getLoggedInPlayer(request);
-        if (loggedInPlayer == null) {
+        if (loggedInPlayer == null || playerDao.findById(loggedInPlayer.getId()) == null) {
+            CookieSessionUtil.deleteLoggedInPlayer(request, response);
             redirectAttributes.addFlashAttribute("alert", "<strong>Warning!</strong> You need to sign in to create a match");
             redirectAttributes.addFlashAttribute("alertCss", "alert alert-warning");
             return "redirect:/login";
@@ -178,9 +176,11 @@ public class MatchController {
 
     @RequestMapping(value = "edit/{matchId}")
     public String edit(Model model, RedirectAttributes redirectAttributes, HttpServletRequest request,
-                       @PathVariable String matchId, @ModelAttribute Match match, BindingResult bindingResult) {
+                       HttpServletResponse response, @PathVariable String matchId,
+                       @ModelAttribute Match match, BindingResult bindingResult) {
         Player loggedInPlayer = CookieSessionUtil.getLoggedInPlayer(request);
-        if (loggedInPlayer == null) {
+        if (loggedInPlayer == null || playerDao.findById(loggedInPlayer.getId()) == null) {
+            CookieSessionUtil.deleteLoggedInPlayer(request, response);
             redirectAttributes.addFlashAttribute("alert", "<strong>Warning!</strong> You need to sign in to edit this match");
             redirectAttributes.addFlashAttribute("alertCss", "alert alert-warning");
             return "redirect:/login";
@@ -205,11 +205,12 @@ public class MatchController {
     }
 
     @RequestMapping(value = "join/{matchId}")
-    public String join(HttpServletRequest request, @PathVariable(value = "matchId") String matchId,
-                       RedirectAttributes redirectAttributes) {
+    public String join(HttpServletRequest request, HttpServletResponse response,
+                       @PathVariable(value = "matchId") String matchId, RedirectAttributes redirectAttributes) {
         Player loggedInPlayer = CookieSessionUtil.getLoggedInPlayer(request);
         log.debug("Player {} is joining Match {}", loggedInPlayer.getUsername(), matchId);
-        if (loggedInPlayer == null) {
+        if (loggedInPlayer == null || playerDao.findById(loggedInPlayer.getId()) == null) {
+            CookieSessionUtil.deleteLoggedInPlayer(request, response);
             redirectAttributes.addFlashAttribute("alert", "<strong>Warning!</strong> You need to sign in to create a match");
             redirectAttributes.addFlashAttribute("alertCss", "alert alert-warning");
             return "redirect:/login";

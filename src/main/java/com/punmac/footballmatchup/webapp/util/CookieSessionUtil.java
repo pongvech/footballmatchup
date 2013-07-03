@@ -101,6 +101,7 @@ public final class CookieSessionUtil {
         for(Cookie cookie : request.getCookies()) {
             if(name.equals(cookie.getName())) {
                 cookie.setMaxAge(0);
+                cookie.setPath("/");
                 response.addCookie(cookie);
             }
         }
