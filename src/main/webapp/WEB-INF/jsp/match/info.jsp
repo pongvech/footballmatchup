@@ -169,6 +169,7 @@
                 return $(this).attr('data-score');
             }
         });
+        <c:if test="${!past}">
         $(".teambox").sortable({
             connectWith: ".teambox",
             placeholder: "placeholder",
@@ -192,5 +193,6 @@
                 });
             }
         });
+        </c:if>
     });
 </script>
