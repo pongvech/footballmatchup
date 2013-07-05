@@ -6,6 +6,7 @@
     <head>
         <title>Football Match Up</title>
         <link rel="stylesheet" type="text/css" href="<spring:url value='/assets/css/bootstrap/css/bootstrap.min.css' />" />
+        <link rel="stylesheet" type="text/css" href="<spring:url value='/assets/css/bootstrap/css/bootstrap-responsive.css' />" />
         <link rel="stylesheet" type="text/css" href="<spring:url value='/assets/js/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css' />" />
         <link rel="stylesheet" type="text/css" href="<spring:url value='/assets/css/myStyle.css' />" />
         <script type="text/javascript" src="<spring:url value='/assets/js/jquery/jquery-2.0.2.min.js' />"></script>
@@ -13,8 +14,10 @@
         <script type="text/javascript" src="<spring:url value='/assets/css/bootstrap/js/bootstrap.min.js' />"></script>
         <script type="text/javascript" src="<spring:url value='/assets/js/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js' />"></script>
         <style>
+            @media (min-width: 980px) {
             body {
                 padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+            }
             }
         </style>
     </head>
@@ -23,21 +26,30 @@
         <div class="navbar navbar-inverse navbar-fixed-top">
             <div class="navbar-inner">
                 <div class="container">
+                    <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
                     <a class="brand" href="<spring:url value='/' />">FootballMatchUp!</a>
                     <c:choose>
                         <c:when test="${loggedInPlayer != null}">
-                            <div class="navbar-form pull-right">
-                                <a href="<spring:url value='/player/edit' />" class="btn btn"><i class="icon-user"></i> ${loggedInPlayer.username} </a>
-                                <a href="<spring:url value='/logout' />" class="btn btn-danger"><i class="icon-off"></i> Logout </a>
+                            <div class="nav-collapse collapse">
+                                <div class="navbar-form pull-right">
+                                    <a href="<spring:url value='/player/edit' />" class="btn btn"><i class="icon-user"></i> ${loggedInPlayer.username} </a>
+                                    <a href="<spring:url value='/logout' />" class="btn btn-danger"><i class="icon-off"></i> Logout </a>
+                                </div>
                             </div>
                         </c:when>
                         <c:otherwise>
-                            <form action="<spring:url value="/login" />" method="post" class="navbar-form pull-right">
-                                <input class="span2" type="text" name="emailOrUsername" placeholder="Email Or Username">
-                                <input class="span2" type="password" name="password" placeholder="Password">
-                                <button type="submit" class="btn btn-primary"><i class="icon-circle-arrow-right"></i> Sign in </button>
-                                <a class="btn btn-info" href="<spring:url value="/register" />"><i class="icon-book"></i> Register </a>
-                            </form>
+                            <div class="nav-collapse collapse">
+                                <form action="<spring:url value="/login" />" method="post" class="navbar-form pull-right">
+                                    <input class="span2" type="text" name="emailOrUsername" placeholder="Email Or Username">
+                                    <input class="span2" type="password" name="password" placeholder="Password">
+                                    <button type="submit" class="btn btn-primary"><i class="icon-circle-arrow-right"></i> Sign in </button>
+                                    <a class="btn btn-info" href="<spring:url value="/register" />"><i class="icon-book"></i> Register </a>
+                                </form>
+                            </div>
                         </c:otherwise>
                     </c:choose>
                 </div>
