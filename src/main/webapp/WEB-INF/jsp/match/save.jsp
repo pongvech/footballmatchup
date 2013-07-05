@@ -60,6 +60,8 @@
                     <form:hidden path="id" />
                     <form:hidden path="createdTime" />
                     <form:hidden path="creator.id" />
+                    <form:hidden path="teamAWinning" />
+                    <form:hidden path="teamBWinning" />
                 </c:if>
                 <input type="submit" value="${btnSubmitValue}" class="btn btn-success btn-block" />
             </div>
