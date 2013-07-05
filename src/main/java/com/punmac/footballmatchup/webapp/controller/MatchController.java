@@ -379,7 +379,7 @@ public class MatchController {
     @InitBinder
     private void binder(WebDataBinder binder) {
         binder.registerCustomEditor(DateTime.class, dateTimeTypeEditor);
-        binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
+        binder.registerCustomEditor(String.class, new StringTrimmerEditor(false));
         binder.registerCustomEditor(String.class, "detail", new HtmlEscapeEditor());
     }
 }
