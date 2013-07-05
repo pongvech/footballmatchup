@@ -113,8 +113,6 @@
                                 <span class="star hidden" id="${joinedPlayer.player.id}_${joinedPlayer.match.id}_${joinedPlayer.playerRating.id}_${joinedPlayer.playerMatch.id}" data-score="${joinedPlayer.playerRating.rating}"></span>
                             </c:otherwise>
                         </c:choose>
-
-
                 </div>
             </c:forEach>
         </div>
@@ -134,6 +132,18 @@
             </c:forEach>
         </div>
     </div>
+    <c:if test="${creator == true}">
+        <div class="row hidden" id="player-trash">
+            <div class="span12">
+                <i class="icon-trash"></i>
+            </div>
+            <div class="span12 teambox"></div>
+            <div class="span12">
+                <input type="button" class="btn pull-right" value="Delete" onclick="removePlayer()" />
+            </div>
+        </div>
+    </c:if>
+
 
     <!-- Spacer -->
     <div class="row">
@@ -173,26 +183,52 @@
         $(".teambox").sortable({
             connectWith: ".teambox",
             placeholder: "placeholder",
-            receive: function( event, ui ) {
-                var team = $(this).attr("id");
-                var splitStarId = ui.item.children(".star").attr("id").split("_");
-                var playerId = splitStarId[0];
-                var matchId = splitStarId[1];
-                var playerMatchId = splitStarId[3];
-                $.post("<spring:url value='/match/rest/playerchangeteam' />", {
-                    "playerId": playerId,
-                    "matchId": matchId,
-                    "playerMatchId": playerMatchId,
-                    "team": team
-                },function(data) {
-                    if(playerMatchId == "") {
-                        ui.item.children(".star").attr("id", ui.item.children(".star").attr("id") + data.playerMatch.id)
+            receive: function(event, ui) {
+                if($(this).parent().attr("id") == 'player-trash') {
+                    console.log($("#player-trash").children(".teambox").children(".playercard").length);
+                } else {
+                    if($("#player-trash").children(".teambox").children(".playercard").length == 0) {
+                        $("#player-trash").addClass("hidden");
                     }
-                    $("#teamAPercentage").html(data.teamAPercentage);
-                    $("#teamBPercentage").html(data.teamBPercentage);
-                });
+                    var team = $(this).attr("id");
+                    var splitStarId = ui.item.children(".star").attr("id").split("_");
+                    var playerId = splitStarId[0];
+                    var matchId = splitStarId[1];
+                    var playerMatchId = splitStarId[3];
+                    $.post("<spring:url value='/match/rest/playerchangeteam' />", {
+                        "playerId": playerId,
+                        "matchId": matchId,
+                        "playerMatchId": playerMatchId,
+                        "team": team
+                    },function(data) {
+                        if(playerMatchId == "") {
+                            ui.item.children(".star").attr("id", ui.item.children(".star").attr("id") + data.playerMatch.id)
+                        }
+                        $("#teamAPercentage").html(data.teamAPercentage);
+                        $("#teamBPercentage").html(data.teamBPercentage);
+                    });
+                }
+            },
+            score: function() {
+                return $(this).attr('data-score');
+            },
+            start: function(event, ui) {
+                $("#player-trash").removeClass("hidden");
             }
         });
         </c:if>
     });
+    function removePlayer() {
+        $("#player-trash").children(".teambox").children(".playercard").each(function() {
+            var splitStarId = $(this).children(".star").attr("id").split("_");
+            var playerId = splitStarId[0];
+            var matchId = splitStarId[1];
+            $.post("<spring:url value='/match/rest/removeplayer' />", {
+                "playerId": playerId,
+                "matchId": matchId
+            }, function() {
+                $("#player-trash").children(".teambox").children(".playercard").remove();
+            });
+        });
+    }
 </script>

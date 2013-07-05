@@ -50,6 +50,10 @@ margin:7px
 
 .hidden {visibility:hidden;}
 
+#player-trash {
+    margin-top: 10px;
+}
+
 .teambox {
     border-radius: 7px;
     -webkit-border-radius: 7px;
