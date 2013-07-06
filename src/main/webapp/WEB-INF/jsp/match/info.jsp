@@ -170,9 +170,7 @@
             connectWith: ".teambox",
             placeholder: "placeholder",
             receive: function(event, ui) {
-                if($(this).parent().attr("id") == 'player-trash') {
-                    // console.log($("#player-trash").children(".teambox").children(".playercard").length);
-                } else {
+                if($(this).parent().attr("id") != 'player-trash') {
                     if($("#player-trash").children(".teambox").children(".playercard").length == 0) {
                         $("#player-trash").addClass("hidden");
                     }
