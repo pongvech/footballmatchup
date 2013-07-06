@@ -81,54 +81,41 @@
     <div class="row">
         <div class="span12"> &nbsp; </div>
     </div>
-
      <!-- Player Section -->
      <div class="row">
         <div class="span4 teambox" id="team-a">
             <c:forEach items="${joinedPlayerTeamADisplayList}" var="joinedPlayer">
                 <div class="playercard bg_lightyellow pagination-centered">
-                        ${joinedPlayer.player.username}
-                        <c:choose>
-                            <c:when test="${loggedInPlayer != null && past && loggedInPlayer.id != joinedPlayer.player.id}">
-                                <span class="star" id="${joinedPlayer.player.id}_${joinedPlayer.match.id}_${joinedPlayer.playerRating.id}_${joinedPlayer.playerMatch.id}" data-score="${joinedPlayer.playerRating.rating}"></span>
-                            </c:when>
-                            <c:otherwise>
-                                <span class="star hidden" id="${joinedPlayer.player.id}_${joinedPlayer.match.id}_${joinedPlayer.playerRating.id}_${joinedPlayer.playerMatch.id}" data-score="${joinedPlayer.playerRating.rating}"></span>
-                            </c:otherwise>
-                        </c:choose>
+                    ${joinedPlayer.player.username}
+                    <c:if test="${loggedInPlayer == null || loggedInPlayer.id == joinedPlayer.player.id || !past}">
+                        <c:set var="hidden" value="hidden" />
+                    </c:if>
+                    <span class="star ${hidden}" id="${joinedPlayer.player.id}_${joinedPlayer.match.id}_${joinedPlayer.playerRating.id}_${joinedPlayer.playerMatch.id}" data-score="${joinedPlayer.playerRating.rating}"></span>
                 </div>
             </c:forEach>
         </div>
-        <div class="span4 teambox" id="team-non">
-            <c:forEach items="${joinedPlayerDisplayList}" var="joinedPlayer">
-                <div class="playercard bg_lightyellow pagination-centered">
-                        ${joinedPlayer.player.username}
-                        <c:choose>
-                            <c:when test="${loggedInPlayer != null && past && loggedInPlayer.id != joinedPlayer.player.id}">
-                                <span class="star" id="${joinedPlayer.player.id}_${joinedPlayer.match.id}_${joinedPlayer.playerRating.id}_${joinedPlayer.playerMatch.id}" data-score="${joinedPlayer.playerRating.rating}"></span>
-                            </c:when>
-                            <c:otherwise>
-                                <span class="star hidden" id="${joinedPlayer.player.id}_${joinedPlayer.match.id}_${joinedPlayer.playerRating.id}_${joinedPlayer.playerMatch.id}" data-score="${joinedPlayer.playerRating.rating}"></span>
-                            </c:otherwise>
-                        </c:choose>
-                </div>
-            </c:forEach>
-        </div>
-        <div class="span4 teambox" id="team-b">
-            <c:forEach items="${joinedPlayerTeamBDisplayList}" var="joinedPlayer">
-                <div class="playercard bg_lightyellow pagination-centered">
-                        ${joinedPlayer.player.username}
-                        <c:choose>
-                            <c:when test="${loggedInPlayer != null && past && loggedInPlayer.id != joinedPlayer.player.id}">
-                                <span class="star" id="${joinedPlayer.player.id}_${joinedPlayer.match.id}_${joinedPlayer.playerRating.id}_${joinedPlayer.playerMatch.id}" data-score="${joinedPlayer.playerRating.rating}"></span>
-                            </c:when>
-                            <c:otherwise>
-                                <span class="star hidden" id="${joinedPlayer.player.id}_${joinedPlayer.match.id}_${joinedPlayer.playerRating.id}_${joinedPlayer.playerMatch.id}" data-score="${joinedPlayer.playerRating.rating}"></span>
-                            </c:otherwise>
-                        </c:choose>
-                </div>
-            </c:forEach>
-        </div>
+         <div class="span4 teambox" id="team-non">
+             <c:forEach items="${joinedPlayerDisplayList}" var="joinedPlayer">
+                 <div class="playercard bg_lightyellow pagination-centered">
+                     ${joinedPlayer.player.username}
+                     <c:if test="${loggedInPlayer == null || loggedInPlayer.id == joinedPlayer.player.id || !past}">
+                         <c:set var="hidden" value="hidden" />
+                     </c:if>
+                     <span class="star ${hidden}" id="${joinedPlayer.player.id}_${joinedPlayer.match.id}_${joinedPlayer.playerRating.id}_${joinedPlayer.playerMatch.id}" data-score="${joinedPlayer.playerRating.rating}"></span>
+                 </div>
+             </c:forEach>
+         </div>
+         <div class="span4 teambox" id="team-b">
+             <c:forEach items="${joinedPlayerTeamBDisplayList}" var="joinedPlayer">
+                 <div class="playercard bg_lightyellow pagination-centered">
+                     ${joinedPlayer.player.username}
+                     <c:if test="${loggedInPlayer == null || loggedInPlayer.id == joinedPlayer.player.id || !past}">
+                         <c:set var="hidden" value="hidden" />
+                     </c:if>
+                     <span class="star ${hidden}" id="${joinedPlayer.player.id}_${joinedPlayer.match.id}_${joinedPlayer.playerRating.id}_${joinedPlayer.playerMatch.id}" data-score="${joinedPlayer.playerRating.rating}"></span>
+                 </div>
+             </c:forEach>
+         </div>
     </div>
 
     <c:if test="${creator == true}">
