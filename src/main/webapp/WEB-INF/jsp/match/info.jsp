@@ -139,7 +139,7 @@
             </div>
             <div class="span12 teambox"></div>
             <div class="span12">
-                <input type="button" class="btn pull-right" value="Delete" onclick="removePlayer()" />
+                <input type="button" class="btn pull-right" value="Delete" onclick="removePlayers()" />
             </div>
         </div>
     </c:if>
@@ -154,6 +154,7 @@
 
 <script type="text/javascript" src="<spring:url value='/assets/js/raty/jquery.raty.min.js' />"></script>
 <script type="text/javascript">
+    var matchId = "${match.id}";
     $(document).ready(function() {
         $('.star').raty({
             path: '<spring:url value='/assets/js/raty/img/' />',
@@ -185,7 +186,7 @@
             placeholder: "placeholder",
             receive: function(event, ui) {
                 if($(this).parent().attr("id") == 'player-trash') {
-                    console.log($("#player-trash").children(".teambox").children(".playercard").length);
+                    // console.log($("#player-trash").children(".teambox").children(".playercard").length);
                 } else {
                     if($("#player-trash").children(".teambox").children(".playercard").length == 0) {
                         $("#player-trash").addClass("hidden");
@@ -218,17 +219,20 @@
         });
         </c:if>
     });
-    function removePlayer() {
-        $("#player-trash").children(".teambox").children(".playercard").each(function() {
-            var splitStarId = $(this).children(".star").attr("id").split("_");
+    function removePlayers() {
+        var playerIdList = new Array();
+        var playerCards = $("#player-trash").children(".teambox").children(".playercard").children(".star");
+        for(var i=0; i<playerCards.length; i++) {
+            var splitStarId = $(playerCards[i]).attr("id").split("_");
             var playerId = splitStarId[0];
-            var matchId = splitStarId[1];
-            $.post("<spring:url value='/match/rest/removeplayer' />", {
-                "playerId": playerId,
-                "matchId": matchId
-            }, function() {
-                $("#player-trash").children(".teambox").children(".playercard").remove();
-            });
+            playerIdList.push(playerId);
+        }
+        $.post("<spring:url value='/match/rest/removeplayers' />", {
+            "playerIdList": playerIdList,
+            "matchId": matchId
+        }, function() {
+            $("#player-trash").children(".teambox").children(".playercard").remove();
+            $("#player-trash").addClass("hidden");
         });
     }
 </script>

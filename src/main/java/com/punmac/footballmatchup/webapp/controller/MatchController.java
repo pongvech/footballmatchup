@@ -262,26 +262,6 @@ public class MatchController {
 
     /**
      * This method will be used in match/home page.
-     * When move player to trash and click Delete, Request will be send to this method to remove player from the match.
-     */
-    @RequestMapping(value = "rest/removeplayer", method = RequestMethod.POST)
-    public @ResponseBody PlayerMatch restRemovePlayer(HttpServletRequest request,
-                                          @RequestParam String playerId,
-                                          @RequestParam String matchId) {
-        log.debug("Removing plater {} from the match {}", playerId, matchId);
-        playerMatchDao.deleteByPlayerIdAndMatchId(playerId, matchId);
-        Player player = new Player();
-        player.setId(playerId);
-        Match match = new Match();
-        match.setId(matchId);
-        PlayerMatch playerMatch = new PlayerMatch();
-        playerMatch.setPlayer(player);
-        playerMatch.setMatch(match);
-        return playerMatch;
-    }
-
-    /**
-     * This method will be used in match/home page.
      * When click on "Load More", Request will be send to this method to get more match and display in page.
      */
     @RequestMapping(value = "rest/include/loadmore", method = RequestMethod.POST)
@@ -365,6 +345,30 @@ public class MatchController {
         playerMatchDisplay.setTeamBPercentage(match.getTeamBWinning());
 
         return playerMatchDisplay;
+    }
+
+    /**
+     * This method will be used in match/home page.
+     * When move players to trash and click Delete, Request will be send to this method to remove players from the match.
+     */
+    @RequestMapping(value = "rest/removeplayers", method = RequestMethod.POST)
+    public @ResponseBody List<PlayerMatch> restRemovePlayers(HttpServletRequest request,
+                                                             @RequestParam(value = "playerIdList[]") List<String> playerIdList,
+                                                             @RequestParam String matchId) {
+        List<PlayerMatch> playerMatchList = new ArrayList<>();
+        for(String playerId : playerIdList) {
+            log.debug("Removing player {} from the match {}", playerId, matchId);
+            playerMatchDao.deleteByPlayerIdAndMatchId(playerId, matchId);
+            Player player = new Player();
+            player.setId(playerId);
+            Match match = new Match();
+            match.setId(matchId);
+            PlayerMatch playerMatch = new PlayerMatch();
+            playerMatch.setPlayer(player);
+            playerMatch.setMatch(match);
+            playerMatchList.add(playerMatch);
+        }
+        return playerMatchList;
     }
 
     private void loadMatch(Model model, HttpServletRequest request) {
