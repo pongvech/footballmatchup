@@ -68,6 +68,7 @@
         </div>
     </form:form>
 </div>
+<script type="text/javascript" src="<spring:url value='/assets/js/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js' />"></script>
 <script type="text/javascript">
     $(document).ready(function() {
         $('.datetimepicker').datetimepicker({

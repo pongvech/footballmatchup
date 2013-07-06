@@ -42,7 +42,6 @@
                     <span class="label label-success matchcard_playercount">Joined</span>
                 </c:if>
             </h2>
-
             <div>
                 Creator : ${match.creator.username}
             </div>
@@ -57,13 +56,12 @@
             <div>
                 Venue : ${match.place}
             </div>
-
         </div>
     </div>
 
     <!-- Spacer -->
-            <div class="row">
-                <div class="span12"> &nbsp; </div>
+    <div class="row">
+        <div class="span12"> &nbsp; </div>
     </div>
 
     <!-- Player Column Header -->
@@ -132,7 +130,9 @@
             </c:forEach>
         </div>
     </div>
+
     <c:if test="${creator == true}">
+        <!-- Player Trash -->
         <div class="row hidden" id="player-trash">
             <div class="span12">
                 <i class="icon-trash"></i>
@@ -144,14 +144,13 @@
         </div>
     </c:if>
 
-
     <!-- Spacer -->
     <div class="row">
         <div class="span12"> &nbsp; </div>
     </div>
-
 </div>
 
+<script type="text/javascript" src="<spring:url value='/assets/js/jquery-ui/js/jquery-ui-1.10.3.custom.min.js' />"></script>
 <script type="text/javascript" src="<spring:url value='/assets/js/raty/jquery.raty.min.js' />"></script>
 <script type="text/javascript">
     var matchId = "${match.id}";
