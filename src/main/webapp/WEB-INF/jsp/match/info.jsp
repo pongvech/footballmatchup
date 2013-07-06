@@ -90,7 +90,7 @@
                     <c:if test="${loggedInPlayer == null || loggedInPlayer.id == joinedPlayer.player.id || !past}">
                         <c:set var="hidden" value="hidden" />
                     </c:if>
-                    <span class="star ${hidden}" id="${joinedPlayer.player.id}_${joinedPlayer.match.id}_${joinedPlayer.playerRating.id}_${joinedPlayer.playerMatch.id}" data-score="${joinedPlayer.playerRating.rating}"></span>
+                    <span class="star ${hidden}" id="${joinedPlayer.player.id}_${joinedPlayer.playerRating.id}_${joinedPlayer.playerMatch.id}" data-score="${joinedPlayer.playerRating.rating}"></span>
                 </div>
             </c:forEach>
         </div>
@@ -101,7 +101,7 @@
                      <c:if test="${loggedInPlayer == null || loggedInPlayer.id == joinedPlayer.player.id || !past}">
                          <c:set var="hidden" value="hidden" />
                      </c:if>
-                     <span class="star ${hidden}" id="${joinedPlayer.player.id}_${joinedPlayer.match.id}_${joinedPlayer.playerRating.id}_${joinedPlayer.playerMatch.id}" data-score="${joinedPlayer.playerRating.rating}"></span>
+                     <span class="star ${hidden}" id="${joinedPlayer.player.id}_${joinedPlayer.playerRating.id}_${joinedPlayer.playerMatch.id}" data-score="${joinedPlayer.playerRating.rating}"></span>
                  </div>
              </c:forEach>
          </div>
@@ -112,7 +112,7 @@
                      <c:if test="${loggedInPlayer == null || loggedInPlayer.id == joinedPlayer.player.id || !past}">
                          <c:set var="hidden" value="hidden" />
                      </c:if>
-                     <span class="star ${hidden}" id="${joinedPlayer.player.id}_${joinedPlayer.match.id}_${joinedPlayer.playerRating.id}_${joinedPlayer.playerMatch.id}" data-score="${joinedPlayer.playerRating.rating}"></span>
+                     <span class="star ${hidden}" id="${joinedPlayer.player.id}_${joinedPlayer.playerRating.id}_${joinedPlayer.playerMatch.id}" data-score="${joinedPlayer.playerRating.rating}"></span>
                  </div>
              </c:forEach>
          </div>
@@ -147,8 +147,7 @@
             click: function(score, evt) {
                 var splitStarId = $(this).attr('id').split("_");
                 var playerId = splitStarId[0];
-                var matchId = splitStarId[1];
-                var playerRatingId = splitStarId[2];
+                var playerRatingId = splitStarId[1];
                 $.post("<spring:url value='/match/rest/giverating' />", {
                     "score": score,
                     "playerRatingId": playerRatingId,
@@ -180,8 +179,7 @@
                     var team = $(this).attr("id");
                     var splitStarId = ui.item.children(".star").attr("id").split("_");
                     var playerId = splitStarId[0];
-                    var matchId = splitStarId[1];
-                    var playerMatchId = splitStarId[3];
+                    var playerMatchId = splitStarId[2];
                     $.post("<spring:url value='/match/rest/playerchangeteam' />", {
                         "playerId": playerId,
                         "matchId": matchId,
