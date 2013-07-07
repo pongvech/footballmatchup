@@ -174,6 +174,7 @@
             placeholder: "placeholder",
             receive: function(event, ui) {
                 if($(this).parent().attr("id") != 'player-trash') {
+                    // Hide trash when there is no player in trash.
                     if($("#player-trash").children(".teambox").children(".playercard").length == 0) {
                         $("#player-trash").addClass("hidden");
                     }
@@ -187,6 +188,8 @@
                         "playerMatchId": playerMatchId,
                         "team": team
                     },function(data) {
+                        // First time logedInPlayer change player's team, joinedPlayer.playerMatch.id is "".
+                        // After loggedInPlayer change player's team we need to set joinedPlayer.playerMatch.id.
                         if(playerMatchId == "") {
                             ui.item.children(".star").attr("id", ui.item.children(".star").attr("id") + data.playerMatch.id)
                         }
@@ -199,6 +202,7 @@
                 return $(this).attr('data-score');
             },
             start: function(event, ui) {
+                // Show trash when start drag.
                 $("#player-trash").removeClass("hidden");
             }
         });
