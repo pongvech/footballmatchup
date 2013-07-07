@@ -10,7 +10,14 @@
         http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd">
 
     <!--<mvc:annotation-driven />-->
-    <bean name="handlerAdapter" class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"></bean>
+    <bean id="jacksonMessageConverter" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter"></bean>
+    <bean name="handlerAdapter" class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+        <property name="messageConverters">
+            <list>
+                <ref bean="jacksonMessageConverter" />
+            </list>
+        </property>
+    </bean>
     <bean name="handlerMapping" class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping">
         <property name="useSuffixPatternMatch" value="false" />
     </bean>
