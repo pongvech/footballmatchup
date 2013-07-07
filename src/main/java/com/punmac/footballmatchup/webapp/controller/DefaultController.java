@@ -3,6 +3,7 @@ package com.punmac.footballmatchup.webapp.controller;
 import com.punmac.footballmatchup.core.dao.PlayerDao;
 import com.punmac.footballmatchup.core.model.Player;
 import com.punmac.footballmatchup.webapp.bean.form.LoginForm;
+import com.punmac.footballmatchup.webapp.bean.form.RegisterForm;
 import com.punmac.footballmatchup.webapp.util.CookieSessionUtil;
 import com.punmac.footballmatchup.webapp.validator.LoginValidator;
 import com.punmac.footballmatchup.webapp.validator.RegisterValidator;
@@ -42,14 +43,19 @@ public class DefaultController {
     }
 
     @RequestMapping(value = "register")
-    public String register(Model model, HttpServletRequest request, @ModelAttribute Player player,
+    public String register(Model model, HttpServletRequest request, @ModelAttribute RegisterForm registerForm,
                            BindingResult bindingResult) {
         if(RequestMethod.POST.toString().equals(request.getMethod())) {
-            log.debug("Registering player, Player = {}", player.toString());
-            registerValidator.validate(player, bindingResult);
+            log.debug("Registering player, Player = {}", registerForm.toString());
+            registerValidator.validate(registerForm, bindingResult);
             if(!bindingResult.hasErrors()) {
+                // Convert RegisterFrom to Player, DB will not store confirmPassword.
+                Player player = new Player();
+                player.setEmail(registerForm.getEmail());
+                player.setUsername(registerForm.getUsername());
+                player.setPassword(registerForm.getPassword());
                 playerDao.save(player);
-                log.debug("Registered new player (username = {})", player.getUsername());
+                log.debug("Registered new player (username = {})", registerForm.getUsername());
                 return "redirect:login.html";
             }
         }

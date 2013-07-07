@@ -44,7 +44,6 @@ public class Player {
         return "PlayerModel{" +
                 "id='" + id + '\'' +
                 ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
                 '}';
     }

@@ -4,7 +4,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <div class="span12 matchcard-needlogin matchcard">
     <h2>${pageTitle}</h2>
-    <form:form commandName="player" cssClass="form-horizontal">
+    <form:form commandName="registerForm" cssClass="form-horizontal">
         <div class="control-group">
             <label class="control-label">Email</label>
             <div class="controls">
@@ -24,6 +24,13 @@
             <div class="controls">
                 <form:password path="password" placeholder="Password" cssClass="span3" />
                 <form:errors path="password" cssClass="text-error" />
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">Confirm Password</label>
+            <div class="controls">
+                <form:password path="confirmPassword" placeholder="Confirm Password" cssClass="span3" />
+                <form:errors path="confirmPassword" cssClass="text-error" />
             </div>
         </div>
         <div class="control-group">
