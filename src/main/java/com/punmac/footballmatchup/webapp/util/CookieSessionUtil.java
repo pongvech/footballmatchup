@@ -1,6 +1,9 @@
 package com.punmac.footballmatchup.webapp.util;
 
+import com.google.gson.ExclusionStrategy;
+import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.punmac.footballmatchup.core.model.Player;
 
 import javax.servlet.http.Cookie;
@@ -57,7 +60,21 @@ public final class CookieSessionUtil {
      * @return Cookie
      */
     public static Cookie createLoggedInCookie(HttpServletResponse response, Player player) {
-        Gson gson = new Gson();
+        Gson gson = new GsonBuilder().setExclusionStrategies(new ExclusionStrategy() {
+            @Override
+            public boolean shouldSkipField(FieldAttributes f) {
+                // GSON will not serialize email, password.
+                if(f.getName().equals("email") || f.getName().equals("password")) {
+                    return true;
+                }
+                return false;
+            }
+            @Override
+            public boolean shouldSkipClass(Class<?> clazz) {
+                return false;
+            }
+        }).create();
+        player.setPassword(null);
         return createCookie(response, COOKIE_SESSION_NAME, gson.toJson(player));
     }
 
