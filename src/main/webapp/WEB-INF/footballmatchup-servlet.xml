@@ -9,7 +9,11 @@
         http://www.springframework.org/schema/mvc
         http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd">
 
-    <mvc:annotation-driven />
+    <!--<mvc:annotation-driven />-->
+    <bean name="handlerAdapter" class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"></bean>
+    <bean name="handlerMapping" class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping">
+        <property name="useSuffixPatternMatch" value="false" />
+    </bean>
 
     <context:component-scan base-package="com.punmac.footballmatchup.config" />
     <context:component-scan base-package="com.punmac.footballmatchup.core.dao" />
@@ -18,7 +22,7 @@
     <context:component-scan base-package="com.punmac.footballmatchup.webapp.typeeditor" />
     <context:component-scan base-package="com.punmac.footballmatchup.webapp.search" />
     <context:component-scan base-package="com.punmac.footballmatchup.core.service" />
-
+    
     <!-- View -->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix">
