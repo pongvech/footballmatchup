@@ -7,7 +7,7 @@
 
     <!-- Top button section -->
     <div class="row">
-        <c:if test="${playerMatch == null && !past || match.creator.id == loggedInPlayer.id}">
+        <c:if test="${((playerMatch == null || playerMatch != null) && !past) || match.creator.id == loggedInPlayer.id}">
             <!-- Add some space if there is a button -->
             <div class="span12">&nbsp;</div>
         </c:if>
