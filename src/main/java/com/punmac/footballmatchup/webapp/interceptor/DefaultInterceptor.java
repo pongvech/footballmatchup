@@ -38,6 +38,7 @@ public class DefaultInterceptor extends HandlerInterceptorAdapter {
         // Does not add model if view is redirect. Spring will not add formatDateTime in query string when submit form.
         if(!modelAndView.getViewName().startsWith(UrlBasedViewResolver.REDIRECT_URL_PREFIX)) {
             modelAndView.addObject("formatDateTime", footballMatchUpProperties.getFormatDateTime());
+            modelAndView.addObject("formatDateTimeView", footballMatchUpProperties.getFormatDateTimeView());
         }
         // Check whether player already logged in or not.
         Player player = CookieSessionUtil.getLoggedInPlayer(request);

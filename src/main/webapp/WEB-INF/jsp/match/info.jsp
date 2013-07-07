@@ -42,20 +42,20 @@
                     <span class="label label-success matchcard_playercount">Joined</span>
                 </c:if>
             </h2>
-            <div>
-                Creator : ${match.creator.username}
-            </div>
+            <p>
+                <span class="text-bold">Created By</span> ${match.creator.username}
+            </p>
             <c:if test="${match.detail != null}">
-                <div>
-                    Description : ${match.detail}
-                </div>
+                <p>
+                    <span class="text-bold">Detail</span> ${match.detail}
+                </p>
             </c:if>
-            <div>
-                Date/Time : <joda:format value="${match.playTime}" pattern="${formatDateTime}" />
-            </div>
-            <div>
-                Venue : ${match.place}
-            </div>
+            <p>
+                <span class="text-bold">When</span> <joda:format value="${match.playTime}" pattern="${formatDateTimeView}" />
+            </p>
+            <p>
+                <span class="text-bold">Where</span> ${match.place}
+            </p>
         </div>
     </div>
 

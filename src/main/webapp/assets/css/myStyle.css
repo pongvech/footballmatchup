@@ -70,6 +70,10 @@ margin:7px
     padding:20px;
 }
 
+.text-bold {
+    font-weight: bold;
+}
+
 body {
     background:url("../img/grass4.jpg");
 }

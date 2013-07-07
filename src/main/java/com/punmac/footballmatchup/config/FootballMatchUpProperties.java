@@ -9,6 +9,9 @@ public class FootballMatchUpProperties {
     @Value(value = "${footballmatchup.format.datetime}")
     private String formatDateTime;
 
+    @Value(value = "${footballmatchup.format.datetime.view}")
+    private String formatDateTimeView;
+
     @Value(value = "${footballmatchup.pagination.loadmore.limit}")
     private int paginationLoadMoreLimit;
 
@@ -18,6 +21,14 @@ public class FootballMatchUpProperties {
 
     public void setFormatDateTime(String formatDateTime) {
         this.formatDateTime = formatDateTime;
+    }
+
+    public String getFormatDateTimeView() {
+        return formatDateTimeView;
+    }
+
+    public void setFormatDateTimeView(String formatDateTimeView) {
+        this.formatDateTimeView = formatDateTimeView;
     }
 
     public int getPaginationLoadMoreLimit() {

@@ -7,8 +7,12 @@
         <li class="span4">
             <div class="thumbnail ${match.cardColor} matchcard">
                 <h2>${match.match.name} <span class="badge badge-info matchcard_playercount">${match.playerCount}</span></h2>
-                <h4>Date/Time : <joda:format value="${match.match.playTime}" pattern="${formatDateTime}" /></h4>
-                <h4>Venue : ${match.match.place}</h4>
+                <p>
+                    <span class="text-bold">When</span> <joda:format value="${match.match.playTime}" pattern="${formatDateTimeView}" />
+                </p>
+                <p>
+                    <span class="text-bold">Where</span> ${match.match.place}
+                </p>
                 <p>
                     <a href="${match.buttonLink}" class="btn btn">${match.buttonName}</a>
                     <a href="<spring:url value='/match/info/${match.match.id}' />" class="btn">More Detail </a>
