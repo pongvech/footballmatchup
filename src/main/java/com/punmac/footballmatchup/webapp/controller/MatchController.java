@@ -13,6 +13,7 @@ import com.punmac.footballmatchup.core.service.TeamMatchingService;
 import com.punmac.footballmatchup.webapp.bean.display.JoinedPlayerDisplay;
 import com.punmac.footballmatchup.webapp.bean.display.MatchCardDisplay;
 import com.punmac.footballmatchup.webapp.bean.display.PlayerMatchDisplay;
+import com.punmac.footballmatchup.webapp.bean.display.PlayerMatchListDisplay;
 import com.punmac.footballmatchup.webapp.bean.form.search.MatchSearchForm;
 import com.punmac.footballmatchup.webapp.search.MatchSearch;
 import com.punmac.footballmatchup.webapp.typeeditor.DateTimeTypeEditor;
@@ -333,17 +334,15 @@ public class MatchController {
         playerMatch.setPlayer(player);
         log.debug("Changing player team, PlayerMatch = {}", playerMatch);
         playerMatchDao.save(playerMatch);
+        // Update winning percentage
+        match.setTeamAWinning(teamMatchingService.teamWinningPercentage(matchId, 1));
+        match.setTeamBWinning(teamMatchingService.teamWinningPercentage(matchId, 2));
+        matchDao.save(match);
+        // Setup ResponseBody
         PlayerMatchDisplay playerMatchDisplay = new PlayerMatchDisplay();
         playerMatchDisplay.setPlayerMatch(playerMatch);
-
-        // Update winning percentage
-        match.setTeamAWinning(teamMatchingService.teamWinningPercentage(matchId,1));
-        match.setTeamBWinning(teamMatchingService.teamWinningPercentage(matchId,2));
-        matchDao.save(match);
-
         playerMatchDisplay.setTeamAPercentage(match.getTeamAWinning());
         playerMatchDisplay.setTeamBPercentage(match.getTeamBWinning());
-
         return playerMatchDisplay;
     }
 
@@ -352,7 +351,7 @@ public class MatchController {
      * When move players to trash and click Delete, Request will be send to this method to remove players from the match.
      */
     @RequestMapping(value = "rest/removeplayers", method = RequestMethod.POST)
-    public @ResponseBody List<PlayerMatch> restRemovePlayers(HttpServletRequest request,
+    public @ResponseBody PlayerMatchListDisplay restRemovePlayers(HttpServletRequest request,
                                                              @RequestParam(value = "playerIdList[]") List<String> playerIdList,
                                                              @RequestParam String matchId) {
         List<PlayerMatch> playerMatchList = new ArrayList<>();
@@ -368,7 +367,17 @@ public class MatchController {
             playerMatch.setMatch(match);
             playerMatchList.add(playerMatch);
         }
-        return playerMatchList;
+        // Update winning percentage
+        Match match = matchDao.findById(matchId);
+        match.setTeamAWinning(teamMatchingService.teamWinningPercentage(matchId, 1));
+        match.setTeamBWinning(teamMatchingService.teamWinningPercentage(matchId, 2));
+        matchDao.save(match);
+        // Setup ResponseBody
+        PlayerMatchListDisplay playerMatchListDisplay = new PlayerMatchListDisplay();
+        playerMatchListDisplay.setPlayerMatchList(playerMatchList);
+        playerMatchListDisplay.setTeamAPercentage(match.getTeamAWinning());
+        playerMatchListDisplay.setTeamBPercentage(match.getTeamBWinning());
+        return playerMatchListDisplay;
     }
 
     private void loadMatch(Model model, HttpServletRequest request) {

@@ -219,9 +219,11 @@
         $.post("<spring:url value='/match/rest/removeplayers' />", {
             "playerIdList": playerIdList,
             "matchId": matchId
-        }, function() {
+        }, function(data) {
             $("#player-trash").children(".teambox").children(".playercard").remove();
             $("#player-trash").addClass("hidden");
+            $("#teamAPercentage").html(data.teamAPercentage);
+            $("#teamBPercentage").html(data.teamBPercentage);
         });
     }
 </script>
