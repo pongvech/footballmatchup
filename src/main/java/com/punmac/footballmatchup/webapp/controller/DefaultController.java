@@ -56,7 +56,7 @@ public class DefaultController {
                 player.setPassword(registerForm.getPassword());
                 playerDao.save(player);
                 log.debug("Registered new player (username = {})", registerForm.getUsername());
-                return "redirect:login.html";
+                return "redirect:/login";
             }
         }
         model.addAttribute("pageTitle", "Register");

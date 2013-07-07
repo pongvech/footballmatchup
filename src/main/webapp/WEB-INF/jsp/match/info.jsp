@@ -87,10 +87,11 @@
             <c:forEach items="${joinedPlayerTeamADisplayList}" var="joinedPlayer">
                 <div class="playercard bg_lightyellow pagination-centered">
                     ${joinedPlayer.player.username}
+                    <c:set var="hiddenA" value="" />
                     <c:if test="${loggedInPlayer == null || loggedInPlayer.id == joinedPlayer.player.id || !past}">
-                        <c:set var="hidden" value="hidden" />
+                        <c:set var="hiddenA" value="hidden" />
                     </c:if>
-                    <span class="star ${hidden}" id="${joinedPlayer.player.id}_${joinedPlayer.playerRating.id}_${joinedPlayer.playerMatch.id}" data-score="${joinedPlayer.playerRating.rating}"></span>
+                    <span class="star ${hiddenA}" id="${joinedPlayer.player.id}_${joinedPlayer.playerRating.id}_${joinedPlayer.playerMatch.id}" data-score="${joinedPlayer.playerRating.rating}"></span>
                 </div>
             </c:forEach>
         </div>
@@ -98,10 +99,11 @@
              <c:forEach items="${joinedPlayerDisplayList}" var="joinedPlayer">
                  <div class="playercard bg_lightyellow pagination-centered">
                      ${joinedPlayer.player.username}
+                     <c:set var="hiddenNon" value="" />
                      <c:if test="${loggedInPlayer == null || loggedInPlayer.id == joinedPlayer.player.id || !past}">
-                         <c:set var="hidden" value="hidden" />
+                         <c:set var="hiddenNon" value="hidden" />
                      </c:if>
-                     <span class="star ${hidden}" id="${joinedPlayer.player.id}_${joinedPlayer.playerRating.id}_${joinedPlayer.playerMatch.id}" data-score="${joinedPlayer.playerRating.rating}"></span>
+                     <span class="star ${hiddenNon}" id="${joinedPlayer.player.id}_${joinedPlayer.playerRating.id}_${joinedPlayer.playerMatch.id}" data-score="${joinedPlayer.playerRating.rating}"></span>
                  </div>
              </c:forEach>
          </div>
@@ -109,10 +111,11 @@
              <c:forEach items="${joinedPlayerTeamBDisplayList}" var="joinedPlayer">
                  <div class="playercard bg_lightyellow pagination-centered">
                      ${joinedPlayer.player.username}
+                     <c:set var="hiddenB" value="" />
                      <c:if test="${loggedInPlayer == null || loggedInPlayer.id == joinedPlayer.player.id || !past}">
-                         <c:set var="hidden" value="hidden" />
+                         <c:set var="hiddenB" value="hidden" />
                      </c:if>
-                     <span class="star ${hidden}" id="${joinedPlayer.player.id}_${joinedPlayer.playerRating.id}_${joinedPlayer.playerMatch.id}" data-score="${joinedPlayer.playerRating.rating}"></span>
+                     <span class="star ${hiddenB}" id="${joinedPlayer.player.id}_${joinedPlayer.playerRating.id}_${joinedPlayer.playerMatch.id}" data-score="${joinedPlayer.playerRating.rating}"></span>
                  </div>
              </c:forEach>
          </div>
