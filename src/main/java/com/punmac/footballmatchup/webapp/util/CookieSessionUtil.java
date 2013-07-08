@@ -105,12 +105,9 @@ public final class CookieSessionUtil {
      * @return Cookie
      */
     public static Cookie getCookie(HttpServletRequest request, String name) {
-        log.debug("Request = {}", request);
-        if(request == null) {
+        if(request == null || request.getCookies() == null) {
             return null;
         }
-        log.debug("Cookie = {}", request.getCookies());
-        log.debug("Cookie Size = {}", request.getCookies().length);
         for(Cookie cookie : request.getCookies()) {
             if(name.equals(cookie.getName())) {
                 return cookie;
