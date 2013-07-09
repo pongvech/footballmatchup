@@ -15,6 +15,12 @@ public class FootballMatchUpProperties {
     @Value(value = "${footballmatchup.pagination.loadmore.limit}")
     private int paginationLoadMoreLimit;
 
+    @Value(value = "${footballmatchup.fb.appid}")
+    private String fbAppId;
+
+    @Value(value = "${footballmatchup.fb.appsecret}")
+    private String fbAppSecret;
+
     public String getFormatDateTime() {
         return formatDateTime;
     }
@@ -37,5 +43,21 @@ public class FootballMatchUpProperties {
 
     public void setPaginationLoadMoreLimit(int paginationLoadMoreLimit) {
         this.paginationLoadMoreLimit = paginationLoadMoreLimit;
+    }
+
+    public String getFbAppId() {
+        return fbAppId;
+    }
+
+    public void setFbAppId(String fbAppId) {
+        this.fbAppId = fbAppId;
+    }
+
+    public String getFbAppSecret() {
+        return fbAppSecret;
+    }
+
+    public void setFbAppSecret(String fbAppSecret) {
+        this.fbAppSecret = fbAppSecret;
     }
 }
