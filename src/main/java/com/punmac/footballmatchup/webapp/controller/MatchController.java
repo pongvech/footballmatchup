@@ -79,7 +79,7 @@ public class MatchController {
     @RequestMapping(value = {"/", "home"})
     public String home(Model model, HttpServletRequest request) {
         model.addAttribute("pageContent", "match/home");
-        loadMatch(model, request);
+        loadMatch(model, request, new MatchSearchForm());
         return "layout";
     }
 
@@ -266,11 +266,10 @@ public class MatchController {
      * When click on "Load More", Request will be send to this method to get more match and display in page.
      */
     @RequestMapping(value = "rest/include/loadmore", method = RequestMethod.POST)
-    public String restIncludeLoadMore(Model model, @RequestParam int start) {
+    public String restIncludeLoadMore(Model model, HttpServletRequest request, @RequestParam int start) {
         MatchSearchForm matchSearchForm = new MatchSearchForm();
         matchSearchForm.setStart(start);
-        List<Match> matchList = matchSearch.searchMatch(matchSearchForm);
-        model.addAttribute("matchList", matchList);
+        loadMatch(model, request, matchSearchForm);
         return "match/include/home_loadmore";
     }
 
@@ -380,8 +379,7 @@ public class MatchController {
         return playerMatchListDisplay;
     }
 
-    private void loadMatch(Model model, HttpServletRequest request) {
-        MatchSearchForm matchSearchForm = new MatchSearchForm();
+    private void loadMatch(Model model, HttpServletRequest request, MatchSearchForm matchSearchForm) {
         List<Match> matchList = matchSearch.searchMatch(matchSearchForm);
         model.addAttribute("countMatch", matchSearch.countMatch(matchSearchForm));
         model.addAttribute("loadMoreLimit", footballMatchUpProperties.getPaginationLoadMoreLimit());
