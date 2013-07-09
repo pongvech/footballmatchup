@@ -30,6 +30,10 @@ public class PlayerDao {
         return mongoTemplate.findOne(query(where("username").is(username)), Player.class);
     }
 
+    public Player findByFbUserId(String fbUserId) {
+        return mongoTemplate.findOne(query(where("fbUserId").is(fbUserId)), Player.class);
+    }
+
     public Player findByEmailOrUsername(String emailOrUsername) {
         BasicQuery query = new BasicQuery("{$or:[{email:'" + emailOrUsername + "'}, " +
                 "{username:'" + emailOrUsername + "'}]}");

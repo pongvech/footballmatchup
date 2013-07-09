@@ -46,6 +46,7 @@
                                     <input class="span2" type="password" name="password" placeholder="Password">
                                     <button type="submit" class="btn btn-primary"><i class="icon-circle-arrow-right"></i> Sign in </button>
                                     <a class="btn btn-info" href="<spring:url value="/register" />"><i class="icon-book"></i> Register </a>
+                                    <a class="btn btn-info" href="https://www.facebook.com/dialog/oauth?client_id=517466198319051&redirect_uri=${baseUrl}/login/fb&scope=email">Login with Facebook</a>
                                 </form>
                             </div>
                         </c:otherwise>
