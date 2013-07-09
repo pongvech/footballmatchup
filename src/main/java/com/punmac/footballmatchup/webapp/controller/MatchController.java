@@ -90,7 +90,8 @@ public class MatchController {
         // If user not logged in or player in cookie does not exist in db.
         if (loggedInPlayer == null || playerDao.findById(loggedInPlayer.getId()) == null) {
             CookieSessionUtil.deleteLoggedInPlayer(request, response);
-            redirectAttributes.addFlashAttribute("alert", "<strong>Warning!</strong> You need to sign in to see match details");
+            redirectAttributes.addFlashAttribute("alert",
+                    "<strong>Warning!</strong> You need to sign in to see match details");
             redirectAttributes.addFlashAttribute("alertCss", "alert alert-warning");
             return "redirect:/login";
         }
@@ -151,7 +152,8 @@ public class MatchController {
         Player loggedInPlayer = CookieSessionUtil.getLoggedInPlayer(request);
         if (loggedInPlayer == null || playerDao.findById(loggedInPlayer.getId()) == null) {
             CookieSessionUtil.deleteLoggedInPlayer(request, response);
-            redirectAttributes.addFlashAttribute("alert", "<strong>Warning!</strong> You need to sign in to create a match");
+            redirectAttributes.addFlashAttribute("alert",
+                    "<strong>Warning!</strong> You need to sign in to create a match");
             redirectAttributes.addFlashAttribute("alertCss", "alert alert-warning");
             return "redirect:/login";
         }
@@ -182,7 +184,8 @@ public class MatchController {
         Player loggedInPlayer = CookieSessionUtil.getLoggedInPlayer(request);
         if (loggedInPlayer == null || playerDao.findById(loggedInPlayer.getId()) == null) {
             CookieSessionUtil.deleteLoggedInPlayer(request, response);
-            redirectAttributes.addFlashAttribute("alert", "<strong>Warning!</strong> You need to sign in to edit this match");
+            redirectAttributes.addFlashAttribute("alert",
+                    "<strong>Warning!</strong> You need to sign in to edit this match");
             redirectAttributes.addFlashAttribute("alertCss", "alert alert-warning");
             return "redirect:/login";
         }
@@ -212,7 +215,8 @@ public class MatchController {
         log.debug("Player {} is joining Match {}", loggedInPlayer.getUsername(), matchId);
         if (loggedInPlayer == null || playerDao.findById(loggedInPlayer.getId()) == null) {
             CookieSessionUtil.deleteLoggedInPlayer(request, response);
-            redirectAttributes.addFlashAttribute("alert", "<strong>Warning!</strong> You need to sign in to join a match");
+            redirectAttributes.addFlashAttribute("alert",
+                    "<strong>Warning!</strong> You need to sign in to join a match");
             redirectAttributes.addFlashAttribute("alertCss", "alert alert-warning");
             return "redirect:/login";
         }
@@ -239,7 +243,8 @@ public class MatchController {
         log.debug("Player {} is un-joining Match {}", loggedInPlayer.getUsername(), matchId);
         if (loggedInPlayer == null || playerDao.findById(loggedInPlayer.getId()) == null) {
             CookieSessionUtil.deleteLoggedInPlayer(request, response);
-            redirectAttributes.addFlashAttribute("alert", "<strong>Warning!</strong> You need to sign in to un join a match");
+            redirectAttributes.addFlashAttribute("alert",
+                    "<strong>Warning!</strong> You need to sign in to un join a match");
             redirectAttributes.addFlashAttribute("alertCss", "alert alert-warning");
             return "redirect:/login";
         }
@@ -351,9 +356,9 @@ public class MatchController {
      * When move players to trash and click Delete, Request will be send to this method to remove players from the match.
      */
     @RequestMapping(value = "rest/removeplayers", method = RequestMethod.POST)
-    public @ResponseBody PlayerMatchListDisplay restRemovePlayers(HttpServletRequest request,
-                                                             @RequestParam(value = "playerIdList[]") List<String> playerIdList,
-                                                             @RequestParam String matchId) {
+    public @ResponseBody PlayerMatchListDisplay restRemovePlayers(
+            @RequestParam(value = "playerIdList[]") List<String> playerIdList,
+            @RequestParam String matchId) {
         List<PlayerMatch> playerMatchList = new ArrayList<>();
         for(String playerId : playerIdList) {
             log.debug("Removing player {} from the match {}", playerId, matchId);

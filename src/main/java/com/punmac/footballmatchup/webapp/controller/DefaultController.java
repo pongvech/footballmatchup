@@ -1,5 +1,6 @@
 package com.punmac.footballmatchup.webapp.controller;
 
+import com.punmac.footballmatchup.config.FootballMatchUpProperties;
 import com.punmac.footballmatchup.core.dao.PlayerDao;
 import com.punmac.footballmatchup.core.model.Player;
 import com.punmac.footballmatchup.webapp.bean.FacebookUser;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -32,6 +34,9 @@ public class DefaultController {
 
     @Autowired
     private PlayerDao playerDao;
+
+    @Autowired
+    private FootballMatchUpProperties footballMatchUpProperties;
 
     @Autowired
     private RegisterValidator registerValidator;
@@ -87,31 +92,64 @@ public class DefaultController {
         return "layout";
     }
 
+    /**
+     * Callback when login with facebook.
+     * http://developers.facebook.com/docs/facebook-login/login-flow-for-web-no-jssdk/
+     */
     @RequestMapping(value = "login/fb")
-    public String loginFB(Model model, HttpServletRequest request) {
-        if(request.getParameter("error") != null) { // If fb login not success.
-            return "redirect:/";
+    public String loginFB(RedirectAttributes redirectAttributes, HttpServletRequest request,
+                          HttpServletResponse response) {
+        // If fb login not success.
+        if(request.getParameter("error") != null) {
+            redirectAttributes.addFlashAttribute("alert",
+                    "<strong>Warning!</strong> Login with facebook not success. Please try again or register.");
+            redirectAttributes.addFlashAttribute("alertCss", "alert alert-warning");
+            return "redirect:/login";
         }
-
+        String baseUrl = request.getRequestURL().toString().replace(request.getRequestURI(), "");
+        // If fb login success. Get code.
         String code = request.getParameter("code");
         log.debug("code = {}", code);
-
+        // Use code to find token.
         String token;
         String queryStringToken = restTemplate.getForObject("https://graph.facebook.com/oauth/access_token?" +
-                "client_id=517466198319051" +
-                "&redirect_uri=" + request.getRequestURL().toString().replace(request.getRequestURI(), "") + "/login/fb" +
-                "&client_secret=aaefacaf6a650c7b893f130044b46269" +
+                "client_id=" + footballMatchUpProperties.getFbAppId() +
+                "&redirect_uri=" + baseUrl + "/login/fb" +
+                "&client_secret=" + footballMatchUpProperties.getFbAppSecret() +
                 "&code=" + code, String.class);
-        log.debug("jsonToken = {}", queryStringToken);
+        log.debug("queryStringToken = {}", queryStringToken);
         String[] splitQueryStringToken = queryStringToken.split("&");
         String[] splitToken = splitQueryStringToken[0].split("=");
         token = splitToken[1];
         log.debug("token = {}", token);
-
-        FacebookUser facebookUser = restTemplate.getForObject("https://graph.facebook.com/me?fields=name,username,email&access_token=" + token, FacebookUser.class);
-        log.debug("user info = {}", facebookUser.toString());
-        model.addAttribute("pageContent", "test");
-        return "layout";
+        // Use token to get facebook user info.
+        FacebookUser facebookUser =  restTemplate.getForObject(
+                "https://graph.facebook.com/me?fields=name,username,email&access_token=" + token, FacebookUser.class);
+        log.debug("Facebook user info = {}", facebookUser.toString());
+        // Reject user if facebook user email and username already exist in our db.
+        if(playerDao.findByEmail(facebookUser.getEmail()) != null) {
+            redirectAttributes.addFlashAttribute("alert",
+                    "<strong>Warning!</strong> Login with facebook not success. This email already exist.");
+            redirectAttributes.addFlashAttribute("alertCss", "alert alert-warning");
+            return "redirect:/login";
+        }
+        if(playerDao.findByUsername(facebookUser.getUsername()) != null) {
+            redirectAttributes.addFlashAttribute("alert",
+                    "<strong>Warning!</strong> Login with facebook not success. This username already exist.");
+            redirectAttributes.addFlashAttribute("alertCss", "alert alert-warning");
+            return "redirect:/login";
+        }
+        // If facebook user's id not exist in our db, register facebook user to our db.
+        Player player = new Player();
+        player.setEmail(facebookUser.getEmail());
+        player.setUsername(facebookUser.getUsername());
+        player.setFbUserId(facebookUser.getId());
+        if(playerDao.findByFbUserId(facebookUser.getId()) == null) {
+            playerDao.save(player);
+        }
+        // Create login cookie.
+        CookieSessionUtil.createLoggedInCookie(response, player);
+        return "redirect:/";
     }
 
     @RequestMapping(value = "logout")

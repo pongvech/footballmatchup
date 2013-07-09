@@ -6,6 +6,7 @@ public class Player {
     private String username;
     private String password;
     private String email;
+    private String fbUserId;
 
     public String getId() {
         return id;
@@ -39,12 +40,20 @@ public class Player {
         this.email = email;
     }
 
+    public String getFbUserId() {
+        return fbUserId;
+    }
+
+    public void setFbUserId(String fbUserId) {
+        this.fbUserId = fbUserId;
+    }
+
     @Override
     public String toString() {
-        return "PlayerModel{" +
+        return "Player{" +
                 "id='" + id + '\'' +
                 ", username='" + username + '\'' +
-                ", email='" + email + '\'' +
+                ", fbUserId='" + fbUserId + '\'' +
                 '}';
     }
 }

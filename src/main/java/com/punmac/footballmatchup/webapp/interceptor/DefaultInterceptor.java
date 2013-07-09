@@ -40,7 +40,6 @@ public class DefaultInterceptor extends HandlerInterceptorAdapter {
             modelAndView.addObject("formatDateTime", footballMatchUpProperties.getFormatDateTime());
             modelAndView.addObject("formatDateTimeView", footballMatchUpProperties.getFormatDateTimeView());
             modelAndView.addObject("baseUrl", request.getRequestURL().toString().replace(request.getRequestURI(), ""));
-
         }
         // Check whether player already logged in or not.
         Player player = CookieSessionUtil.getLoggedInPlayer(request);
