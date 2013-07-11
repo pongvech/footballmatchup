@@ -145,6 +145,7 @@
 <script type="text/javascript">
     var matchId = "${match.id}";
     $(document).ready(function() {
+        <c:if test="${playerMatch != null}">
         $('.star').raty({
             path: '<spring:url value='/assets/js/raty/img/' />',
             click: function(score, evt) {
@@ -168,6 +169,7 @@
                 return $(this).attr('data-score');
             }
         });
+        </c:if>
         <c:if test="${!past}">
         $(".teambox").sortable({
             connectWith: ".teambox",
