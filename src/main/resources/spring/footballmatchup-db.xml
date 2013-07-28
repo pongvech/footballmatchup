@@ -6,9 +6,9 @@
           http://www.springframework.org/schema/beans
           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-    <mongo:mongo id="mongo" host="localhost" port="27017"/>
+    <mongo:mongo id="mongo" host="${footballmatchup.mongo.host}" port="${footballmatchup.mongo.port}"/>
 
-    <mongo:db-factory id="mongoDbFactory" dbname="footballmatchup" mongo-ref="mongo"/>
+    <mongo:db-factory id="mongoDbFactory" dbname="${footballmatchup.mongo.dbname}" mongo-ref="mongo"/>
 
     <bean id="mongoMappingContext" class="org.springframework.data.mongodb.core.mapping.MongoMappingContext" />
 
