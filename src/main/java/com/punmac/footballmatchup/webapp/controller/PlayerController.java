@@ -1,7 +1,9 @@
 package com.punmac.footballmatchup.webapp.controller;
 
 import com.punmac.footballmatchup.core.dao.PlayerDao;
+import com.punmac.footballmatchup.core.dao.PlayerRatingDao;
 import com.punmac.footballmatchup.core.model.Player;
+import com.punmac.footballmatchup.core.model.PlayerRating;
 import com.punmac.footballmatchup.webapp.util.CookieSessionUtil;
 import com.punmac.footballmatchup.webapp.validator.UpdateProfileValidator;
 import org.slf4j.Logger;
@@ -16,11 +18,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import static org.springframework.data.mongodb.core.query.Update.update;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 @Controller
 @RequestMapping(value = "player")
@@ -30,6 +36,9 @@ public class PlayerController {
 
     @Autowired
     private PlayerDao playerDao;
+
+    @Autowired
+    private PlayerRatingDao playerRatingDao;
 
     @Autowired
     private UpdateProfileValidator updateProfileValidator;
@@ -91,11 +100,17 @@ public class PlayerController {
                        BindingResult bindingResult) {
 
         ArrayList rating = new ArrayList();
-        rating.add(3);
-        rating.add(5);
-        rating.add(2);
-        rating.add(4);
 
+        DateTimeFormatter fmt = DateTimeFormat.forPattern("yyyy-MM-dd");
+
+        for( PlayerRating r : playerRatingDao.findByPlayerId("51cf16dd03647a015fed4cf7") ) {
+            HashMap data = new HashMap();
+            data.put( "rating", r.getRating());
+
+            String readableDateTime = fmt.print(r.getMatch().getPlayTime());
+            data.put( "date", readableDateTime );
+            rating.add(data);
+        }
 
         return rating;
     }
