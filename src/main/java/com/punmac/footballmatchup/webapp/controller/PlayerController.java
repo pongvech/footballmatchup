@@ -60,4 +60,19 @@ public class PlayerController {
         model.addAttribute("pageContent", "player/edit");
         return "layout";
     }
+    /*
+     * Player page
+     */
+    @RequestMapping(value = "me")
+    public String me(Model model,
+                       HttpServletRequest request,
+                       HttpServletResponse response,
+                       @ModelAttribute Player player,
+                       BindingResult bindingResult) {
+
+        model.addAttribute("player", player);
+        model.addAttribute("pageTitle", "Statistic");
+        model.addAttribute("pageContent", "player/me");
+        return "layout";
+    }
 }

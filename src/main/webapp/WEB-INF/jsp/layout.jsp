@@ -11,6 +11,8 @@
         <link rel="stylesheet" type="text/css" href="<spring:url value='/assets/css/myStyle.css' />" />
         <script type="text/javascript" src="<spring:url value='/assets/js/jquery/jquery-2.0.2.min.js' />"></script>
         <script type="text/javascript" src="<spring:url value='/assets/css/bootstrap/js/bootstrap.min.js' />"></script>
+        <script type="text/javascript" src="<spring:url value='/assets/js/chart.js' />"></script>
+        <script type="text/javascript" src="<spring:url value='/assets/js/app.js' />"></script>
         <style>
             @media (min-width: 980px) {
             body {
@@ -35,6 +37,7 @@
                             <div class="nav-collapse collapse">
                                 <div class="navbar-form pull-right">
                                     <a href="<spring:url value='/player/edit' />" class="btn btn"><i class="icon-user"></i> ${loggedInPlayer.username} </a>
+                                    <a href="<spring:url value='/player/me' />" class="btn btn">Stat</a>
                                     <a href="<spring:url value='/logout' />" class="btn btn-danger"><i class="icon-off"></i> Logout </a>
                                 </div>
                             </div>
