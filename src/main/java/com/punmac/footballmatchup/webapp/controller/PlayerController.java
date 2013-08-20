@@ -10,14 +10,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import static org.springframework.data.mongodb.core.query.Update.update;
+import java.util.ArrayList;
 
 @Controller
 @RequestMapping(value = "player")
@@ -74,5 +77,26 @@ public class PlayerController {
         model.addAttribute("pageTitle", "Statistic");
         model.addAttribute("pageContent", "player/me");
         return "layout";
+    }
+
+    /*
+     * Rating api
+     */
+
+    @RequestMapping(value = "rest/rating", method = RequestMethod.GET)
+    public @ResponseBody ArrayList rating(Model model,
+                       HttpServletRequest request,
+                       HttpServletResponse response,
+                       @ModelAttribute Player player,
+                       BindingResult bindingResult) {
+
+        ArrayList rating = new ArrayList();
+        rating.add(3);
+        rating.add(5);
+        rating.add(2);
+        rating.add(4);
+
+
+        return rating;
     }
 }
