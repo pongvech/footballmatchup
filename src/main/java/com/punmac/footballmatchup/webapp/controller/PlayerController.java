@@ -98,12 +98,13 @@ public class PlayerController {
                        HttpServletResponse response,
                        @ModelAttribute Player player,
                        BindingResult bindingResult) {
-
+      
+        Player loggedInPlayer = CookieSessionUtil.getLoggedInPlayer(request);
         ArrayList rating = new ArrayList();
 
         DateTimeFormatter fmt = DateTimeFormat.forPattern("yyyy-MM-dd");
-
-        for( PlayerRating r : playerRatingDao.findByPlayerId("51cf16dd03647a015fed4cf7") ) {
+        
+        for( PlayerRating r : playerRatingDao.findByPlayerId(loggenInPlayer.getId()) ) {
             HashMap data = new HashMap();
             data.put( "rating", r.getRating());
 
