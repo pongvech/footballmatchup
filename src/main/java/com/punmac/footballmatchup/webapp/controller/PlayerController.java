@@ -96,19 +96,31 @@ public class PlayerController {
                        HttpServletResponse response,
                        @ModelAttribute Player player,
                        BindingResult bindingResult) {
-      
+
         Player loggedInPlayer = CookieSessionUtil.getLoggedInPlayer(request);
         ArrayList rating = new ArrayList();
 
         DateTimeFormatter fmt = DateTimeFormat.forPattern("yyyy-MM-dd");
-        
-        for( PlayerRating r : playerRatingDao.findByPlayerId(loggedInPlayer.getId()) ) {
-            HashMap data = new HashMap();
-            data.put( "rating", r.getRating());
 
+
+        HashMap<String,Double> avgRating = new HashMap<String,Double>();
+
+        for( PlayerRating r : playerRatingDao.findByPlayerId(loggedInPlayer.getId()) ) {
             String readableDateTime = fmt.print(r.getMatch().getPlayTime());
-            data.put( "date", readableDateTime );
-            rating.add(data);
+
+            if( !avgRating.containsKey(readableDateTime) ) {
+                avgRating.put( readableDateTime, (Double)(double) r.getRating() );
+            } else {
+                Double pr = avgRating.get(readableDateTime);
+                avgRating.put( readableDateTime, ( pr + r.getRating() )/2  );
+            }
+        }
+
+        for( String k : avgRating.keySet() ) {
+            HashMap m = new HashMap();
+            m.put( "date", k );
+            m.put( "rating", avgRating.get(k) );
+            rating.add(m);
         }
 
         return rating;
